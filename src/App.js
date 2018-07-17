@@ -1,10 +1,9 @@
 import React from 'react';
-import { Container, Header } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import HtmlForm from './components/form/HtmlForm';
 import Home from './components/Home';
-import Menu from './components/Menu';
 import Kysymykset from './components/kysymykset/Kysymykset';
 import EtsiVastaus from './components/vastaukset/EtsiVastaus'
 import Kategoriat from './components/kategoriat/Kategoriat';
@@ -36,49 +35,75 @@ class App extends React.Component {
   )
 
   render() {
-    const navStyle = {
-      background: '#669999',
-      color: 'white',
-      marginTop: '2%',
-    };
-
     return (
-      <Container>
-        <Header as="h1" block style={navStyle}>V A A L I K O N E</Header>
+      <Grid>
+        <Grid.Row style={{ paddingBottom: '0rem', background: 'white' }}>
+          <Grid.Column width={2} />
+          <Grid.Column width={10} >
+            <p style={{ padding: '1em' }}> Politiikkatieto </p>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row style={{ padding: '0rem' }}>
+          <Grid.Column style={{ background: '#004d99', padding: '2em' }}>
+            <h1 style={{
+                fontSize: '250%',
+                color: 'white',
+                textAlign: 'center',
+                verticalAlign: 'bottom',
+            }}
+            >Vaalikone
+            </h1>
+          </Grid.Column>
+        </Grid.Row>
         <Notification />
-        <Router>
-          <div>
-            <Menu />
-            <Route exact path="/" render={() => <Home />} />
-            <Route exact path="/kategoriat" render={history => <Kategoriat history={history} />} />
-            <Route exact path="/kysymykset" render={() => <Kysymykset />} />
-            <Route exact path="/kone" render={() => <Kone />} />
-            <Route exact path="/vastaukset" render={() => <EtsiVastaus />} />
-            <Route exact path="/login" render={({ history }) => <Login history={history} />} />
-            {window.localStorage.getItem('loggedUser') &&
-              <div>
-                <Route path="/lisaa" render={({ history }) => <HtmlForm history={history} />} />
-              </div>
+        <Grid.Row >
+          <Grid.Column width={3} />
+          <Grid.Column width={10}>
+            <Router>
+
+              <div style={{
+                    padding: '3em',
+                    boxShadow: '1px 1px #888888',
+                    background: 'white',
+                    margin: '-2em',
+                  }}
+              >
+                <Route exact path="/" render={() => <Home />} />
+                <Route exact path="/kategoriat" render={history => <Kategoriat history={history} />} />
+                <Route exact path="/kysymykset" render={() => <Kysymykset />} />
+                <Route exact path="/kone" render={() => <Kone />} />
+                <Route exact path="/vastaukset" render={() => <EtsiVastaus />} />
+                <Route exact path="/login" render={({ history }) => <Login history={history} />} />
+                {window.localStorage.getItem('loggedUser') &&
+                <div>
+                  <Route path="/lisaa" render={({ history }) => <HtmlForm history={history} />} />
+                </div>
                     }
-            <Route
-              exact
-              path="/kysymykset/:id"
-              render={({ match }) =>
-                <Kysymys kysymys={this.kysymysById(match.params.id)} />}
-            />
-            <Route
-              exact
-              path="/kategoriat/:id"
-              render={({ match }) =>
+                <Route
+                  exact
+                  path="/kysymykset/:id"
+                  render={({ match }) =>
+                    <Kysymys kysymys={this.kysymysById(match.params.id)} />}
+                />
+                <Route
+                  exact
+                  path="/kategoriat/:id"
+                  render={({ match }) =>
                 (<Kategoria
                   kategoria={this.kategoriaById(match.params.id)}
                   kysymykset={this.props.kysymykset}
                 />)
               }
-            />
-          </div>
-        </Router>
-      </Container>
+                />
+
+
+              </div>
+            </Router>
+          </Grid.Column>
+          <Grid.Column width={3} />
+        </Grid.Row>
+
+      </Grid>
     );
   }
 }
