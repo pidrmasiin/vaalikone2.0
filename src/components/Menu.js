@@ -2,58 +2,52 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { slide as Burger } from 'react-burger-menu'
-import { Menu, Button } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 
 class Nav extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: false,
+    };
+  }
     logout = () => {
       window.localStorage.removeItem('loggedUser');
     }
 
+    show = (event) => {
+      event.preventDefault();
+      this.setState({
+        show: !this.state.show,
+      });
+    }
+
     render() {
-      const linkStyle = {
-        color: 'pink',
-      };
-
-
       return (
-        <Burger>
-          <Menu>
-            <Menu.Item>
-              <Link style={linkStyle} to="/"> Etusivu</Link>
-            </Menu.Item>
-            <Menu.Item>
-              <Link
-                style={linkStyle}
-                to="/kone"
-              >Vaalikone
-              </Link>
-            </Menu.Item>
-            <Menu.Item>
-              <Link style={linkStyle} to="/kysymykset">Kysymykset</Link>
-            </Menu.Item>
-            <Menu.Item>
-              <Link style={linkStyle} to="/vastaukset">Vastaukset</Link>
-            </Menu.Item>
-            <Menu.Item>
-              <Link style={linkStyle} to="/kategoriat">Kategoriat</Link>
-            </Menu.Item>
+        <div>
+          <Button onClick={this.show}> Menu </Button>
+          {this.state.show &&
+          <Burger right width="20%" isOpen={false} pageWrapId="page-wrap">
+            <Link to="/"> Etusivu</Link>
+            <Link
+              to="/kone"
+            >Vaalikone
+            </Link>
+            <Link to="/kysymykset">Kysymykset</Link>
+            <Link to="/vastaukset">Vastaukset</Link>
+            <Link to="/kategoriat">Kategoriat</Link>
             {window.localStorage.getItem('loggedUser') &&
-            <Menu.Item>
-              <Link style={linkStyle} to="/lisaa">Uusi kysymys</Link>
-            </Menu.Item>
+            <Link to="/lisaa">Uusi kysymys</Link>
           }
-            <Menu.Menu position="right">
-              {window.localStorage.getItem('loggedUser') &&
-              <Menu.Item>
-                <form onSubmit={this.logout}>
-                  <Button size="tiny" type="submit"> Kirjaudu ulos</Button>
-                </form>
-              </Menu.Item>
+            {window.localStorage.getItem('loggedUser') &&
+            <form onSubmit={this.logout}>
+              <Button size="tiny" type="submit"> Kirjaudu ulos</Button>
+            </form>
       }
-            </Menu.Menu>
-          </Menu>
-        </Burger>
-
+            <a onClick={this.show} className="menu-item--small" href="">Settings</a>
+          </Burger>
+        }
+        </div>
       );
     }
 }

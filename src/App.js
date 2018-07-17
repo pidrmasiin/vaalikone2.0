@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import HtmlForm from './components/form/HtmlForm';
 import Home from './components/Home';
+import Menu from './components/Menu';
 import Kysymykset from './components/kysymykset/Kysymykset';
 import EtsiVastaus from './components/vastaukset/EtsiVastaus'
 import Kategoriat from './components/kategoriat/Kategoriat';
@@ -36,30 +37,34 @@ class App extends React.Component {
 
   render() {
     return (
-      <Grid>
-        <Grid.Row style={{ paddingBottom: '0rem', background: 'white' }}>
-          <Grid.Column width={2} />
-          <Grid.Column width={10} >
-            <p style={{ padding: '1em' }}> Politiikkatieto </p>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row style={{ padding: '0rem' }}>
-          <Grid.Column style={{ background: '#004d99', padding: '2em' }}>
-            <h1 style={{
+      <Router>
+        <Grid>
+          <Grid.Row style={{ paddingBottom: '0rem', background: 'white' }}>
+            <Grid.Column width={2} />
+            <Grid.Column width={10} >
+              <p style={{ padding: '1em' }}> Politiikkatieto </p>
+            </Grid.Column>
+            <Grid.Column width={4} >
+            <Menu />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row style={{ padding: '0rem' }}>
+            <Grid.Column style={{ background: '#004d99', padding: '2em' }}>
+              <h1 style={{
                 fontSize: '250%',
                 color: 'white',
                 textAlign: 'center',
                 verticalAlign: 'bottom',
             }}
-            >Vaalikone
-            </h1>
-          </Grid.Column>
-        </Grid.Row>
-        <Notification />
-        <Grid.Row >
-          <Grid.Column width={3} />
-          <Grid.Column width={10}>
-            <Router>
+              >Vaalikone
+              </h1>
+            </Grid.Column>
+          </Grid.Row>
+          <Notification />
+          <Grid.Row >
+            <Grid.Column width={3} />
+            <Grid.Column width={10}>
+
 
               <div style={{
                     padding: '3em',
@@ -98,12 +103,13 @@ class App extends React.Component {
 
 
               </div>
-            </Router>
-          </Grid.Column>
-          <Grid.Column width={3} />
-        </Grid.Row>
 
-      </Grid>
+            </Grid.Column>
+            <Grid.Column width={3} />
+          </Grid.Row>
+
+        </Grid>
+      </Router>
     );
   }
 }

@@ -146,7 +146,7 @@ class Kone extends React.Component {
       window.location.assign('/')
     }
     return (
-      <Grid className='tausta'>
+      <Grid>
         <Grid.Row />
         <Grid.Row>
           <Grid.Column width={1} />

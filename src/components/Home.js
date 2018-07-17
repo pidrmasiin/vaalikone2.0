@@ -1,7 +1,8 @@
 import React from 'react';
+import { Button } from 'semantic-ui-react'
 
 const Home = () => (
-  <div style={{ background: 'white' }}>
+  <div>
     <h2>Tervetuloa</h2>
     Täällä voit tarkastella eduskunnan käyttäytymistä suhteessa omiin näkemyksiisi.
     <br />
@@ -13,6 +14,9 @@ const Home = () => (
     Lisäksi voit vertailla eduskuntaryhmien äänestykäyttäytymistä
     eduskunnassa sen jäsenten antamiin vastauksiin
     <a href="https://yle.fi/uutiset/3-7869597"> ylen vaalikoneessa.</a>
+    <Button>
+        Toggle
+    </Button>
   </div>
 )
 
