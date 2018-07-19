@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Item, Grid, Header, Dropdown } from 'semantic-ui-react';
+import { Button, Item, Grid, Header } from 'semantic-ui-react';
 import { addVastaus, addKysymys } from '../reducers/kayttajaReducer';
 import VastausTable from './form/VastausTable';
-import { puolueet as valuesP } from './vastaukset/vastausKategoriat';
-import { addYlePuolueet, getYlenKysymykset } from '../reducers/ylenKysymyksetReducer';
-import './Kone.css';
+import './Kone.css'
 
 class Kone extends React.Component {
   constructor(props) {
@@ -17,10 +15,6 @@ class Kone extends React.Component {
       show: false,
       tulokset: false,
       naytaKysymys: false,
-      eit: null,
-      jaat: null,
-      yhteensa: null,
-      puolueet: null,
     };
   }
 
@@ -36,14 +30,6 @@ class Kone extends React.Component {
       this.setState({
         kysymys: kys[this.state.monesko],
       })
-    }
-    if (!this.props.addYlePuolueet.edustajat
-      && this.props.kysymykset[0]) {
-      const nimet = this.props.kysymykset[0].edustajat.map(x => x.nimi)
-      await this.props.getYlenKysymykset()
-      setTimeout(() => {
-        this.props.addYlePuolueet(nimet, this.props.ylenKysymykset.data)
-      }, 1000);
     } else {
       window.location.assign('/')
     }
@@ -87,26 +73,6 @@ class Kone extends React.Component {
     });
   }
 
-  handleChange(e, { name, value }) {
-    const puolueet = this.state.puolueet
-    if (this.state.kysymys.vastaus) {
-      /*eslint-disable */
-        const kannat = puolueet[value].map(x => x =
-          { edustaja: `${x.etunimi } ${x.sukunimi}`,
-            kanta: x[this.state.kysymys.vastaus]
-          })
-           /* eslint-enable */
-
-      const eit = kannat.filter(x => x.kanta.toString() === 'jokseenkin eri mieltä'
-        || x.kanta.toString() === 'täysin eri mieltä')
-      const jaat = kannat.filter(x => x.kanta.toString() === 'jokseenkin samaa mieltä'
-        || x.kanta.toString() === 'täysin samaa mieltä')
-      const yhteensa = kannat.length
-      this.setState({
-        [name]: value, jaat, eit, yhteensa,
-      })
-    }
-  }
 
   vastaus = (vastaus) => {
     this.props.addKysymys(this.state.kysymys);
@@ -121,23 +87,17 @@ class Kone extends React.Component {
       monesko: this.state.monesko + 1,
       kysymys: this.state.kysymykset[this.state.monesko + 1],
       naytaKysymys: false,
-      yhteensa: false,
+      show: false,
     })
   }
 
   render() {
-    if (!this.state.puolueet && this.props.ylenKysymykset.puolueet.kesk) {
-      this.setState({
-        puolueet: this.props.ylenKysymykset.puolueet,
-      })
-    }
     const visible = { display: this.state.show ? '' : 'none' };
-    const tulokset = { display: this.state.tulokset ? '' : 'none' };
 
     if (this.props.kayttaja.kysymykset.length === this.props.kysymykset.length) {
       return (
         <div>
-          <h1>Kysymykset ja tulokset</h1>
+          <h1>Tulokset</h1>
           <VastausTable />
         </div>
       );
@@ -146,94 +106,42 @@ class Kone extends React.Component {
       window.location.assign('/')
     }
     return (
-      <Grid>
-        <Grid.Row />
+      <Grid >
         <Grid.Row>
-          <Grid.Column width={1} />
-          <Grid.Column width={3}>
-            <Header as="h1" textAlign="justified">M i t ä</Header>
-          </Grid.Column>
-          <Grid.Column width={1} />
-          <Grid.Column width={3}>
-            <Header as="h1" textAlign="justified"> o l e t</Header>
-          </Grid.Column>
-          <Grid.Column width={1} />
-          <Grid.Column width={4}>
-            <Header as="h1" textAlign="justified"> m i e l t ä</Header>
-          </Grid.Column>
-          <Grid.Column width={3}>
-            <Header as="h1" textAlign="justified">?</Header>
+          <Header as="h1">Äänestä!</Header>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column width={16} textAlign="center" verticalAlign="middle">
+            <p className="circleQuestion">{this.props.kayttaja.kysymykset.length + 1}</p>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={1} />
-          <Grid.Column width={14}>
+          <Grid.Column>
             <Item>
               <Item.Content>
-                <Item.Header><h2>{this.props.kayttaja.kysymykset.length + 1}. {this.state.kysymys.kysymys} <Button onClick={this.show} size="mini" basic>Lisätietoja</Button></h2></Item.Header>
+                <Item.Header>{this.state.kysymys.kysymys}<br /><br /><Button onClick={this.show} size="mini" basic>Lisätietoja...</Button></Item.Header>
                 <Item.Description style={visible}>
                   <ul>
                     <li>{this.state.kysymys.selitys}</li>
-                    <li>{this.state.kysymys.vuosi}</li>
-                    <li><a href={this.state.kysymys.url}>{this.state.kysymys.url}</a></li>
+                    <li>Äänestys vuosi: {this.state.kysymys.vuosi}</li>
+                    <li> <a target="_blank" rel="noopener noreferrer" href={this.state.kysymys.url}>Eduskunnan sivuille</a></li>
                   </ul>
                 </Item.Description>
-                <Button onClick={this.naytaKysymys} size="mini" floated="right" basic>{this.state.naytaKysymys ? 'Piilota' : 'Näytä' } kysymystä parhaiten vastaava ylen vaalikoneen kysymys</Button>
-                {this.state.naytaKysymys &&
-                <div>
-                  <p>{this.state.kysymys.vastaus ? this.state.kysymys.vastaus : 'Kysymykselle ei ole lisätty ylen koneesta vastaavaa kysymystä'}</p>
-                  {this.state.kysymys.vastaus &&
-                  <div>
-                    <Dropdown type="text" name="puolue" placeholder="Valitse puolue, jonka vastauksen ylen kysymykseen haluat nähdä" onChange={this.handleChange.bind(this)} fluid search selection options={valuesP} />
-                    {this.state.yhteensa &&
-                    <div>
-                      <p><b>Vaalikoneeseen vastanneet edustajat: </b>{this.state.yhteensa}</p>
-                      <p style={{ background: 'green' }}><b>Jaa: </b>
-                        {this.state.jaat.length}
-                        ({Math.round((this.state.jaat.length / this.state.yhteensa) * 100)}%)
-                      </p>
-                      <p style={{ background: 'red' }}>
-                        <b>Ei:</b>
-                        {this.state.eit.length}
-                        ({Math.round((this.state.eit.length / this.state.yhteensa) * 100)}%)
-                      </p>
-                    </div>
-                    }
-                  </div>
-                  }
-                </div>
-                }
+
               </Item.Content>
             </Item>
           </Grid.Column>
-          <Grid.Column width={1} />
         </Grid.Row>
 
         <Grid.Row>
-          <Grid.Column width={4} />
-          <Grid.Column width={12}>
-            <Button onClick={() => this.vastaus('jaa')} size="big" inverted color="green">Jaa</Button>
-            <Button onClick={() => this.vastaus('eos')} size="big" inverted color="brown">EOS/tyhjä</Button>
-            <Button onClick={() => this.vastaus('ei')} size="big" inverted color="red">Ei</Button>
-          </Grid.Column>
+          <Button fluid onClick={() => this.vastaus('jaa')} size="big" inverted color="green">Jaa</Button>
         </Grid.Row>
-
-        <Grid.Row >
-          <Grid.Column width={1} />
-          <Grid.Column width={12}>
-            <Item>
-              <Item.Content>
-                <Button onClick={this.tulokset} fluid basic>Piilota/näytä tulokset</Button>
-                <Item.Description style={tulokset}>
-                  <VastausTable />
-                </Item.Description>
-              </Item.Content>
-            </Item>
-          </Grid.Column>
-          <Grid.Column width={3} />
+        <Grid.Row>
+          <Button fluid onClick={() => this.vastaus('eos')} size="big" inverted color="brown">EOS/tyhjä</Button>
         </Grid.Row>
-        <Grid.Row />
-        <Grid.Row />
+        <Grid.Row>
+          <Button fluid onClick={() => this.vastaus('ei')} size="big" inverted color="red">Ei</Button>
+        </Grid.Row>
       </Grid>
     );
   }
@@ -243,7 +151,6 @@ class Kone extends React.Component {
 const mapStateToProps = state => ({
   kysymykset: state.kysymykset,
   kayttaja: state.kayttaja,
-  ylenKysymykset: state.ylenKysymykset,
 });
 
 export default connect(
@@ -251,8 +158,6 @@ export default connect(
   {
     addVastaus,
     addKysymys,
-    addYlePuolueet,
-    getYlenKysymykset,
   },
 )(Kone);
 

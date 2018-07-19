@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { slide as Burger } from 'react-burger-menu'
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 
 class Nav extends React.Component {
   constructor(props) {
@@ -23,28 +23,40 @@ class Nav extends React.Component {
     }
 
     render() {
+      const white = { color: 'white' }
       return (
         <div>
-          <Button onClick={this.show}> Menu </Button>
+          <Icon
+            onClick={this.show}
+            style={{
+                  margin: '1em',
+                }}
+            name="bars"
+          />
           {this.state.show &&
-          <Burger right width="20%" isOpen={false} pageWrapId="page-wrap">
-            <Link to="/"> Etusivu</Link>
-            <Link
-              to="/kone"
-            >Vaalikone
-            </Link>
-            <Link to="/kysymykset">Kysymykset</Link>
-            <Link to="/vastaukset">Vastaukset</Link>
-            <Link to="/kategoriat">Kategoriat</Link>
+          <Burger right width="15%" isOpen >
+            <br />
+            <Icon
+              onClick={this.show}
+              style={{
+                  color: 'white',
+                }}
+              name="arrow alternate circle right outline"
+            />
+            <br />
+            <Link style={white} to="/"> Etusivu</Link>
+            <Link style={white} to="/kone">Vaalikone</Link>
+            <Link style={white} to="/kysymykset">Kysymykset</Link>
+            <Link style={white} to="/vastaukset">Vastaukset</Link>
+            <Link style={white} to="/kategoriat">Kategoriat</Link>
             {window.localStorage.getItem('loggedUser') &&
-            <Link to="/lisaa">Uusi kysymys</Link>
+            <Link style={white} to="/lisaa">Uusi kysymys</Link>
           }
             {window.localStorage.getItem('loggedUser') &&
             <form onSubmit={this.logout}>
               <Button size="tiny" type="submit"> Kirjaudu ulos</Button>
             </form>
       }
-            <a onClick={this.show} className="menu-item--small" href="">Settings</a>
           </Burger>
         }
         </div>

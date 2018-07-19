@@ -21,6 +21,13 @@ import { getYlenKysymykset } from './reducers/ylenKysymyksetReducer';
 import './App.css';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: false,
+    };
+  }
+
   componentWillMount = async () => {
     this.props.getKysymykset();
     this.props.getKategoriat();
@@ -40,12 +47,13 @@ class App extends React.Component {
       <Router>
         <Grid>
           <Grid.Row style={{ paddingBottom: '0rem', background: 'white' }}>
-            <Grid.Column width={2} />
-            <Grid.Column width={10} >
+
+            <Grid.Column width={1} />
+            <Grid.Column width={12} >
               <p style={{ padding: '1em' }}> Politiikkatieto </p>
             </Grid.Column>
-            <Grid.Column width={4} >
-            <Menu />
+            <Grid.Column width={3}>
+              <Menu show={this.state.show} />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row style={{ padding: '0rem' }}>
@@ -66,7 +74,9 @@ class App extends React.Component {
             <Grid.Column width={10}>
 
 
-              <div style={{
+              <div
+                id="routet"
+                style={{
                     padding: '3em',
                     boxShadow: '1px 1px #888888',
                     background: 'white',
