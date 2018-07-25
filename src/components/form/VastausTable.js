@@ -14,6 +14,7 @@ class VastausTable extends React.Component {
       <Table striped celled id="table">
         <Table.Header>
           <Table.Row>
+            <Table.HeaderCell positive>Logo</Table.HeaderCell>
             <Table.HeaderCell positive>Eduskuntaryhmä</Table.HeaderCell>
             <Table.HeaderCell>
                   Kuinka sopiva puolue ({this.state.monta} kysymykseen vastattu)
@@ -24,6 +25,9 @@ class VastausTable extends React.Component {
           {_.orderBy(this.props.kayttaja.puolueet, ['aanet'], ['desc']).map(x =>
               (
                 <Table.Row key={x.name}>
+                  <Table.Cell>
+                    <img src={x.url} alt={x.name} height="80em" width="120em" />
+                  </Table.Cell>
                   <Table.Cell>
                     {x.name}
                   </Table.Cell>

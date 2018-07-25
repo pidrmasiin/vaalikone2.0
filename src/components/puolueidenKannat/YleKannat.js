@@ -15,11 +15,11 @@ class YleKannat extends React.Component {
         <h2 style={{ background: '#ffc180', textAlign: 'center' }}>{this.props.state.puolue}</h2>
         <h3>{this.props.state.kysymys}</h3>
         <p><b>Vaalikoneeseen vastanneet edustajat: </b>{yhteensa}</p>
-        <p style={{ background: 'green' }}><b>Jaa: </b>
+        <p style={{ background: 'lightgreen' }}><b>Jaa: </b>
           {jaat.length} ({Math.round((jaat.length / yhteensa) * 100)}%)
         </p>
-        <p style={{ background: 'red' }}>
-          <b>Ei:</b> {eit.length}({Math.round((eit.length / yhteensa) * 100)}%)
+        <p style={{ background: '#FFB6C1' }}>
+          <b>Ei: </b> {eit.length} ({Math.round((eit.length / yhteensa) * 100)}%)
         </p>
         <Table celled striped id="table">
           <Table.Header>

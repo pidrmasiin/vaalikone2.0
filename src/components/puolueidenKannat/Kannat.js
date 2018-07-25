@@ -40,13 +40,14 @@ class Kannat extends React.Component {
       console.log('puolue', puolue)
       console.log('kysymys', kysymys)
       if(puolue){
-        const kannat = puolueet[puolue].map(x => x =
-          { edustaja: `${x.etunimi } ${x.sukunimi}`,
-            kanta: x[kysymys.vastaus]
-          })
+        const kannat = puolueet[value].map(x => ({
+          edustaja: `${x.etunimi } ${x.sukunimi}`,
+          kanta: x[this.state.kysymys.vastaus]
+        }))
           console.log('kannat', kannat)
-          const eit = kannat.filter(x => x.kanta.toString() === 'jokseenkin eri mieltä'
-          || x.kanta.toString() === 'täysin eri mieltä')
+          const eit = kannat.filter(x =>
+            x.kanta.toString() === 'jokseenkin eri mieltä' || x.kanta.toString() === 'täysin eri mieltä'
+          )
         const jaat = kannat.filter(x => x.kanta.toString() === 'jokseenkin samaa mieltä'
           || x.kanta.toString() === 'täysin samaa mieltä')
         if (jaat.length > eit.length) {

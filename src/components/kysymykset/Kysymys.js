@@ -79,7 +79,7 @@ class Kysymys extends React.Component {
   render() {
     if (this.props.kysymys) {
       return (
-        <Container style={{ background: '#eff5f5' }}>
+        <Container>
           <Grid>
 
             {window.localStorage.getItem('loggedUser') &&
@@ -146,8 +146,8 @@ class Kysymys extends React.Component {
                         <br />
                         <Button size="mini" basic onClick={this.puolueet}>{this.state.puolueet ? 'Piilota' : 'Näytä'}</Button>
                         {this.state.puolueet &&
-                        <Table celled>
-                          <Table.Body style={{ background: '#fff3e6' }}>
+                        <Table stripped>
+                          <Table.Body>
                             {this.props.kysymys.puolueet.map(x =>
                             (
                               <Table.Row key={x.nimi}>
@@ -155,7 +155,7 @@ class Kysymys extends React.Component {
                                 <Table.Cell>{x.kanta}</Table.Cell>
                               </Table.Row>))}
                           </Table.Body>
-                          <Table.Body>
+                          <Table.Body stripped>
                             <Table.Row>
                               <Table.Cell>
                                 <Button size="mini" basic onClick={this.edustajat}>Edustajien kannat</Button>
@@ -163,7 +163,7 @@ class Kysymys extends React.Component {
                             </Table.Row>
                           </Table.Body>
                           {this.state.edustajat &&
-                          <Table.Body style={{ background: 'AliceBlue' }}>
+                          <Table.Body>
                             {this.props.kysymys.edustajat.map(x =>
                             (
                               <Table.Row key={x.nimi}>
@@ -182,7 +182,7 @@ class Kysymys extends React.Component {
                         }
                       </List>
                       <Item.Extra>
-                        <a href={this.props.kysymys.url}>Linkki eduskunnan sivuille</a>
+                        <a target="_blank" rel="noopener noreferrer" href={this.props.kysymys.url}>Linkki eduskunnan sivuille</a>
                       </Item.Extra>
                     </Item.Content>
                   </Item>

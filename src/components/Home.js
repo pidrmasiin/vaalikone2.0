@@ -12,9 +12,9 @@ const Home = () => (
     mikä puolue on äänestänyt eduskunnassa lähimmäksi sinun näkemyksiäsi.
     <br />
     <br />
-    Lisäksi voit vertailla eduskuntaryhmien äänestykäyttäytymistä
+    Lisäksi voit tarkastella eduskuntaryhmien äänestykäyttäytymistä
     eduskunnassa sen jäsenten antamiin vastauksiin
-    <a href="https://yle.fi/uutiset/3-7869597"> ylen vaalikoneessa.</a>
+    <a target="_blank" rel="noopener noreferrer" href="https://yle.fi/uutiset/3-7869597"> ylen vaalikoneessa.</a>
     <br />
     <Link
       to="/kone"

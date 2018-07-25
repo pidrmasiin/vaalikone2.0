@@ -19,16 +19,16 @@ class Kone extends React.Component {
   }
 
   componentWillMount = async () => {
-    const kys = this.shuffle(this.props.kysymykset)
-    if (kys > 9) {
-      kys.slice(9);
+    const satunnainenKysymys = this.shuffle(this.props.kysymykset)
+    if (satunnainenKysymys > 9) {
+      satunnainenKysymys.slice(9);
     }
     this.setState({
-      kysymykset: kys,
+      kysymykset: satunnainenKysymys,
     });
     if (!this.state.kysymys) {
       this.setState({
-        kysymys: kys[this.state.monesko],
+        kysymys: satunnainenKysymys[this.state.monesko],
       })
     } else {
       window.location.assign('/')
@@ -98,6 +98,7 @@ class Kone extends React.Component {
       return (
         <div>
           <h1>Tulokset</h1>
+          <Button onClick={() => window.location.assign('/')}>Uudelleenlataa sivu vastataksesi taas kysymyksiin</Button>
           <VastausTable />
         </div>
       );
@@ -111,7 +112,8 @@ class Kone extends React.Component {
           <Header as="h1">Äänestä!</Header>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={16} textAlign="center" verticalAlign="middle">
+          <Grid.Column width={7} />
+          <Grid.Column width={9} textAlign="center" verticalAlign="middle">
             <p className="circleQuestion">{this.props.kayttaja.kysymykset.length + 1}</p>
           </Grid.Column>
         </Grid.Row>
@@ -141,6 +143,16 @@ class Kone extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Button fluid onClick={() => this.vastaus('ei')} size="big" inverted color="red">Ei</Button>
+        </Grid.Row>
+        <Grid.Row>
+          <div>
+            <h3>Kategoriat</h3>
+            <ul>
+              {this.state.kysymys.kategoriat.map(x => (
+                <li key={x._id}>{x.nimi}</li>
+          ))}
+            </ul>
+          </div>
         </Grid.Row>
       </Grid>
     );

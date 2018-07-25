@@ -41,7 +41,7 @@ class Nav extends React.Component {
               style={{
                   color: 'white',
                 }}
-              name="arrow alternate circle right outline"
+              name="arrow circle right outline"
             />
             <br />
             <Link style={white} to="/"> Etusivu</Link>

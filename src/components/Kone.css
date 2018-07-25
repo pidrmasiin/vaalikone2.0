@@ -1,10 +1,16 @@
-.circleQuestion {
-    border-radius: 2em;
+
+  .circleQuestion {
+    display: table-cell;
+    height: 2em;
+ /*change this and the width for the size of your initial circle*/
     width: 2em;
-    height: 1.5em; 
-    background: #004d99;
     margin: auto;
     text-align: center;
     vertical-align: middle;
-    color: white;
-  }
+    border-radius: 50%;
+  /*make it pretty*/
+    background: #004d99;
+    color: #fff;
+    font: 18px "josefin sans", arial;
+  /*change this for font-size and font-family*/
+}

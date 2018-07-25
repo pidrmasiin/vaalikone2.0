@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Item } from 'semantic-ui-react'
-import Kysymys from '../kysymykset/Kysymys'
 import YleKategoriat from './YleKategoriat';
+
 
 class Kategoria extends React.Component {
   componentDidMount = () => {
@@ -21,7 +22,9 @@ class Kategoria extends React.Component {
             {this.props.kategoria.kysymykset.map(k =>
         (
           <Item.Group key={k} divided unstackable>
-            <Kysymys kysymys={this.props.kysymykset.find(x => x.id === k)} />
+            <Link to={`/kysymykset/${this.props.kysymykset.find(x => x.id === k).id}`}>
+              {this.props.kysymykset.find(x => x.id === k).kysymys}
+            </Link>
           </Item.Group>))}
           </Item.Group>
         </div>

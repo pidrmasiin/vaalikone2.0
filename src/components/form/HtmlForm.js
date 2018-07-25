@@ -8,7 +8,7 @@ import { addPuolueet, addDetails, addEdustajat, addKategoriat } from '../../redu
 import { notifyCreation } from '../../reducers/notifyReducer'
 import Notification from '../Notification'
 import kysymysService from './../../services/kysymys'
-import { addYlePuolueet, getYlenKysymykset } from '../../reducers/ylenKysymyksetReducer';
+import { getYlenKysymykset } from '../../reducers/ylenKysymyksetReducer';
 
 class HtmlForm extends React.Component {
   constructor(props) {
@@ -18,17 +18,9 @@ class HtmlForm extends React.Component {
     };
   }
   componentWillMount = async () => {
-    if (!this.props.addYlePuolueet.edustajat
-      && this.props.kysymykset[0]) {
-      const nimet = this.props.kysymykset[0].edustajat.map(x => x.nimi)
-      await this.props.getYlenKysymykset()
-      setTimeout(() => {
-        this.props.addYlePuolueet(nimet, this.props.ylenKysymykset.data)
-      }, 1000);
-    } else {
-      window.location.assign('/')
-    }
+    if (!this.props.ylenKysymykset.kysymykset) { window.location.assign('/') }
   }
+
   onSubmit = async (e) => {
     this.handleDetails(e)
     await this.handleHtml(e)
@@ -208,7 +200,6 @@ export default connect(
     addDetails,
     notifyCreation,
     addKategoriat,
-    addYlePuolueet,
     getYlenKysymykset,
   },
 )(HtmlForm)

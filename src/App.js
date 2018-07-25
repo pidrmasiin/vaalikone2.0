@@ -49,9 +49,23 @@ class App extends React.Component {
           <Grid.Row style={{ paddingBottom: '0rem', background: 'white' }}>
 
             <Grid.Column width={1} />
-            <Grid.Column width={12} >
-              <p style={{ padding: '1em' }}> Politiikkatieto </p>
+            <Grid.Column width={2} style={{ paddingRight: '0rem' }}>
+              <p style={{ padding: '1em', paddingRight: '0em' }}>
+                Politiikkatieto
+              </p>
             </Grid.Column>
+            <Grid.Column width={1} style={{ paddingLeft: '0rem' }}>
+              <p style={{
+                  borderRadius: '100%',
+                  width: '0.1em',
+                  height: '0.1em',
+                  background: '#4679BD',
+                  padding: '0.4em',
+                  margin: '0.35em',
+                }}
+              />
+            </Grid.Column>
+            <Grid.Column width={9} />
             <Grid.Column width={3}>
               <Menu show={this.state.show} />
             </Grid.Column>
