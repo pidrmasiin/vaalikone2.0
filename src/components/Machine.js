@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Item, Grid, Header } from 'semantic-ui-react';
 import { addVastaus, addKysymys } from '../reducers/kayttajaReducer';
-import VastausTable from './form/VastausTable';
-import './Kone.css'
+import AnswersTable from './form/AnswersTable';
+import './Machine.css'
 
-class Kone extends React.Component {
+class Machine extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -92,14 +92,18 @@ class Kone extends React.Component {
   }
 
   render() {
+    if (document.getElementById('discardHover')) {
+      const element = document.getElementById('discardHover')
+      console.log(element)
+    }
     const visible = { display: this.state.show ? '' : 'none' };
 
     if (this.props.kayttaja.kysymykset.length === this.props.kysymykset.length) {
       return (
         <div>
-          <h1>Tulokset</h1>
+          <h1 >Tulokset</h1>
           <Button onClick={() => window.location.assign('/')}>Uudelleenlataa sivu vastataksesi taas kysymyksiin</Button>
-          <VastausTable />
+          <AnswersTable />
         </div>
       );
     }
@@ -109,7 +113,7 @@ class Kone extends React.Component {
     return (
       <Grid >
         <Grid.Row>
-          <Header as="h1">Äänestä!</Header>
+          <Header as="h1" ><p style={{ paddingLeft: '0.5em' }}> Äänestä!</p></Header>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column width={7} />
@@ -121,7 +125,7 @@ class Kone extends React.Component {
           <Grid.Column>
             <Item>
               <Item.Content>
-                <Item.Header>{this.state.kysymys.kysymys}<br /><br /><Button onClick={this.show} size="mini" basic>Lisätietoja...</Button></Item.Header>
+                <Item.Header><p style={{ fontSize: '1.5em' }}>{this.state.kysymys.kysymys}<br /></p><Button onClick={this.show} size="mini" basic>Lisätietoja...</Button></Item.Header>
                 <Item.Description style={visible}>
                   <ul>
                     <li>{this.state.kysymys.selitys}</li>
@@ -136,13 +140,13 @@ class Kone extends React.Component {
         </Grid.Row>
 
         <Grid.Row>
-          <Button fluid onClick={() => this.vastaus('jaa')} size="big" inverted color="green">Jaa</Button>
+          <Button fluid onClick={() => this.vastaus('jaa')} size="big" color="green">Jaa</Button>
         </Grid.Row>
         <Grid.Row>
-          <Button fluid onClick={() => this.vastaus('eos')} size="big" inverted color="brown">EOS/tyhjä</Button>
+          <Button fluid onClick={() => this.vastaus('eos')} size="big" color="brown">EOS/tyhjä</Button>
         </Grid.Row>
         <Grid.Row>
-          <Button fluid onClick={() => this.vastaus('ei')} size="big" inverted color="red">Ei</Button>
+          <Button fluid onClick={() => this.vastaus('ei')} size="big" color="red">Ei</Button>
         </Grid.Row>
         <Grid.Row>
           <div>
@@ -171,5 +175,5 @@ export default connect(
     addVastaus,
     addKysymys,
   },
-)(Kone);
+)(Machine);
 

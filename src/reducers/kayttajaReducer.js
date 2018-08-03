@@ -10,6 +10,7 @@ const initialState = {
     { name: 'Kristillisdemokraattinen eduskuntaryhmä', aanet: 0, url: 'https://i.imgur.com/oVzcTTD.jpg' },
     { name: 'Vasemmistoliiton eduskuntaryhmä', aanet: 0, url: 'https://i.imgur.com/P0wEpt3.png' },
     { name: 'Sininen eduskuntaryhmä', aanet: 0, url: 'https://i.imgur.com/gbryVO0.png' },
+    { name: 'Liike Nyt-eduskuntaryhmä', aanet: 0, url: 'https://liikenyt.fi/wp-content/uploads/2018/04/liike-nyt-vari-ensisijainen.jpg' },
   ],
   puolue: '',
 }
@@ -31,8 +32,9 @@ const kayttajaReducer = (store = initialState, action) => {
   if (action.type === 'PUOLUE') {
     return { ...store, puolue: action.puolue }
   }
-
   switch (action.type) {
+    case 'Liike Nyt-eduskuntaryhmä':
+      return { ...store, puolueet: filtered }
     case 'Keskustan eduskuntaryhmä':
       return { ...store, puolueet: filtered }
     case 'Perussuomalaisten eduskuntaryhmä':

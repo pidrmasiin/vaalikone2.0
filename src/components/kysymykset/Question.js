@@ -146,7 +146,7 @@ class Kysymys extends React.Component {
                         <br />
                         <Button size="mini" basic onClick={this.puolueet}>{this.state.puolueet ? 'Piilota' : 'Näytä'}</Button>
                         {this.state.puolueet &&
-                        <Table stripped>
+                        <Table>
                           <Table.Body>
                             {this.props.kysymys.puolueet.map(x =>
                             (

@@ -10,7 +10,7 @@ const linkStyle = {
   fontWeight: 'normal',
 };
 
-class Kysymykset extends React.Component {
+class Questions extends React.Component {
     remove =k => () => {
       const ok = window.confirm(`Poistetaanko ${k.kysymys} kysymys`);
 
@@ -56,4 +56,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   null,
-)(Kysymykset);
+)(Questions);

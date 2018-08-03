@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import HtmlForm from './components/form/HtmlForm';
 import Home from './components/Home';
 import Menu from './components/Menu';
-import Kysymykset from './components/kysymykset/Kysymykset';
+import Questions from './components/kysymykset/Questions';
 import EtsiVastaus from './components/vastaukset/EtsiVastaus'
 import Kategoriat from './components/kategoriat/Kategoriat';
 import Kategoria from './components/kategoriat/Kategoria';
-import Kysymys from './components/kysymykset/Kysymys';
-import Kone from './components/Kone';
+import Question from './components/kysymykset/Question';
+import Machine from './components/Machine';
 import Login from './components/Login';
 import Notification from './components/Notification';
 import { getKysymykset } from './reducers/kysymyksetReducer';
@@ -47,23 +47,20 @@ class App extends React.Component {
       <Router>
         <Grid>
           <Grid.Row style={{ paddingBottom: '0rem', background: 'white' }}>
-
             <Grid.Column width={1} />
-            <Grid.Column width={2} style={{ paddingRight: '0rem' }}>
-              <p style={{ padding: '1em', paddingRight: '0em' }}>
+            <Grid.Column width={3} style={{ paddingRight: '0rem' }}>
+              <div style={{ padding: '1em', paddingTop: '1.2em', fontSize: '1.5em' }}>
                 Politiikkatieto
-              </p>
-            </Grid.Column>
-            <Grid.Column width={1} style={{ paddingLeft: '0rem' }}>
-              <p style={{
-                  borderRadius: '100%',
-                  width: '0.1em',
+                <p style={{
+                  borderRadius: '50%',
+                  width: '1.1em',
                   height: '0.1em',
                   background: '#4679BD',
                   padding: '0.4em',
-                  margin: '0.35em',
+                  marginLeft: '6em',
                 }}
-              />
+                />
+              </div>
             </Grid.Column>
             <Grid.Column width={9} />
             <Grid.Column width={3}>
@@ -73,7 +70,7 @@ class App extends React.Component {
           <Grid.Row style={{ padding: '0rem' }}>
             <Grid.Column style={{ background: '#004d99', padding: '2em' }}>
               <h1 style={{
-                fontSize: '250%',
+                fontSize: '4em',
                 color: 'white',
                 textAlign: 'center',
                 verticalAlign: 'bottom',
@@ -86,8 +83,6 @@ class App extends React.Component {
           <Grid.Row >
             <Grid.Column width={3} />
             <Grid.Column width={10}>
-
-
               <div
                 id="routet"
                 style={{
@@ -99,8 +94,8 @@ class App extends React.Component {
               >
                 <Route exact path="/" render={() => <Home />} />
                 <Route exact path="/kategoriat" render={history => <Kategoriat history={history} />} />
-                <Route exact path="/kysymykset" render={() => <Kysymykset />} />
-                <Route exact path="/kone" render={() => <Kone />} />
+                <Route exact path="/kysymykset" render={() => <Questions />} />
+                <Route exact path="/kone" render={() => <Machine />} />
                 <Route exact path="/vastaukset" render={() => <EtsiVastaus />} />
                 <Route exact path="/login" render={({ history }) => <Login history={history} />} />
                 {window.localStorage.getItem('loggedUser') &&
@@ -112,7 +107,7 @@ class App extends React.Component {
                   exact
                   path="/kysymykset/:id"
                   render={({ match }) =>
-                    <Kysymys kysymys={this.kysymysById(match.params.id)} />}
+                    <Question kysymys={this.kysymysById(match.params.id)} />}
                 />
                 <Route
                   exact

@@ -23,9 +23,9 @@ class Nav extends React.Component {
     }
 
     render() {
-      const white = { color: 'white' }
+      const white = { color: 'white', padding: '0.5em' }
       return (
-        <div>
+        <div style={{ fontSize: '2em' }}>
           <Icon
             onClick={this.show}
             style={{

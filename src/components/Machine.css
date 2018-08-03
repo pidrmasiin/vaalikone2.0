@@ -14,3 +14,7 @@
     font: 18px "josefin sans", arial;
   /*change this for font-size and font-family*/
 }
+
+p {
+   font-size: '1.5em'
+}
