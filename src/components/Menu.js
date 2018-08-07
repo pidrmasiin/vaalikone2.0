@@ -13,6 +13,7 @@ class Nav extends React.Component {
   }
     logout = () => {
       window.localStorage.removeItem('loggedUser');
+      window.location.assign('/')
     }
 
     show = (event) => {
@@ -23,7 +24,7 @@ class Nav extends React.Component {
     }
 
     render() {
-      const white = { color: 'white', padding: '0.5em' }
+      const white = { color: 'white', paddingTop: '1em' }
       return (
         <div style={{ fontSize: '2em' }}>
           <Icon
@@ -40,6 +41,8 @@ class Nav extends React.Component {
               onClick={this.show}
               style={{
                   color: 'white',
+                  paddingTop: '1em',
+                  paddingBottom: '1em',
                 }}
               name="arrow circle right outline"
             />
@@ -53,10 +56,9 @@ class Nav extends React.Component {
             <Link style={white} to="/lisaa">Uusi kysymys</Link>
           }
             {window.localStorage.getItem('loggedUser') &&
-            <form onSubmit={this.logout}>
-              <Button size="tiny" type="submit"> Kirjaudu ulos</Button>
-            </form>
-      }
+            <div style={{ paddingTop: '2em' }}>
+              <Button onClick={() => this.logout()} size="tiny" type="submit"> Kirjaudu ulos</Button>
+            </div>}
           </Burger>
         }
         </div>

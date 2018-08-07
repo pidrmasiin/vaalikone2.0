@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import HtmlForm from './components/form/HtmlForm';
 import Home from './components/Home';
 import Menu from './components/Menu';
-import Questions from './components/kysymykset/Questions';
-import EtsiVastaus from './components/vastaukset/EtsiVastaus'
+import Questions from './components/questions/Questions';
+import EtsiVastaus from './components/yle/FindAnswer'
 import Kategoriat from './components/kategoriat/Kategoriat';
 import Kategoria from './components/kategoriat/Kategoria';
-import Question from './components/kysymykset/Question';
+import Question from './components/questions/Question';
 import Machine from './components/Machine';
 import Login from './components/Login';
 import Notification from './components/Notification';
@@ -46,7 +46,13 @@ class App extends React.Component {
     return (
       <Router>
         <Grid>
-          <Grid.Row style={{ paddingBottom: '0rem', background: 'white' }}>
+          <Grid.Row
+            fixed="true"
+            style={{
+            paddingBottom: '0rem',
+            background: 'white',
+            }}
+          >
             <Grid.Column width={1} />
             <Grid.Column width={3} style={{ paddingRight: '0rem' }}>
               <div style={{ padding: '1em', paddingTop: '1.2em', fontSize: '1.5em' }}>
@@ -64,7 +70,7 @@ class App extends React.Component {
             </Grid.Column>
             <Grid.Column width={9} />
             <Grid.Column width={3}>
-              <Menu show={this.state.show} />
+              <Menu isOpen={this.state.show} />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row style={{ padding: '0rem' }}>

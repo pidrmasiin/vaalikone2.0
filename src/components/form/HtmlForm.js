@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, Dropdown } from 'semantic-ui-react'
+import { Button, Checkbox, Dropdown, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import FormInput from './FormInput'
 import TextArea from './TextArea'
@@ -15,6 +15,7 @@ class HtmlForm extends React.Component {
     super(props);
     this.state = {
       vastaus: '',
+      kysymyksenAsettelu: false,
     };
   }
   componentWillMount = async () => {
@@ -114,6 +115,7 @@ class HtmlForm extends React.Component {
       kysymys: e.target.kysymys.value,
       vuosi: e.target.vuosi.value,
       vastaus: this.state.vastaus,
+      kysymyksenAsettelu: this.state.kysymyksenAsettelu,
     }
     this.props.addDetails(details)
     e.target.url.value = ''
@@ -134,6 +136,10 @@ class HtmlForm extends React.Component {
 
   handleChange(e, { name, value }) {
     this.setState({ [name]: value })
+  }
+
+  handleRistiriita() {
+    this.setState({ kysymyksenAsettelu: !this.state.kysymyksenAsettelu })
   }
   render() {
     /*eslint-disable */
@@ -160,6 +166,9 @@ class HtmlForm extends React.Component {
           <br />
           <b>Valitse osuvin kysymys ylen vaalikoneesta</b>
           <Dropdown type="text" name="vastaus" placeholder="Valitse kysymys" onChange={this.handleChange.bind(this)} fluid search selection options={values} />
+          <Segment compact>
+            <Checkbox toggle onChange={() => this.handleRistiriita()} />
+          </Segment>
           <Notification />
           <TextArea
             placeholder="<table><tbody>...</tbody></table>"

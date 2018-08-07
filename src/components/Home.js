@@ -21,7 +21,7 @@ const Home = () => (
         to="/kone"
       >
         <br />
-        <Button inverted color="blue">Vaalikoneeseen</Button>
+        <Button size="big" inverted color="blue">Vaalikoneeseen</Button>
       </Link>
     </p>
   </div>

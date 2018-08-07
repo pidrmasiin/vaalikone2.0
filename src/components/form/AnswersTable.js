@@ -3,6 +3,8 @@ import React from 'react';
 import { Table, Button, Popup, TransitionablePortal, Segment, Header } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { addPuolue } from '../../reducers/kayttajaReducer'
+import YleKannat from '../puolueidenKannat/YleKannat';
+import Members from '../questions/MembersAnswers';
 
 
 class AnswersTable extends React.Component {
@@ -32,8 +34,6 @@ color = (jaa) => {
 }
 
 render() {
-  console.log(this.props.kayttaja)
-  console.log(this.props.ylenKysymykset)
   const animation = 'horizontal flip'
   const duration = 500
   return (
@@ -54,6 +54,7 @@ render() {
               <Table.Row>
                 <Table.HeaderCell>Kysymys</Table.HeaderCell>
                 <Table.HeaderCell>Puolueen kanta</Table.HeaderCell>
+                <Table.HeaderCell>Edustajien kannat</Table.HeaderCell>
                 <Table.HeaderCell>Vertaa vastausta ylen koneeseen</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -75,8 +76,33 @@ render() {
                   <Table.Cell>
                     <Popup
                       trigger={<Button color="blue" icon="add" />}
-                      content={x.vastaus}
-                    />
+                      on="click"
+                      position="bottom right"
+                      style={{
+                        background: '#e6f7ff',
+                      }}
+                    >
+                      <Popup.Content>
+                        <Members edustajat={x.edustajat} puolue={this.state.puolue} />
+                      </Popup.Content>
+                    </Popup>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Popup
+                      trigger={<Button color="blue" icon="add" />}
+                      on="click"
+                      style={{
+                        background: '#e6f7ff',
+                      }}
+                    >
+                      <Popup.Content style={{
+                        background: 'white',
+                        padding: '1em',
+                        }}
+                      >
+                        <YleKannat puolue={this.state.puolue} kysymys={x.vastaus} />
+                      </Popup.Content>
+                    </Popup>
                   </Table.Cell>
                 </Table.Row>))}
             </Table.Body>

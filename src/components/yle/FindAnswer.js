@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Container, Button, Input, Dropdown } from 'semantic-ui-react'
-import Vastaukset from './Vastaukset';
+import Vastaukset from './Answers';
 import YleKannat from '../puolueidenKannat/YleKannat';
-import { puolueet as valuesP } from './vastausKategoriat';
+import { puolueet as valuesP } from './ylesQuestionsCategories';
 import { addEdustaja } from '../../reducers/edustajaReducer';
-import yleService from '../../services/yle';
 import { notifyCreation } from '../../reducers/notifyReducer'
 import { getYlenKysymykset } from '../../reducers/ylenKysymyksetReducer';
 
@@ -42,12 +41,11 @@ class EtsiVastaus extends React.Component {
     muodosta = () => {
       const puolueet = this.props.ylenKysymykset.puolueet
       if (this.state.puolue && this.state.kysymys) {
-        /*eslint-disable */
-        const kannat = puolueet[this.state.puolue].map(x => x =
-          { edustaja: `${x.etunimi } ${x.sukunimi}`,
-            kanta: x[this.state.kysymys]
-          })
-           /* eslint-enable */
+        const kannat = puolueet[this.state.puolue].map(x => (
+          {
+            edustaja: `${x.etunimi} ${x.sukunimi}`,
+            kanta: x[this.state.kysymys],
+          }))
         this.setState({
           kannat,
         })
@@ -74,19 +72,19 @@ class EtsiVastaus extends React.Component {
       })
     }
 
-    tietokantaan = async () => {
-      const yle = {
-        edustajat: this.props.ylenKysymykset.edustajat,
-        puolueet: this.props.ylenKysymykset.puolueet,
-        kysymykset: this.props.ylenKysymykset.kysymykset,
-      };
-      console.log('yle', yle)
-      try {
-        await yleService.addYle(yle);
-      } catch (exception) {
-        console.log('Tapahtui virhe');
-      }
-    }
+    // tietokantaan = async () => {
+    //   const yle = {
+    //     edustajat: this.props.ylenKysymykset.edustajat,
+    //     puolueet: this.props.ylenKysymykset.puolueet,
+    //     kysymykset: this.props.ylenKysymykset.kysymykset,
+    //   };
+    //   console.log('yle', yle)
+    //   try {
+    //     await yleService.addYle(yle);
+    //   } catch (exception) {
+    //     console.log('Tapahtui virhe');
+    //   }
+    // }
 
     render() {
       if (this.props.ylenKysymykset) {
@@ -107,7 +105,7 @@ class EtsiVastaus extends React.Component {
               { this.state.kannat &&
               <div>
                 <Button onClick={this.piilotaKannat}>Piilota {this.state.puolue} kannat</Button>
-                <YleKannat state={this.state} />
+                <YleKannat puolue={this.state.puolue} kysymys={this.state.kysymys} show />
               </div>
             }
             </div>

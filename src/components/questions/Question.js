@@ -155,7 +155,7 @@ class Kysymys extends React.Component {
                                 <Table.Cell>{x.kanta}</Table.Cell>
                               </Table.Row>))}
                           </Table.Body>
-                          <Table.Body stripped>
+                          <Table.Body>
                             <Table.Row>
                               <Table.Cell>
                                 <Button size="mini" basic onClick={this.edustajat}>Edustajien kannat</Button>

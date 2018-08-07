@@ -50,4 +50,36 @@ export const puolueet = [
   },
 ]
 
-export default { vastausKategoriat, puolueet }
+export function parseParties(party) {
+  let puolue = party
+  switch (party) {
+    case 'Keskustan eduskuntaryhmä':
+      puolue = 'kesk'
+      break
+    case 'Perussuomalaisten eduskuntaryhmä':
+      puolue = 'ps'
+      break
+    case 'Kansallisen kokoomuksen eduskuntaryhmä':
+      puolue = 'kok'
+      break
+    case 'Sosialidemokraattinen eduskuntaryhmä':
+      puolue = 'sdp'
+      break
+    case 'Vihreä eduskuntaryhmä':
+      puolue = 'vihr'
+      break
+    case 'Vasemmistoliiton eduskuntaryhmä':
+      puolue = 'vas'
+      break
+    case 'Ruotsalainen eduskuntaryhmä':
+      puolue = 'rkp'
+      break
+    case 'Kristillisdemokraattinen eduskuntaryhmä':
+      puolue = 'kd'
+      break
+    default:
+      break
+  }
+  return puolue
+}
+export default { vastausKategoriat, puolueet, parseParties }
