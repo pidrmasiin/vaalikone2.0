@@ -10,12 +10,18 @@ const Home = () => (
       <br />
       <br />
     Sivustolla on vaalikone, jonka avulla voit katsoa,
-    mikä puolue on äänestänyt eduskunnassa lähimmäksi sinun näkemyksiäsi.
+    mikä puolue on äänestänyt eduskunnassa lähimmäksi sinun näkemyksiäsi. Vaalikoneen kysymykset
+    on otettu suoraan eduskunnan äänestyksistä, minkä vuoksi ne voivat tuntua vaikeilta.
+    Näissä kysymyksissä on kuitenkin se etu, että vastaukset kuvaavat eduskuntaryhmien
+    todellista käyttäytymistä sen sijaan, että tulos muodostuisi aiotun käyttäytymisen perusteella.
+    Ennen vaaleja annetut lupaukset eivät siis vaikuta tämän vaalikoneen tuloksiin.
       <br />
       <br />
-    Lisäksi voit tarkastella eduskuntaryhmien äänestykäyttäytymistä
-    eduskunnassa sen jäsenten antamiin vastauksiin
-      <a target="_blank" rel="noopener noreferrer" href="https://yle.fi/uutiset/3-7869597"> ylen vaalikoneessa.</a>
+    Lisäksi vaalikone tarjoaa mahdollisuuden tarkastella eduskuntaryhmien äänestykäyttäytymistä
+    eduskunnassa suhteessa
+      <a target="_blank" rel="noopener noreferrer" href="https://yle.fi/uutiset/3-7869597"> ylen vaalikoneessa. </a>
+    Vaalikoneen avulla voit siis arvioida myös sitä,
+    kuinka hyvin ennen vaaleja annetut lupaukset ovat pitäneet.
       <br />
       <Link
         to="/kone"

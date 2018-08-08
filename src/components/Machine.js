@@ -113,7 +113,7 @@ class Machine extends React.Component {
     return (
       <Grid >
         <Grid.Row>
-          <Header as="h1" ><p style={{ paddingLeft: '0.5em' }}> Äänestä!</p></Header>
+          <Header as="h1" ><p style={{ paddingLeft: '0.5em', fontSize: '1.5em' }}> Äänestä!</p></Header>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column width={7} />
@@ -125,7 +125,7 @@ class Machine extends React.Component {
           <Grid.Column>
             <Item>
               <Item.Content>
-                <Item.Header><p style={{ fontSize: '1.5em' }}>{this.state.kysymys.kysymys}<br /></p><Button onClick={this.show} size="mini" basic>Lisätietoja...</Button></Item.Header>
+                <Item.Header><p style={{ fontSize: '2em' }}>{this.state.kysymys.kysymys}<br /></p><Button onClick={this.show} size="mini" basic>Lisätietoja...</Button></Item.Header>
                 <Item.Description style={visible}>
                   <ul>
                     <li>{this.state.kysymys.selitys}</li>
@@ -149,7 +149,7 @@ class Machine extends React.Component {
           <Button fluid onClick={() => this.vastaus('ei')} size="big" color="red">Ei</Button>
         </Grid.Row>
         <Grid.Row>
-          <div>
+          <div style={{ fontSize: '1em' }}>
             <h3>Kategoriat</h3>
             <ul>
               {this.state.kysymys.kategoriat.map(x => (

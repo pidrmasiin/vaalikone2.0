@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'semantic-ui-react'
-import { parseParties } from "../yle/ylesQuestionsCategories";
+import { parseParties } from '../yle/ylesQuestionsCategories';
 
 class YleKannat extends React.Component {
   state = {
@@ -47,7 +47,7 @@ class YleKannat extends React.Component {
   render() {
     return (
       <div>
-        <h2 style={{ background: '#ffc180', textAlign: 'center' }}>Ylen vaalikoneen kysymys</h2>
+        <h2 style={{ textAlign: 'center' }}>Ylen vaalikoneen kysymys</h2>
         { this.props.show &&
         <h2 style={{ background: '#ffc180', textAlign: 'center' }}>{this.props.puolue}</h2>
           }

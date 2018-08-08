@@ -16,6 +16,7 @@ class HtmlForm extends React.Component {
     this.state = {
       vastaus: '',
       kysymyksenAsettelu: false,
+      hot: false,
     };
   }
   componentWillMount = async () => {
@@ -66,7 +67,6 @@ class HtmlForm extends React.Component {
       this.props.notifyCreation('Kannat lisätty', 5)
       this.props.addPuolueet(puolueet)
     } else {
-      console.log('puolueet')
       this.props.notifyCreation('Tapahtui virhe', 5)
     }
   }
@@ -92,7 +92,6 @@ class HtmlForm extends React.Component {
       this.props.notifyCreation('Kannat lisätty', 5)
       this.props.addEdustajat(edustajat)
     } else {
-      console.log('edustajat')
       this.props.notifyCreation('Tapahtui virhe', 5)
     }
   }
@@ -116,6 +115,7 @@ class HtmlForm extends React.Component {
       vuosi: e.target.vuosi.value,
       vastaus: this.state.vastaus,
       kysymyksenAsettelu: this.state.kysymyksenAsettelu,
+      hot: this.state.hot,
     }
     this.props.addDetails(details)
     e.target.url.value = ''
@@ -123,7 +123,6 @@ class HtmlForm extends React.Component {
     e.target.kysymys.value = ''
     e.target.vuosi.value = ''
   }
-
 
   addKatet = () => {
     // eslint-disable-line no-use-before-define
@@ -141,6 +140,11 @@ class HtmlForm extends React.Component {
   handleRistiriita() {
     this.setState({ kysymyksenAsettelu: !this.state.kysymyksenAsettelu })
   }
+
+  handleHot() {
+    this.setState({ hot: !this.state.hot })
+  }
+
   render() {
     /*eslint-disable */
    const values = this.props.ylenKysymykset.kysymykset.map(x => x = { text: x, value: x })
@@ -153,6 +157,10 @@ class HtmlForm extends React.Component {
           <FormInput label="Tapahtuma vuosi" placeholder="2018" name="vuosi" />
           <FormInput label="Linkki edukunnan sivuille" placeholder="url" name="url" />
           <TextArea label="Tarkempi kuvaus kysymyksestä" placeholder="selitys" name="selitys" />
+          <Segment compact style={{ background: '#d4eff9' }}>
+            <Checkbox toggle onChange={() => this.handleHot()} />
+            Keskeinen kysymys tällä hallituskaudella
+          </Segment>
           <b>Kategoriat</b>
           <br />
           {this.props.kategoriat.map(k =>
@@ -166,8 +174,9 @@ class HtmlForm extends React.Component {
           <br />
           <b>Valitse osuvin kysymys ylen vaalikoneesta</b>
           <Dropdown type="text" name="vastaus" placeholder="Valitse kysymys" onChange={this.handleChange.bind(this)} fluid search selection options={values} />
-          <Segment compact>
+          <Segment compact style={{ background: '#d4eff9' }}>
             <Checkbox toggle onChange={() => this.handleRistiriita()} />
+            Ylen ja eduskunnan kysymyksenasettelu ristiriitainen
           </Segment>
           <Notification />
           <TextArea

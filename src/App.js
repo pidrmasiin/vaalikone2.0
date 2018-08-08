@@ -84,8 +84,8 @@ class App extends React.Component {
               >Vaalikone
               </h1>
             </Grid.Column>
+            <Notification />
           </Grid.Row>
-          <Notification />
           <Grid.Row >
             <Grid.Column width={3} />
             <Grid.Column width={10}>

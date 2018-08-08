@@ -12,8 +12,19 @@ class Kysymys extends React.Component {
     show: false,
     puolueet: false,
     edustajat: false,
+    hot: false,
+    asettelu: false,
+    booleans: false,
   }
 
+  componentWillMount = () => {
+    if (this.props.kysymys) {
+      this.setState({
+        hot: this.props.kysymys.hot,
+        asettelu: this.props.kysymys.kysymyksenAsettelu,
+      })
+    }
+  }
 
   onSubmit = async (e) => {
     const kysymys = this.props.kysymys
@@ -24,6 +35,10 @@ class Kysymys extends React.Component {
     } if (this.state.muokattava === 'url') {
       kysymys.url = e.target.muutos.value
     }
+    kysymys.hot = this.state.hot
+    kysymys.kysymyksenAsettelu = this.state.asettelu
+
+    console.log(kysymys)
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     kysymysService.setToken(JSON.parse(loggedUserJSON).token)
     await kysymysService.modifyKysymys(kysymys.id, kysymys)
@@ -57,12 +72,20 @@ class Kysymys extends React.Component {
       muokkaa: true,
       kategoriat: false,
       muokattava: x,
+      booleans: false,
     })
   }
 
   show = () => {
     this.setState({
       show: !this.state.show,
+    });
+  }
+
+  showBooleans = () => {
+    this.setState({
+      booleans: !this.state.booleans,
+      muokkaa: false,
     });
   }
 
@@ -76,6 +99,19 @@ class Kysymys extends React.Component {
       edustajat: !this.state.edustajat,
     });
   }
+
+  handleHot = () => {
+    this.setState({
+      hot: !this.state.hot,
+    });
+  }
+
+  handleAsettelu = () => {
+    this.setState({
+      asettelu: !this.state.asettelu,
+    });
+  }
+
   render() {
     if (this.props.kysymys) {
       return (
@@ -95,10 +131,34 @@ class Kysymys extends React.Component {
                     <Button onClick={this.kategoriat}>Kategoriat</Button>
                     <Button.Or />
                     <Button onClick={() => this.muokkaa('url')}>Linkki</Button>
+                    <Button.Or />
+                    <Button onClick={() => this.showBooleans()}>Tärkeys ja ristiriita</Button>
                   </Button.Group>
                 </Grid.Column>
               </Grid.Row>
-
+              {this.state.booleans &&
+              <div>
+                <br />
+                <Checkbox
+                  toggle
+                  onChange={() => this.handleHot()}
+                  defaultChecked={this.state.hot}
+                  label="Keskeinen kysymys tällä hallituskaudella"
+                />
+                <br />
+                <Checkbox
+                  defaultChecked={this.state.asettelu}
+                  toggle
+                  onChange={() => this.handleAsettelu()}
+                  label="Kysymyksen asettelu ristiriitainen ylen kysymykseen nähden"
+                />
+                <br />
+                <br />
+                <form onSubmit={this.onSubmit}>
+                  <Button type="submit" color="green">Muokkaa tärkeys ja asettelu</Button>
+                </form>
+              </div>
+              }
               {this.state.kategoriat &&
               <Grid.Row>
                 <form onSubmit={this.onKategoriat}>
@@ -132,6 +192,11 @@ class Kysymys extends React.Component {
                         <Button size="mini" basic onClick={this.show}>Lisätietoja</Button>
                         {this.state.show && <div>{this.props.kysymys.selitys}<br /></div>}
                       </Item.Description>
+                      <br />
+                      <b>Kysymykseen linkitetty ylen vaalikoneen kysymys</b>
+                      <br />
+                      <br />
+                      <p>{this.props.kysymys.vastaus}</p>
                       <List>
                         <b>Kategoriat</b>
                         <List.List>

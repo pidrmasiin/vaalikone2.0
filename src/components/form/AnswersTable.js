@@ -3,7 +3,7 @@ import React from 'react';
 import { Table, Button, Popup, TransitionablePortal, Segment, Header } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { addPuolue } from '../../reducers/kayttajaReducer'
-import YleKannat from '../puolueidenKannat/YleKannat';
+import YleKannat from '../yleParties/YleKannat';
 import Members from '../questions/MembersAnswers';
 
 
@@ -38,7 +38,11 @@ render() {
   const duration = 500
   return (
     <div style={{ padding: '1em', paddingLeft: '0em' }} >
-      <TransitionablePortal open={this.state.show} transition={{ animation, duration }}>
+      <TransitionablePortal
+        open={this.state.show}
+        closeOnDocumentClick={false}
+        transition={{ animation, duration }}
+      >
         <Segment style={{
                   left: '10%',
                   position: 'fixed',
@@ -63,7 +67,7 @@ render() {
               (
                 <Table.Row key={x.id}>
                   <Table.Cell>
-                    {x.kysymys}
+                    <p style={{ fontSize: '1.2em' }}>{x.kysymys}</p>
                   </Table.Cell>
                   <Table.Cell
                     style={{
@@ -77,12 +81,13 @@ render() {
                     <Popup
                       trigger={<Button color="blue" icon="add" />}
                       on="click"
-                      position="bottom right"
+                      position="left center"
                       style={{
-                        background: '#e6f7ff',
+                        background: '#99ddff',
                       }}
                     >
-                      <Popup.Content>
+                      <Popup.Content style={{ padding: '1em', background: 'white' }}>
+                        <b style={{ fontSize: '1em' }}>{x.kysymys}</b>
                         <Members edustajat={x.edustajat} puolue={this.state.puolue} />
                       </Popup.Content>
                     </Popup>
@@ -92,7 +97,7 @@ render() {
                       trigger={<Button color="blue" icon="add" />}
                       on="click"
                       style={{
-                        background: '#e6f7ff',
+                        background: '#99ddff',
                       }}
                     >
                       <Popup.Content style={{
@@ -100,6 +105,11 @@ render() {
                         padding: '1em',
                         }}
                       >
+                        {x.kysymyksenAsettelu &&
+                        <p style={{ padding: 'o.5em', background: '#ffff66' }}>
+                        Huomaa ristiriita kysymyksenasettelussa!
+                        </p>
+                      }
                         <YleKannat puolue={this.state.puolue} kysymys={x.vastaus} />
                       </Popup.Content>
                     </Popup>
@@ -128,7 +138,7 @@ render() {
                     <img src={x.url} alt={x.name} height="80em" width="120em" />
                   </Table.Cell>
                   <Table.Cell>
-                    {x.name}
+                    <p style={{ fontSize: '1.2em' }}>{x.name}</p>
                   </Table.Cell>
                   <Table.Cell>{Math.round((x.aanet / this.state.monta) * 100)} %</Table.Cell>
                   <Table.Cell>

@@ -14,6 +14,7 @@ const setToken = (newToken) => {
 }
 
 const addKysymys = async (newObject) => {
+  console.log(newObject)
   const config = {
     headers: { Authorization: token },
   }

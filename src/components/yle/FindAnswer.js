@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Container, Button, Input, Dropdown } from 'semantic-ui-react'
 import Vastaukset from './Answers';
-import YleKannat from '../puolueidenKannat/YleKannat';
+import YleKannat from '../yleParties/YleKannat';
 import { puolueet as valuesP } from './ylesQuestionsCategories';
 import { addEdustaja } from '../../reducers/edustajaReducer';
 import { notifyCreation } from '../../reducers/notifyReducer'

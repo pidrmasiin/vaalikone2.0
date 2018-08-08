@@ -20,6 +20,8 @@ const kysymysReducer = (store = initialState, action) => {
       url: action.details.url,
       vuosi: action.details.vuosi,
       vastaus: action.details.vastaus,
+      hot: action.details.hot,
+      kysymyksenAsettelu: action.details.kysymyksenAsettelu,
     }
   } if (action.type === 'ADD_EDUSTAJAT') {
     return { ...store, edustajat: action.edustajat }
