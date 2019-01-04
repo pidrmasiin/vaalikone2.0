@@ -29,6 +29,11 @@ const Home = () => (
         <br />
         <Button size="big" inverted color="blue">Vaalikoneeseen</Button>
       </Link>
+      <Link
+        to="/graaffit"
+      >
+        <Button size="big" inverted color="yellow">Graaffit</Button>
+      </Link>
     </p>
   </div>
 )

@@ -4,13 +4,13 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import HtmlForm from './components/form/HtmlForm';
 import Home from './components/Home';
+import Settings from './components/Settings';
 import Menu from './components/Menu';
 import Questions from './components/questions/Questions';
 import EtsiVastaus from './components/yle/FindAnswer'
 import Kategoriat from './components/kategoriat/Kategoriat';
 import Kategoria from './components/kategoriat/Kategoria';
 import Question from './components/questions/Question';
-import Machine from './components/Machine';
 import Login from './components/Login';
 import Notification from './components/Notification';
 import { getKysymykset } from './reducers/kysymyksetReducer';
@@ -101,7 +101,7 @@ class App extends React.Component {
                 <Route exact path="/" render={() => <Home />} />
                 <Route exact path="/kategoriat" render={history => <Kategoriat history={history} />} />
                 <Route exact path="/kysymykset" render={() => <Questions />} />
-                <Route exact path="/kone" render={() => <Machine />} />
+                <Route exact path="/kone" render={() => <Settings />} />
                 <Route exact path="/vastaukset" render={() => <EtsiVastaus />} />
                 <Route exact path="/login" render={({ history }) => <Login history={history} />} />
                 {window.localStorage.getItem('loggedUser') &&

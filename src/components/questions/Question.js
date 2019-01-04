@@ -15,6 +15,8 @@ class Kysymys extends React.Component {
     hot: false,
     asettelu: false,
     booleans: false,
+    jaaLeftist: '',
+    jaaLiberal: '',
   }
 
   componentWillMount = () => {
@@ -34,6 +36,10 @@ class Kysymys extends React.Component {
       kysymys.selitys = e.target.muutos.value
     } if (this.state.muokattava === 'url') {
       kysymys.url = e.target.muutos.value
+    } if (typeof this.state.jaaLeftist === 'boolean') {
+      kysymys.jaaLeftist = this.state.jaaLeftist
+    } if (typeof this.state.jaaLiberal === 'boolean') {
+      kysymys.jaaLiberal = this.state.jaaLiberal
     }
     kysymys.hot = this.state.hot
     kysymys.kysymyksenAsettelu = this.state.asettelu
@@ -112,7 +118,21 @@ class Kysymys extends React.Component {
     });
   }
 
+  handleJaaLiberal = (value) => {
+    this.setState({
+      jaaLiberal: value,
+    });
+  }
+
+  handleJaaLeftist = (value) => {
+    this.setState({
+      jaaLeftist: value,
+    });
+  }
+
+
   render() {
+    console.log('state', this.state)
     if (this.props.kysymys) {
       return (
         <Container>
@@ -132,7 +152,9 @@ class Kysymys extends React.Component {
                     <Button.Or />
                     <Button onClick={() => this.muokkaa('url')}>Linkki</Button>
                     <Button.Or />
-                    <Button onClick={() => this.showBooleans()}>Tärkeys ja ristiriita</Button>
+                    <Button onClick={() => this.showBooleans()}>
+                      Tärkeys,ristiriita, Vas-Oik ja Kons-Lib
+                    </Button>
                   </Button.Group>
                 </Grid.Column>
               </Grid.Row>
@@ -151,6 +173,35 @@ class Kysymys extends React.Component {
                   toggle
                   onChange={() => this.handleAsettelu()}
                   label="Kysymyksen asettelu ristiriitainen ylen kysymykseen nähden"
+                />
+                <br />
+                <Checkbox
+                  radio
+                  name="liberalRadioGroup"
+                  checked={this.state.jaaLiberal === true}
+                  label="Jaa vastaus liberaali"
+                  onChange={() => this.handleJaaLiberal(true)}
+                />
+                <Checkbox
+                  radio
+                  name="liberalRadioGroup"
+                  checked={this.state.jaaLiberal === false}
+                  label="Jaa vastaus konservatiivinen"
+                  onChange={() => this.handleJaaLiberal(false)}
+                />
+                <br />
+                <Checkbox
+                  radio
+                  checked={this.state.jaaLeftist === true}
+                  label="Jaa vastaus vasemmistolainen"
+                  onChange={() => this.handleJaaLeftist(true)}
+                />
+                <Checkbox
+                  radio
+                  checked={this.state.jaaLeftist === false}
+                  label="Jaa vastaus oikeistolainen"
+                  onChange={() => this.handleJaaLeftist(false)}
+
                 />
                 <br />
                 <br />
