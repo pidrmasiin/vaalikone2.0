@@ -68,7 +68,9 @@ class App extends React.Component {
                 />
               </div>
             </Grid.Column>
-            <Grid.Column width={9} />
+            <Grid.Column width={9}>
+              <Notification />
+            </Grid.Column>
             <Grid.Column width={3}>
               <Menu isOpen={this.state.show} />
             </Grid.Column>
@@ -81,10 +83,9 @@ class App extends React.Component {
                 textAlign: 'center',
                 verticalAlign: 'bottom',
             }}
-              >Vaalikone
+              >Vaalikausikone
               </h1>
             </Grid.Column>
-            <Notification />
           </Grid.Row>
           <Grid.Row >
             <Grid.Column width={3} />

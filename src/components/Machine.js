@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Item, Grid, Header } from 'semantic-ui-react';
-import { addVastaus, addKysymys } from '../reducers/kayttajaReducer';
-import AnswersTable from './form/AnswersTable';
-import './Machine.css'
+import { Button, Grid, Header, Item } from 'semantic-ui-react';
+import { addKysymys, addVastaus } from '../reducers/kayttajaReducer';
+import { notifyCreation } from '../reducers/notifyReducer'
+import AnswersTable from './AnswersTable';
+import './Machine.css';
 
 class Machine extends React.Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class Machine extends React.Component {
   }
 
   componentWillMount = async () => {
-    const satunnainenKysymys = this.shuffle(this.props.kysymykset)
+    const questions = this.filterQuestions(this.props.kysymykset)
+    const satunnainenKysymys = this.shuffle(questions)
     if (satunnainenKysymys > 9) {
       satunnainenKysymys.slice(9);
     }
@@ -33,6 +35,20 @@ class Machine extends React.Component {
     } else {
       window.location.assign('/')
     }
+  }
+
+  filterQuestions = (questions) => {
+    let handledQuestions = questions
+    const selected_categories = this.props.selected_categories
+    if (this.props.hots) {
+      handledQuestions = questions.filter( question => question.hot)
+    } if (selected_categories.length > 0){
+      handledQuestions = questions.filter( q => selected_categories.some(cat => q.kategoriat.map(k => k.nimi).includes(cat)))
+      if (handledQuestions.length === 0) {
+        this.props.notifyCreation('Antamillasi ehdoilla ei löytynyt yhtään kysymystä. Kokeile valita hieman vähemmän kategorioita.', 15)
+      }
+    }
+    return handledQuestions
   }
 /*eslint-disable */
   shuffle = (array) => {
@@ -92,17 +108,20 @@ class Machine extends React.Component {
   }
 
   render() {
+    console.log("state", this.state)
     if (document.getElementById('discardHover')) {
       const element = document.getElementById('discardHover')
       console.log(element)
     }
     const visible = { display: this.state.show ? '' : 'none' };
 
-    if (this.props.kayttaja.kysymykset.length === this.props.kysymykset.length) {
+    if (this.props.kayttaja.kysymykset.length === this.state.kysymykset.length) {
       return (
         <div>
           <h1 >Tulokset</h1>
-          <Button onClick={() => window.location.assign('/')}>Uudelleenlataa sivu vastataksesi taas kysymyksiin</Button>
+          <Button onClick={() => window.location.assign('/kone')} basic color="blue">
+            Valitse uudet kategoriat ja vastaa taas kysymyksiin
+          </Button>
           <AnswersTable />
         </div>
       );
@@ -125,7 +144,10 @@ class Machine extends React.Component {
           <Grid.Column>
             <Item>
               <Item.Content>
-                <Item.Header><p style={{ fontSize: '2em' }}>{this.state.kysymys.kysymys}<br /></p><Button onClick={this.show} size="mini" basic>Lisätietoja...</Button></Item.Header>
+                <Item.Header>
+                  <p style={{ fontSize: '2em' }}>{this.state.kysymys.kysymys}<br /></p>
+                  <Button onClick={this.show} size="mini" basic>Lisätietoja...</Button>
+                </Item.Header>
                 <Item.Description style={visible}>
                   <ul>
                     <li>{this.state.kysymys.selitys}</li>
@@ -174,6 +196,7 @@ export default connect(
   {
     addVastaus,
     addKysymys,
+    notifyCreation,
   },
 )(Machine);
 

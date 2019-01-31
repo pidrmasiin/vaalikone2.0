@@ -17,6 +17,7 @@ class Kysymys extends React.Component {
     booleans: false,
     jaaLeftist: '',
     jaaLiberal: '',
+    green: ""
   }
 
   componentWillMount = () => {
@@ -40,6 +41,8 @@ class Kysymys extends React.Component {
       kysymys.jaaLeftist = this.state.jaaLeftist
     } if (typeof this.state.jaaLiberal === 'boolean') {
       kysymys.jaaLiberal = this.state.jaaLiberal
+    } if (typeof this.state.green === 'boolean') {
+      kysymys.green = this.state.green
     }
     kysymys.hot = this.state.hot
     kysymys.kysymyksenAsettelu = this.state.asettelu
@@ -130,6 +133,12 @@ class Kysymys extends React.Component {
     });
   }
 
+  handleGreen = (value) => {
+    this.setState({
+      green: value,
+    });
+  }
+
 
   render() {
     console.log('state', this.state)
@@ -153,7 +162,7 @@ class Kysymys extends React.Component {
                     <Button onClick={() => this.muokkaa('url')}>Linkki</Button>
                     <Button.Or />
                     <Button onClick={() => this.showBooleans()}>
-                      Tärkeys,ristiriita, Vas-Oik ja Kons-Lib
+                      Tärkeys,ristiriita, vihreys, Vas-Oik ja Kons-Lib
                     </Button>
                   </Button.Group>
                 </Grid.Column>
@@ -201,7 +210,19 @@ class Kysymys extends React.Component {
                   checked={this.state.jaaLeftist === false}
                   label="Jaa vastaus oikeistolainen"
                   onChange={() => this.handleJaaLeftist(false)}
-
+                />
+                 <br />
+                <Checkbox
+                  radio
+                  checked={this.state.green === true}
+                  label="Jaa vastaus vihreä"
+                  onChange={() => this.handleGreen(true)}
+                />
+                <Checkbox
+                  radio
+                  checked={this.state.green === false}
+                  label="Ei vastaus vihreä"
+                  onChange={() => this.handleGreen(false)}
                 />
                 <br />
                 <br />

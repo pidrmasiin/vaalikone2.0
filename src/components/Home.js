@@ -27,12 +27,12 @@ const Home = () => (
         to="/kone"
       >
         <br />
-        <Button size="big" inverted color="blue">Vaalikoneeseen</Button>
+        <Button size="big" inverted color="blue">Vaalikausikoneeseen</Button>
       </Link>
       <Link
         to="/graaffit"
       >
-        <Button size="big" inverted color="yellow">Graaffit</Button>
+        <Button size="big" inverted color="yellow">Vaalikausigraaffit</Button>
       </Link>
     </p>
   </div>

@@ -2,9 +2,9 @@ import _ from 'lodash'
 import React from 'react';
 import { Table, Button, Popup, TransitionablePortal, Segment, Header } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { addPuolue } from '../../reducers/kayttajaReducer'
-import YleKannat from '../yleParties/YleKannat';
-import Members from '../questions/MembersAnswers';
+import { addPuolue } from '../reducers/kayttajaReducer'
+import YleKannat from './yleParties/YleKannat';
+import Members from './questions/MembersAnswers';
 
 
 class AnswersTable extends React.Component {
