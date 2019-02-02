@@ -17,6 +17,9 @@ class HtmlForm extends React.Component {
       vastaus: '',
       kysymyksenAsettelu: false,
       hot: false,
+      jaaLeftist: '',
+      jaaLiberal: '',
+      green: ""
     };
   }
   componentWillMount = async () => {
@@ -29,7 +32,7 @@ class HtmlForm extends React.Component {
     this.handlePuolueet()
     this.handleEdustajat()
     this.addKatet(e)
-    if (this.props.notify !== 'Tapahtui virhe') {
+    if (!this.props.notify.includes('ei ole validi')) {
       try {
         const loggedUserJSON = window.localStorage.getItem('loggedUser')
         kysymysService.setToken(JSON.parse(loggedUserJSON).token)
@@ -45,7 +48,7 @@ class HtmlForm extends React.Component {
     const parser = new DOMParser();
     const doc = parser.parseFromString(this.props.html.puolueet, 'text/html');
     const puolueet = []
-    if (this.props.html.puolueet !== '') {
+    if (this.props.html.puolueet !== '' && doc.getElementsByTagName('TBODY')[0]) {
       // eslint-disable-next-line
       const rows = doc.getElementsByTagName('TBODY')[0].rows;
       for (let i = 1; i < rows.length; i = i + 1) {
@@ -62,12 +65,14 @@ class HtmlForm extends React.Component {
           puolueet.push(puolue)
         }
       }
+    } else {
+      this.props.notifyCreation('Puolue html-elementti ei ole validi', 5)
     }
     if (puolueet.length > 5 && puolueet.length < 20) {
       this.props.notifyCreation('Kannat lisätty', 5)
       this.props.addPuolueet(puolueet)
     } else {
-      this.props.notifyCreation('Tapahtui virhe', 5)
+      this.props.notifyCreation('Puolue html-elementti ei ole validi', 5)
     }
   }
 
@@ -75,7 +80,7 @@ class HtmlForm extends React.Component {
     const parser = new DOMParser();
     const doc = parser.parseFromString(this.props.html.edustajat, 'text/html');
     const edustajat = []
-    if (this.props.html.edustajat !== '') {
+    if (this.props.html.edustajat !== '' && doc.getElementsByTagName('TBODY')[0]) {
       // eslint-disable-next-line
       const rows = doc.getElementsByTagName('TBODY')[0].rows 
       for (let i = 1; i < rows.length; i = i + 1) {
@@ -88,11 +93,15 @@ class HtmlForm extends React.Component {
           edustajat.push(edustaja)
         }
       }
-    } if (edustajat.length > 190 && edustajat.length < 201) {
+    } else {
+      this.props.notifyCreation('Edustajat html-elementti ei ole validi', 5)
+    }
+    
+    if (edustajat.length > 180 && edustajat.length < 201) {
       this.props.notifyCreation('Kannat lisätty', 5)
       this.props.addEdustajat(edustajat)
     } else {
-      this.props.notifyCreation('Tapahtui virhe', 5)
+      this.props.notifyCreation('Edustajat html-elementti ei ole validi', 5)
     }
   }
 
@@ -116,6 +125,13 @@ class HtmlForm extends React.Component {
       vastaus: this.state.vastaus,
       kysymyksenAsettelu: this.state.kysymyksenAsettelu,
       hot: this.state.hot,
+    }
+    if (typeof this.state.jaaLeftist === 'boolean') {
+      details.jaaLeftist = this.state.jaaLeftist
+    } if (typeof this.state.jaaLiberal === 'boolean') {
+      details.jaaLiberal = this.state.jaaLiberal
+    } if (typeof this.state.green === 'boolean') {
+      details.green = this.state.green
     }
     this.props.addDetails(details)
     e.target.url.value = ''
@@ -145,6 +161,30 @@ class HtmlForm extends React.Component {
     this.setState({ hot: !this.state.hot })
   }
 
+  handleJaaLiberal = (value) => {
+    this.setState({
+      jaaLiberal: value,
+    });
+  }
+
+  handleJaaLeftist = (value) => {
+    this.setState({
+      jaaLeftist: value,
+    });
+  }
+
+  handleGreen = (value) => {
+    this.setState({
+      green: value,
+    });
+  }
+
+  disClick = (field) => {
+    this.setState({
+      [field]: ""
+    })
+  }
+
   render() {
     /*eslint-disable */
    const values = this.props.ylenKysymykset.kysymykset.map(x => x = { text: x, value: x })
@@ -160,6 +200,92 @@ class HtmlForm extends React.Component {
           <Segment compact style={{ background: '#d4eff9' }}>
             <Checkbox toggle onChange={() => this.handleHot()} />
             Keskeinen kysymys tällä hallituskaudella
+            <table>
+              <tr>
+                <td>
+                <Checkbox
+                  radio
+                  name="liberalRadioGroup"
+                  checked={this.state.jaaLiberal === true}
+                  label="Jaa vastaus liberaali"
+                  onChange={() => this.handleJaaLiberal(true)}
+                  />
+                  </td>
+                  <td>
+                  <Checkbox
+                    radio
+                    name="liberalRadioGroup"
+                    checked={this.state.jaaLiberal === false}
+                    label="Jaa vastaus konservatiivinen"
+                    onChange={() => this.handleJaaLiberal(false)}
+                  />
+                  </td>
+                  <td>
+                  <Checkbox
+                    radio
+                    name="liberalRadioGroup"
+                    checked={this.state.jaaLiberal === ""}
+                    label="Ei sovi"
+                    onChange={() => this.disClick("jaaLiberal")}
+                  />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <Checkbox
+                      radio
+                      checked={this.state.jaaLeftist === true}
+                      label="Jaa vastaus vasemmistolainen"
+                      onChange={() => this.handleJaaLeftist(true)}
+                    />
+                    </td>
+                    <td>
+                    <Checkbox
+                      radio
+                      checked={this.state.jaaLeftist === false}
+                      label="Jaa vastaus oikeistolainen"
+                      onChange={() => this.handleJaaLeftist(false)}
+                    />
+                    </td>
+                    <td>
+                    <Checkbox
+                      radio
+                      checked={this.state.jaaLeftist === ""}
+                      label="Ei sovi"
+                      onChange={() => this.disClick("jaaLeftist")}
+                    />
+                    </td>
+
+                </tr>
+                 <tr>
+
+                      <td>
+                    <Checkbox
+                      radio
+                      checked={this.state.green === true}
+                      label="Jaa vastaus vihreä"
+                      onChange={() => this.handleGreen(true)}
+                    />
+                    </td>
+                    <td>
+                    <Checkbox
+                      radio
+                      checked={this.state.green === false}
+                      label="Ei vastaus vihreä"
+                      onChange={() => this.handleGreen(false)}
+                    />
+                    </td>
+                    <td>
+                    <Checkbox
+                      radio
+                      checked={this.state.green === ""}
+                      label="Ei sovi"
+                      onChange={() => this.disClick("green")}
+                    />
+                    </td>
+                </tr>
+              </table>
+              
           </Segment>
           <b>Kategoriat</b>
           <br />

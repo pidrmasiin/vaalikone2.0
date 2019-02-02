@@ -22,6 +22,9 @@ const kysymysReducer = (store = initialState, action) => {
       vastaus: action.details.vastaus,
       hot: action.details.hot,
       kysymyksenAsettelu: action.details.kysymyksenAsettelu,
+      jaaLiberal: action.details.jaaLiberal,
+      jaaLeftist: action.details.jaaLeftist,
+      jaaGreen: action.details.jaaGreen
     }
   } if (action.type === 'ADD_EDUSTAJAT') {
     return { ...store, edustajat: action.edustajat }

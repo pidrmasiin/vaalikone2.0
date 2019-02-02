@@ -6,6 +6,7 @@ import HtmlForm from './components/form/HtmlForm';
 import Home from './components/Home';
 import Settings from './components/Settings';
 import Menu from './components/Menu';
+import NolansMap from './components/nolansMap/NolansMap';
 import Questions from './components/questions/Questions';
 import EtsiVastaus from './components/yle/FindAnswer'
 import Kategoriat from './components/kategoriat/Kategoriat';
@@ -104,6 +105,7 @@ class App extends React.Component {
                 <Route exact path="/kysymykset" render={() => <Questions />} />
                 <Route exact path="/kone" render={() => <Settings />} />
                 <Route exact path="/vastaukset" render={() => <EtsiVastaus />} />
+                <Route exact path="/graaffit" render={() => <NolansMap />} />
                 <Route exact path="/login" render={({ history }) => <Login history={history} />} />
                 {window.localStorage.getItem('loggedUser') &&
                 <div>

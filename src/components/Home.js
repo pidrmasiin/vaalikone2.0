@@ -29,11 +29,7 @@ const Home = () => (
         <br />
         <Button size="big" inverted color="blue">Vaalikausikoneeseen</Button>
       </Link>
-      <Link
-        to="/graaffit"
-      >
-        <Button size="big" inverted color="yellow">Vaalikausigraaffit</Button>
-      </Link>
+      <Button size="big" inverted color="yellow" onClick={() => window.location.assign("/graaffit")}>Vaalikausigraaffit</Button>
     </p>
   </div>
 )
