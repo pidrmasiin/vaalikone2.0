@@ -225,6 +225,8 @@ class NolansMap extends React.Component {
             arvoista kun taas liberaali on näiden arvojen suhteen ns. suvaitsevampi.
             Vihreys sen sijaan kertoo ympäristöystävällisyydestä oli kyse sitten rajoituksista
             tai tuista. 
+
+            Huomaa, että nollapisteenä toimii pienin yhteinen arvo.
           </p>
         </div>
       </div>

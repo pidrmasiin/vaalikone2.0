@@ -6,7 +6,7 @@ import YleKannat from '../yleParties/YleKannat';
 import { puolueet as valuesP } from './ylesQuestionsCategories';
 import { addEdustaja } from '../../reducers/edustajaReducer';
 import { notifyCreation } from '../../reducers/notifyReducer'
-import { getYlenKysymykset } from '../../reducers/ylenKysymyksetReducer';
+import { getYlenKysymykset  } from '../../reducers/ylenKysymyksetReducer';
 
 class EtsiVastaus extends React.Component {
   constructor(props) {
@@ -73,17 +73,16 @@ class EtsiVastaus extends React.Component {
     }
 
     // tietokantaan = async () => {
-    //   const yle = {
-    //     edustajat: this.props.ylenKysymykset.edustajat,
-    //     puolueet: this.props.ylenKysymykset.puolueet,
-    //     kysymykset: this.props.ylenKysymykset.kysymykset,
-    //   };
-    //   console.log('yle', yle)
-    //   try {
-    //     await yleService.addYle(yle);
-    //   } catch (exception) {
-    //     console.log('Tapahtui virhe');
-    //   }
+    //   console.log('haloo', 
+    //   this.props.kysymykset[0].edustajat.map(c => c.nimi));
+      
+      
+    //   const yle = await this.props.getYlenKysymyksetFromCSV(
+    //     this.props.kysymykset[0].edustajat.map(c => c.nimi));
+      
+    //     setTimeout(function(){ console.log('yle', yle);
+    //      }, 5000);
+     
     // }
 
     render() {
@@ -141,6 +140,6 @@ export default connect(
   {
     addEdustaja,
     notifyCreation,
-    getYlenKysymykset,
+    getYlenKysymykset
   },
 )(EtsiVastaus);
