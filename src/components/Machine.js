@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Grid, Header, Item } from 'semantic-ui-react';
+import { Button, Grid, Header, Card, Icon} from 'semantic-ui-react';
 import { addKysymys, addVastaus } from '../reducers/kayttajaReducer';
 import { notifyCreation } from '../reducers/notifyReducer'
 import AnswersTable from './AnswersTable';
@@ -132,54 +132,47 @@ class Machine extends React.Component {
     return (
       <Grid >
         <Grid.Row>
-          <Header as="h1" ><p style={{ paddingLeft: '0.5em', fontSize: '1.5em' }}> Äänestä!</p></Header>
+          <Header as="h1" >  
+            <span> Äänestä!</span></Header>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={7} />
-          <Grid.Column width={9} textAlign="center" verticalAlign="middle">
-            <p className="circleQuestion">{this.props.kayttaja.kysymykset.length + 1}</p>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <Item>
-              <Item.Content>
-                <Item.Header>
-                  <p style={{ fontSize: '2em' }}>{this.state.kysymys.kysymys}<br /></p>
-                  <Button onClick={this.show} size="mini" basic>Lisätietoja...</Button>
-                </Item.Header>
-                <Item.Description style={visible}>
-                  <ul>
-                    <li>{this.state.kysymys.selitys}</li>
-                    <li>Äänestys vuosi: {this.state.kysymys.vuosi}</li>
-                    <li> <a target="_blank" rel="noopener noreferrer" href={this.state.kysymys.url}>Eduskunnan sivuille</a></li>
-                  </ul>
-                </Item.Description>
-
-              </Item.Content>
-            </Item>
-          </Grid.Column>
-        </Grid.Row>
+            <p style={{fontSize: "1.2em"}}> {this.props.kayttaja.kysymykset.length + 1}. {this.state.kysymys.kysymys}</p>
+         </Grid.Row>
 
         <Grid.Row>
-          <Button fluid onClick={() => this.vastaus('jaa')} size="big" color="green">Jaa</Button>
+          <Button onClick={() => this.vastaus('jaa')} size="big" color='green'> 
+            <Icon name='checkmark' />
+            Jaa
+          </Button>
+          <Button onClick={() => this.vastaus('eos')} size="big">
+            <Icon name='question' />
+            EOS
+          </Button>
+          <Button onClick={() => this.vastaus('ei')} size="big" color="red">
+            <Icon name="close" />
+            Ei
+          </Button>
         </Grid.Row>
-        <Grid.Row>
-          <Button fluid onClick={() => this.vastaus('eos')} size="big" color="brown">EOS/tyhjä</Button>
-        </Grid.Row>
-        <Grid.Row>
-          <Button fluid onClick={() => this.vastaus('ei')} size="big" color="red">Ei</Button>
-        </Grid.Row>
-        <Grid.Row>
-          <div style={{ fontSize: '1em' }}>
-            <h3>Kategoriat</h3>
-            <ul>
-              {this.state.kysymys.kategoriat.map(x => (
-                <li key={x._id}>{x.nimi}</li>
+        <Grid.Row style={{marginTop: "0.5em"}}>
+        <Card style={{width: "800px"}}>
+          <Card.Header style={{background: "#cecece", padding: "0.5em"}}><h3>Lisätietoja</h3></Card.Header>
+          <Card.Content> 
+           <h3>H{this.state.kysymys.tunnus}</h3> 
+            <p>{this.state.kysymys.selitys}</p> 
+           <h3>Äänestysvuosi</h3>
+           {this.state.kysymys.vuosi}
+           <h3>Kategoriat</h3>
+           {this.state.kysymys.kategoriat.map(x => (
+                <p style={{padding: "0", margin: "0"}} key={x._id}>{x.nimi}</p>
           ))}
-            </ul>
-          </div>
+          </Card.Content>
+          <Card.Content extra>
+          <a target="_blank" rel="noopener noreferrer" href={this.state.kysymys.url} style={{color:"blue"}}>Eduskunnan sivuille</a>
+          </Card.Content>
+        </Card>
+       
         </Grid.Row>
+      
       </Grid>
     );
   }

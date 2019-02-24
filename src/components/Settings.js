@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import { Button, Checkbox } from 'semantic-ui-react'
+import { Accordion, Icon, Checkbox } from 'semantic-ui-react'
 import Machine from './Machine'
 
 class Settings extends React.Component {
     state = {
       renderMachine: false,
-      hotQuestions: false,
+      hotQuestions: true,
       categories: []
     }
 
@@ -45,33 +45,34 @@ class Settings extends React.Component {
       }
       return (
         <div>
-          <h1>Valitse sinua kiinnostavat aihealueet</h1>
-          <p>Voit myös valita vaalikauden
-            polttavat kysymykset.
-          </p>
-          <Checkbox
-            style={{ padding: '1em', marginBottom: '1em' }}
-            toggle
-            label="Polttavat puheenaiheet"
-            checked={this.state.hotQuestions}
-            onChange={() => this.handleHotquestions()}
-          />
-          {!this.state.hotQuestions &&
-          <div style={{padding: "2em", margin: "2em", borderColor: "#004d99", borderStyle: "solid"}}>
-            <h3>Kategoriat</h3>
-            {this.props.kategoriat.map(kateg => 
-              <Checkbox
-                key={kateg.id}
-                label={{ children: kateg.nimi }} 
-                style={{padding: "0.8em"}}
-                checked={this.state.categories.includes(kateg.nimi)}
-                onChange={() => this.handleCategories(kateg.nimi)} />
-              )}
-          </div>
-          }
+            <h1>Asetukset</h1>
+            <p>
+              Oletuksena sinulle valitaan 20 kysymystä
+              polttavien aiheiden joukosta. Halutessasi voit
+              muuttaa kysymysten määrää ja valita sinua kiinnostavat
+              kategoriat.
+            </p>
+            <Accordion style={{paddingTop: "1em", paddingBottom:"1em"}}>
+              <Accordion.Title active={!this.state.hotQuestions} onClick={this.handleHotquestions}>
+                <Icon name='dropdown' />
+                <b>Valitsen itse kategoriat </b>
+              </Accordion.Title>
+              <Accordion.Content active={!this.state.hotQuestions} style={{marginLeft: "2em"}}>
+                <div>
+                  {this.props.kategoriat.map(kateg => 
+                    <Checkbox
+                      key={kateg.id}
+                      label={{ children: kateg.nimi }} 
+                      style={{padding: "0.8em"}}
+                      checked={this.state.categories.includes(kateg.nimi)}
+                      onChange={() => this.handleCategories(kateg.nimi)} />
+                    )}
+                </div>
+              </Accordion.Content>
+            </Accordion>
           <br />
-          <Button size="big" inverted color="blue" onClick={() => this.renderMachine()}>Vaalikausikoneeseen</Button>
-        </div>
+          <button className="button" onClick={() => this.renderMachine()}>Aloita</button>
+      </div>
       )
     }
 }

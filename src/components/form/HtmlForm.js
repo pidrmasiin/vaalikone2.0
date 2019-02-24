@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, Dropdown, Segment } from 'semantic-ui-react'
+import { Button, Checkbox, Dropdown, Segment, Form } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import FormInput from './FormInput'
 import TextArea from './TextArea'
@@ -32,12 +32,13 @@ class HtmlForm extends React.Component {
     this.handlePuolueet()
     this.handleEdustajat()
     this.addKatet(e)
+    
     if (!this.props.notify.includes('ei ole validi')) {
       try {
         const loggedUserJSON = window.localStorage.getItem('loggedUser')
         kysymysService.setToken(JSON.parse(loggedUserJSON).token)
         await kysymysService.addKysymys(this.props.kysymys)
-        this.props.history.push('/')
+        // this.props.history.push('/')
       } catch (exception) {
         this.props.notifyCreation('Tapahtui virhe', 5)
       }
@@ -118,6 +119,7 @@ class HtmlForm extends React.Component {
   handleDetails = (e) => {
     e.preventDefault()
     const details = {
+      tunniste: e.target.tunniste.value,
       url: e.target.url.value,
       selitys: e.target.selitys.value,
       kysymys: e.target.kysymys.value,
@@ -185,6 +187,25 @@ class HtmlForm extends React.Component {
     })
   }
 
+  checkExist = (e) => {
+    if (e.target.value && this.props.kysymykset.filter(k => this.validateTunniste(k.tunniste)== e.target.value.toLowerCase().trim()).length > 0) {
+      this.setState({
+        exist: true
+      })
+    } else {
+      this.setState({
+        exist:false
+      })
+    }
+  }
+
+  validateTunniste = (tunniste) => {
+    if (tunniste) {
+      return tunniste.toLowerCase().trim()
+    } 
+    return false
+  }
+
   render() {
     /*eslint-disable */
    const values = this.props.ylenKysymykset.kysymykset.map(x => x = { text: x, value: x })
@@ -193,7 +214,14 @@ class HtmlForm extends React.Component {
       <div className="container">
         <form onSubmit={this.onSubmit} id="htmlform">
           <h2>Lisää kysymys</h2>
-          <FormInput label="Kirjoita alle äänestyksen kohteen oleva kysymys" placeholder="kysymys" name="kysymys" />
+          {this.state.exist &&
+          <b style={{color:"red"}}>Kysymys on jo kannassa</b>
+          }
+          <div className="form-group">
+            <b>Tunniste (tämän avulla katsotaan, jos asia on jo kannassa)</b>
+            <Form.Input type="text" className="form-control" placeholder="HE 123/2001 vp" name="tunniste" onChange={e => this.checkExist(e)}/>
+          </div>
+          <TextArea label="Kirjoita alle äänestyksen kohteen oleva kysymys" placeholder="kysymys" name="kysymys" />
           <FormInput label="Tapahtuma vuosi" placeholder="2018" name="vuosi" />
           <FormInput label="Linkki edukunnan sivuille" placeholder="url" name="url" />
           <TextArea label="Tarkempi kuvaus kysymyksestä" placeholder="selitys" name="selitys" />
@@ -317,8 +345,11 @@ class HtmlForm extends React.Component {
             label="Kopio alle eduskunnan sivuilta html-muotoinen table-elementti, jossa tiedot äänestyksen tuloksista edustajittain."
           />
           <br />
-
+          {this.state.exist ? 
+          <b style={{color:"red"}}>Kysymys on jo kannassa</b>
+          :
           <p><Button positive type="submit" className="fluid ui button">create</Button></p>
+          }
           <br />
         </form>
       </div>

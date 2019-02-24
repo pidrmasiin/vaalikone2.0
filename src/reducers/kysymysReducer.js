@@ -7,6 +7,7 @@ const initialState = {
   kategoriat: [],
   vuosi: '',
   vastaus: '',
+  tunniste: ''
 }
 
 const kysymysReducer = (store = initialState, action) => {
@@ -24,7 +25,8 @@ const kysymysReducer = (store = initialState, action) => {
       kysymyksenAsettelu: action.details.kysymyksenAsettelu,
       jaaLiberal: action.details.jaaLiberal,
       jaaLeftist: action.details.jaaLeftist,
-      jaaGreen: action.details.jaaGreen
+      jaaGreen: action.details.jaaGreen,
+      tunniste: action.details.tunniste
     }
   } if (action.type === 'ADD_EDUSTAJAT') {
     return { ...store, edustajat: action.edustajat }

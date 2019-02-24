@@ -200,7 +200,6 @@ class NolansMap extends React.Component {
                   },
                   legend: {
                     labels: {
-                        // This more specific font property overrides the global property
                         fontSize: 14
                     }
                   },
