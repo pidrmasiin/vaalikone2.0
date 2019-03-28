@@ -60,7 +60,7 @@ class App extends React.Component {
   render() {
     const desktop = window.innerWidth > 1000
     console.log('desk', this.history);
-    const white = { color: '#004d99', padding: '0.5em'} 
+    const white = { color: '#004d99', padding: '1px'} 
     const animation = 'slide down'
     const duration = 200
     const active = {fontWeight: "bold"}
@@ -68,7 +68,7 @@ class App extends React.Component {
     return (
       <Router>
         <Grid>
-        {desktop && <Grid.Row style={{padding: "2em", paddingTop: "0em"}}/>}
+        {desktop && <Grid.Row style={{padding: "0.5em", paddingTop: "0em"}}/>}
           <Grid.Row>
             {desktop && <Grid.Column width={3} />}
             <Grid.Column 
@@ -80,12 +80,17 @@ class App extends React.Component {
                 boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)" 
               }}
               >
-              <div style={{ background: '#004d99', padding: '2em', }}>
+              <div style={{ background: '#004d99', padding: '1.5em', }}>
+              <a onClick={() => window.location.href = '/'}>
                 <img 
                   src="https://i.imgur.com/tQ6HhoS.png" 
-                  height="150px"
-                  style={{marginLeft: "42%"}}
+                  style={{display: "block",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    height: "6em"}}
                 />
+              </a>
+                {window.localStorage.getItem('loggedUser') &&
                 <div style={{display: "inline-block", right: "0", position: "absolute", top: "0", paddingTop: "2em", paddingRight: "2em"}}>
                     <Icon name='bars' style={{color: "white"}} size="big" onClick={() => this.show()}/>
                     <TransitionablePortal
@@ -93,19 +98,19 @@ class App extends React.Component {
                       transition={{ animation, duration }}
                       onClose={() => this.show()}>
                       <Segment 
-                      style={{textAlign: "center", padding: "2em",
+                      style={{textAlign: "center", padding: "0.1em",
                       right: desktop ? '18%' : "0%",
                       position: 'fixed',
                       top: desktop ? '4.5%' : "0%",
                       border: "1px solid #919499",
-                      height: "24.5em",
+                      height: window.localStorage.getItem('loggedUser') ? '35em' : "24.5em",
                       width: "15em"
                       }} 
                       >
                       <img 
                           src="https://i.imgur.com/tQ6HhoS.png" 
                           height="50px"
-                          style={{display: "block",
+                          style={{display: "block", paddingTop: "1em",
                             margin: "0 auto"}}
                           
                         />
@@ -113,13 +118,13 @@ class App extends React.Component {
                         <p>Etusivu</p>
                       </NavLink>
                       <NavLink style={white}  activeStyle={active} to="/kone">
-                        <p ref="kone">Vaalikone</p>
+                        <p ref="kone">Vaalikausikone</p>
                       </NavLink>
                       <NavLink style={white} activeStyle={active} to="/kysymykset">
-                        <p ref="kysymykset">Kysymykset</p>
+                        <p ref="kysymykset">Yksittäiset kysymykset</p>
                       </NavLink>
                       <NavLink style={white} activeStyle={active} to="/vastaukset">
-                        <p ref="vastaukset">Vastaukset</p>
+                        <p ref="vastaukset">Vuoden 2015 vaalikone vastaukset</p>
                       </NavLink>
                       <NavLink style={white} activeStyle={active} to="/kategoriat">
                         <p ref="kategoriat">Kategoriat</p>
@@ -137,8 +142,10 @@ class App extends React.Component {
                       </Segment>
                     </TransitionablePortal>
                   </div>
+                      }
+
                 <h1 style={{
-                  fontSize: '3em',
+                  fontSize: '2.3em',
                   color: 'white',
                   textAlign: 'center',
                   verticalAlign: 'bottom',
@@ -148,7 +155,7 @@ class App extends React.Component {
               </div>
               <div
                 id="routet"
-                style={{paddingTop: "5%", paddingLeft:"10%", marginRight:"5%", paddingBottom: "5%"}}
+                style={{paddingTop: "5%", paddingLeft:"10%", marginRight:"10%", paddingBottom: "5%"}}
               >
                 <Route exact path="/" render={(history) => <Home history={history}/>} />
                 <Route exact path="/kategoriat" render={history => <Kategoriat history={history} />} />

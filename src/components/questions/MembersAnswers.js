@@ -1,17 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table, Tab } from 'semantic-ui-react';
+import { Table, Tab, Modal, Button, Icon } from 'semantic-ui-react';
 
 class Members extends React.Component {
   state = {
     edustajat: [],
     panes: [],
+    open: false
   }
   componentWillMount = () => {
     const edustajat = this.props.edustajat.map(x => ({
       nimi: x.nimi.split('/')[0],
       puolue: this.parseParties(x.nimi.split('/')[1]),
-      kanta: x.kanta,
+      kanta: x.kanta
     }))
     const out = edustajat.filter(x => x.puolue === this.props.puolue)
     if (out.length < 11) {
@@ -37,7 +38,7 @@ class Members extends React.Component {
                   <Table.Body>
                     {value.map(y => (
                       <Table.Row key={y.nimi}>
-                        <Table.Cell>{y.nimi}</Table.Cell>
+                        <Table.Cell>{this.parseName(y.nimi)}</Table.Cell>
                         <Table.Cell style={{
                       background:
                         this.color(y.kanta),
@@ -113,35 +114,64 @@ class Members extends React.Component {
    return null
  }
 
- render() {
-   return (
-     <div>
-       <h2>{this.props.puolue}</h2>
-       {this.state.edustajat.length > 1 &&
-       <Table celled>
-         <Table.Header>
-           <Table.Row>
-             <Table.HeaderCell>Nimi</Table.HeaderCell>
-             <Table.HeaderCell>Kanta</Table.HeaderCell>
-           </Table.Row>
-         </Table.Header>
-         <Table.Body>
-           {this.state.edustajat.map(x => (
-             <Table.Row key={x.nimi}>
-               <Table.Cell>{x.nimi}</Table.Cell>
-               <Table.Cell style={{
-                      background:
-                        this.color(x.kanta),
-                      }}
-               >{x.kanta}
-               </Table.Cell>
-             </Table.Row>
-               ))}
-         </Table.Body>
-       </Table>
-       }
-       <Tab panes={this.state.panes} style={{ background: 'white' }} />
-     </div>
+ open = () => this.setState({ open: true })
+ close = () => this.setState({ open: false })
+
+ parseName = (name) => {
+  name = name.replace(/([a-z])([A-Z])/g, '$1 $2')
+  
+  return name
+}
+
+
+  render() {
+    const { open } = this.state
+    return (
+          <Modal
+          open={open}
+          onOpen={this.open}
+          onClose={this.close}
+          size='tiny'
+          trigger={
+            <Button primary icon>
+              <Icon name='add' />
+            </Button>
+          }
+        >
+          <Modal.Header>
+          <h2>{this.props.puolue}</h2>
+          </Modal.Header>
+          <Modal.Content>
+            <h4>{this.props.question}</h4>
+            <div>
+              {this.state.edustajat.length > 1 &&
+              <Table celled>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>Nimi</Table.HeaderCell>
+                    <Table.HeaderCell>Kanta</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {this.state.edustajat.map(x => (
+                    <Table.Row key={x.nimi}>
+                      <Table.Cell>{this.parseName(x.nimi)}</Table.Cell>
+                      <Table.Cell style={{
+                              background:
+                                this.color(x.kanta),
+                              }}
+                      >{x.kanta}
+                      </Table.Cell>
+                    </Table.Row>
+                      ))}
+                </Table.Body>
+              </Table>
+              }
+              <Tab panes={this.state.panes} style={{ background: 'white' }} />
+            </div>
+          </Modal.Content>
+        </Modal>
+  
    )
  }
 }

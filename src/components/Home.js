@@ -21,38 +21,34 @@ class Home extends React.Component {
     return(
     <div>
       <h1>Tervetuloa</h1>
-      <p>
-      Täällä voit tarkastella eduskunnan käyttäytymistä suhteessa omiin näkemyksiisi.
-        <br />
-        <br />
-      Sivustolla on vaalikone, jonka avulla voit katsoa,
-      mikä puolue on äänestänyt eduskunnassa lähimmäksi sinun näkemyksiäsi. Vaalikoneen kysymykset
-      on otettu suoraan eduskunnan äänestyksistä, minkä vuoksi ne voivat tuntua vaikeilta.
-      Näissä kysymyksissä on kuitenkin se etu, että vastaukset kuvaavat eduskuntaryhmien
-      todellista käyttäytymistä sen sijaan, että tulos muodostuisi aiotun käyttäytymisen perusteella.
-      Ennen vaaleja annetut lupaukset eivät siis vaikuta tämän vaalikoneen tuloksiin.
-        <br />
-        <br />
-      Lisäksi vaalikone tarjoaa mahdollisuuden tarkastella eduskuntaryhmien äänestykäyttäytymistä
-      eduskunnassa suhteessa
-        <a target="_blank" rel="noopener noreferrer" href="https://yle.fi/uutiset/3-7869597"> ylen vaalikoneessa. </a>
-      Vaalikoneen avulla voit siis arvioida myös sitä,
-      kuinka hyvin ennen vaaleja annetut lupaukset ovat pitäneet.
-      </p>
+      Vaalikausikoneella selvität mikä puolue on äänestänyt eduskunnassa lähimmäksi omia näkemyksiäsi.
+      <br/>
+      <br/>
+
+      Vaalikausikoneen kysymykset on valittu eduskunnan täysistunnon äänestyksistä. Vastauksesi rinnastuvat puolueiden todelliseen äänestyskäyttäytymiseen. Puolueiden antamat lupaukset eivät vaikuta vaalikoneen tuloksiin.
+      <br/>
+      <br/>
+
+      Vaalikausikoneessa voit myös verrata puolueiden äänestyskäyttäytymistä suhteessa edustajien Ylen vaalikoneessa antamiin vastauksiin. Voit siis arvioida, kuinka hyvin ennen vaaleja annetut lupaukset ovat pitäneet.
+      <br/>
+      <br/>
+
         <Link
           to="/kone"
         >
           <button className="button">Aloita</button>
         </Link>
-        <button className="button" onClick={() => window.location.assign("/graaffit")}>Graaffit</button>
         <Accordion style={{paddingTop: "1em", paddingBottom:"1em"}}>
           <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
             <Icon name='dropdown' />
-            <b>Miksi puoleen valinta on tärkeitä?</b>
+            <b>Miksi puoleen valinta on tärkeää?</b>
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 0} style={{marginLeft: "2em"}}>
             <p>
-              Ryhmäkuri
+             Suomessa on käytössä avoin listavaali, jossa äänesi menee ensisijassa
+             puolueelle. Edustajan valinnalla vaikutat lähinnä hänen sijaintiinsa puolueen 
+             sisäisessä listassa. Mikäli edustajasi ei mene läpi, äänesi auttaa jotakin
+             toista äänestämäsi puolueen ehdokasta. 
             </p>
           </Accordion.Content>
 
@@ -62,7 +58,30 @@ class Home extends React.Component {
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 1} style={{marginLeft: "2em"}}>
             <p>
-              Hallitus/oppositio
+            Eduskunnassa puolueen edustajat äänestävät hyvin yhtenäisesti johtuen 
+            ryhmäkurista. Lisäksi useimmissa äänestyksissä hallituspuolueet  
+            äänestävät hallitusohjelman mukaisesti ja oppositiopuoleet 
+            vastustavat hallituksen esityksiä. Tämä näkyy vaalikausikoneen antamissa tuloksissa.
+            </p>
+          </Accordion.Content>
+          <Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick}>
+            <Icon name='dropdown' />
+            <b>Yhteystiedot</b>
+          </Accordion.Title>
+          <Accordion.Content active={activeIndex === 2} style={{marginLeft: "2em"}}>
+            <p>
+            Vaalikausikonetta on työstetty kolmen yhteiskuntatietelijän voimin.
+            Jos sinulla on kehitysideoita tai haluat kysyä vaalikausikoneesta jotakin,
+            voit lähettää sähköpostia osoitteeseen: <i>vaalikausikone@gmail.com</i>
+            <br/><br/>
+        
+            <b>Tekijät</b>
+            <br/>
+            Petteri Pääkkönen
+            <br />
+            Jari Hartzell
+            <br />
+            Joonas Hihnala
             </p>
           </Accordion.Content>
         </Accordion>

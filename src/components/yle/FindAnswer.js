@@ -92,15 +92,18 @@ class EtsiVastaus extends React.Component {
        /* eslint-enable */
         return (
           <Container>
-            <div style={{ background: 'AliceBlue' }}>
-              <h1>Mitä Kysyttiin?</h1>
+            <h1>Mitä vuonna 2015 tuli luvattua?</h1>
+            <p>Alta voit tarkastaa, mitä ylen vaalikoneessa kysyttiin vuonna 2015 ja miten puolueet ja edustajat kysymyksiin vastasivat.</p>
+            <div style={{ background: 'AliceBlue'}}>
+              <h2>Puolueet</h2>
               <p>
-           Täältä löydät puolueiden vastaukset yksittäisiin kysymyksiin
+           Täältä löydät puolueiden vastaukset yksittäisiin ylen vaalikoneessa vuonna 2015 kysyttyihin kysymyksiin.
               </p>
               <Dropdown type="text" name="puolue" placeholder="Valitse puolue" onChange={this.handleChange.bind(this)} fluid search selection options={valuesP} />
               <Dropdown type="text" name="kysymys" placeholder="Valitse kysymys" onChange={this.handleChange.bind(this)} fluid search selection options={values} />
               <br />
               <p><Button positive onClick={this.muodosta}>Tarkastele vastauksia</Button></p>
+              <br />
               { this.state.kannat &&
               <div>
                 <Button onClick={this.piilotaKannat}>Piilota {this.state.puolue} kannat</Button>
@@ -110,12 +113,13 @@ class EtsiVastaus extends React.Component {
             </div>
             <br />
             <div style={{ background: 'AliceBlue' }}>
-              <h1>Mitä tuli luvattua?</h1>
+              <h1>Edustajat</h1>
               <p>
-          Täältä voit etsiä yksittäisten kansanedustajien/ehdokkaiden vastauksia ylen vaalikoneeseen
+          Täältä voit etsiä yksittäisten kansanedustajien/ehdokkaiden vastauksia ylen vaalikoneeseen,
               </p>
               <Input type="text" onChange={this.handleChange.bind(this)} className="form-control" placeholder="Juha" name="etunimi" label="Etunimi" />
               <Input type="text" onChange={this.handleChange.bind(this)} className="form-control" placeholder="Sipilä" name="sukunimi" label="Sukunimi" />
+              <br />
               <br />
               <p><Button positive color="black" onClick={this.etsi}>Tarkastele vastauksia</Button></p>
               <br />

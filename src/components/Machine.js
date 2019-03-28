@@ -5,6 +5,7 @@ import { addKysymys, addVastaus } from '../reducers/kayttajaReducer';
 import { notifyCreation } from '../reducers/notifyReducer'
 import AnswersTable from './AnswersTable';
 import './Machine.css';
+import NolansMap from './nolansMap/NolansMap';
 
 class Machine extends React.Component {
   constructor(props) {
@@ -22,15 +23,17 @@ class Machine extends React.Component {
   componentWillMount = async () => {
     const questions = this.filterQuestions(this.props.kysymykset)
     const satunnainenKysymys = this.shuffle(questions)
-    if (satunnainenKysymys > 9) {
-      satunnainenKysymys.slice(9);
+    let kysymykset = satunnainenKysymys
+    if (satunnainenKysymys.length > 9) {
+      kysymykset = satunnainenKysymys.slice(0, 19);
     }
+    
     this.setState({
-      kysymykset: satunnainenKysymys,
+      kysymykset
     });
     if (!this.state.kysymys) {
       this.setState({
-        kysymys: satunnainenKysymys[this.state.monesko],
+        kysymys: kysymykset[this.state.monesko],
       })
     } else {
       window.location.assign('/')
@@ -56,13 +59,10 @@ class Machine extends React.Component {
     let currentIndex = array.length,
       temporaryValue,
       randomIndex;
-    // While there remain elements to shuffle...
     while (currentIndex !== 0) {
-      // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex = currentIndex - 1;
 
-      // And swap it with the current element.
       temporaryValue = array[currentIndex];
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
@@ -91,7 +91,9 @@ class Machine extends React.Component {
 
 
   vastaus = (vastaus) => {
-    this.props.addKysymys(this.state.kysymys);
+    let q = this.state.kysymys
+    q.user = vastaus
+    this.props.addKysymys(q);
     const jaaPuolueet = this.state.kysymys.puolueet.filter(p => p.kanta === vastaus);
     const help = this.props.kayttaja.kysymykset.find(x => x.kysymys === this.state.kysymys.kysymys)
     if (!help) {
@@ -105,24 +107,21 @@ class Machine extends React.Component {
       naytaKysymys: false,
       show: false,
     })
-  }
+  } 
 
   render() {
-    console.log("state", this.state)
-    if (document.getElementById('discardHover')) {
-      const element = document.getElementById('discardHover')
-      console.log(element)
-    }
-    const visible = { display: this.state.show ? '' : 'none' };
-
+    
     if (this.props.kayttaja.kysymykset.length === this.state.kysymykset.length) {
       return (
         <div>
           <h1 >Tulokset</h1>
-          <Button onClick={() => window.location.assign('/kone')} basic color="blue">
+          Taulukosta voit katsoa kuinka hyvin antamasi vastaukset vastaavat eduskunnan todellisia äänestystuloksia.
+          Taulukon alla olevasta kuviosta näet puolueiden kannat arvokartalla.
+          <AnswersTable />
+          <NolansMap user={this.props.kayttaja}/>
+          <Button onClick={() => window.location.assign('/kone')} basic fluid color="blue" size='massive' style={{marginTop: "3em", margin: "1em"}}>
             Valitse uudet kategoriat ja vastaa taas kysymyksiin
           </Button>
-          <AnswersTable />
         </div>
       );
     }
@@ -157,7 +156,7 @@ class Machine extends React.Component {
         <Card style={{width: "800px"}}>
           <Card.Header style={{background: "#cecece", padding: "0.5em"}}><h3>Lisätietoja</h3></Card.Header>
           <Card.Content> 
-           <h3>H{this.state.kysymys.tunnus}</h3> 
+           <h3>{this.state.kysymys.tunniste}</h3> 
             <p>{this.state.kysymys.selitys}</p> 
            <h3>Äänestysvuosi</h3>
            {this.state.kysymys.vuosi}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Item, Container, List, Button, Grid, Checkbox, TextArea, Divider, Table } from 'semantic-ui-react'
+import { Item, Container, List, Button, Grid, Checkbox, TextArea, Divider, Table, Dropdown } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import kysymysService from './../../services/kysymys'
 
@@ -15,16 +15,20 @@ class Kysymys extends React.Component {
     hot: false,
     asettelu: false,
     booleans: false,
-    jaaLeftist: '',
-    jaaLiberal: '',
-    green: ""
+    jaaLeftist: null,
+    jaaLiberal: null,
+    green: null,
+    kysymys: this.props.kysymys
   }
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     if (this.props.kysymys) {
       this.setState({
         hot: this.props.kysymys.hot,
         asettelu: this.props.kysymys.kysymyksenAsettelu,
+        jaaLeftist: this.props.kysymys.jaaLeftist,
+        jaaLiberal: this.props.kysymys.jaaLiberal,
+        green: this.props.kysymys.green,
       })
     }
   }
@@ -35,19 +39,36 @@ class Kysymys extends React.Component {
       kysymys.kysymys = e.target.muutos.value
     } if (this.state.muokattava === 'selitys') {
       kysymys.selitys = e.target.muutos.value
+    } if (this.state.muokattava === 'tunniste') {
+      kysymys.tunniste = e.target.muutos.value
     } if (this.state.muokattava === 'url') {
       kysymys.url = e.target.muutos.value
-    } if (typeof this.state.jaaLeftist === 'boolean') {
+    } if (this.state.muokattava === 'yle') {
+      kysymys.vastaus = this.state.yleQuestion
+    } 
+    
+    
+    if (typeof this.state.jaaLeftist === 'boolean') {
       kysymys.jaaLeftist = this.state.jaaLeftist
-    } if (typeof this.state.jaaLiberal === 'boolean') {
+    } else {
+      kysymys.jaaLeftist = null
+    } 
+    
+     if (typeof this.state.jaaLiberal === 'boolean') {
       kysymys.jaaLiberal = this.state.jaaLiberal
-    } if (typeof this.state.green === 'boolean') {
+    } 
+    else {
+      kysymys.jaaLiberal = null
+    } 
+    if (typeof this.state.green === 'boolean') {
       kysymys.green = this.state.green
-    }
+    } else {
+      kysymys.green = null
+    } 
+
     kysymys.hot = this.state.hot
     kysymys.kysymyksenAsettelu = this.state.asettelu
 
-    console.log(kysymys)
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     kysymysService.setToken(JSON.parse(loggedUserJSON).token)
     await kysymysService.modifyKysymys(kysymys.id, kysymys)
@@ -92,6 +113,13 @@ class Kysymys extends React.Component {
   }
 
   showBooleans = () => {
+    this.setState({
+      hot: this.props.kysymys.hot,
+      asettelu: this.props.kysymys.kysymyksenAsettelu,
+      jaaLeftist: this.props.kysymys.jaaLeftist,
+      jaaLiberal: this.props.kysymys.jaaLiberal,
+      green: this.props.kysymys.green,
+    })
     this.setState({
       booleans: !this.state.booleans,
       muokkaa: false,
@@ -139,10 +167,30 @@ class Kysymys extends React.Component {
     });
   }
 
+  disClick = (field) => {
+    this.setState({
+      [field]: null 
+    })
+  }
+
+  showYle = () => {
+    this.setState({
+      yle: true,
+      muokattava: "yle"
+    })
+  }
+
+  handleYle = (e, data) => {
+    this.setState({
+      yleQuestion: data.value
+    })
+  }
+
 
   render() {
-    console.log('state', this.state)
+
     if (this.props.kysymys) {
+      const yles = this.props.yle.kysymykset.map(x => { return {text: x, value: x}})
       return (
         <Container>
           <Grid>
@@ -155,7 +203,11 @@ class Kysymys extends React.Component {
                   <Button.Group inverted color="blue">
                     <Button onClick={() => this.muokkaa('kysymys')}>Kysymys</Button>
                     <Button.Or />
+                    <Button onClick={() => this.muokkaa('tunniste')}>Tunniste</Button>
+                    <Button.Or />
                     <Button onClick={() => this.muokkaa('selitys')}>Selitys</Button>
+                    <Button.Or />
+                    <Button onClick={() => this.showYle()}>Yle</Button>
                     <Button.Or />
                     <Button onClick={this.kategoriat}>Kategoriat</Button>
                     <Button.Or />
@@ -167,6 +219,13 @@ class Kysymys extends React.Component {
                   </Button.Group>
                 </Grid.Column>
               </Grid.Row>
+              {this.state.yle &&
+              <form onSubmit={this.onSubmit}>
+              <Dropdown placeholder='Valitse ylen kysymys' fluid selection onChange={(e, d) => this.handleYle(e, d)} options={yles} />
+                  <Button type="submit" color="green">Muokkaa</Button>
+                </form>
+            }
+
               {this.state.booleans &&
               <div>
                 <br />
@@ -198,6 +257,13 @@ class Kysymys extends React.Component {
                   label="Jaa vastaus konservatiivinen"
                   onChange={() => this.handleJaaLiberal(false)}
                 />
+                <Checkbox
+                    radio
+                    name="liberalRadioGroup"
+                    checked={this.state.jaaLiberal === null}
+                    label="Ei sovi"
+                    onChange={() => this.disClick("jaaLiberal")}
+                  />
                 <br />
                 <Checkbox
                   radio
@@ -205,12 +271,19 @@ class Kysymys extends React.Component {
                   label="Jaa vastaus vasemmistolainen"
                   onChange={() => this.handleJaaLeftist(true)}
                 />
-                <Checkbox
+                <Checkbox 
                   radio
                   checked={this.state.jaaLeftist === false}
                   label="Jaa vastaus oikeistolainen"
                   onChange={() => this.handleJaaLeftist(false)}
                 />
+                  <Checkbox
+                    radio
+                    name="liberalRadioGroup"
+                    checked={this.state.jaaLeftist === null}
+                    label="Ei sovi"
+                    onChange={() => this.disClick("jaaLeftist")}
+                  />
                  <br />
                 <Checkbox
                   radio
@@ -224,6 +297,13 @@ class Kysymys extends React.Component {
                   label="Ei vastaus vihreä"
                   onChange={() => this.handleGreen(false)}
                 />
+                  <Checkbox
+                    radio
+                    name="liberalRadioGroup"
+                    checked={this.state.green === null}
+                    label="Ei sovi"
+                    onChange={() => this.disClick("green")}
+                  />
                 <br />
                 <br />
                 <form onSubmit={this.onSubmit}>
@@ -262,7 +342,21 @@ class Kysymys extends React.Component {
                       <Item.Header>{this.props.kysymys.kysymys} </Item.Header>
                       <Item.Description>
                         <Button size="mini" basic onClick={this.show}>Lisätietoja</Button>
-                        {this.state.show && <div>{this.props.kysymys.selitys}<br /></div>}
+                        {this.state.show && 
+                        <div>
+                          <br/>
+                        <b>Jaa vastaus liberaali:</b> {typeof this.props.kysymys.jaaLiberal === 'boolean' && this.props.kysymys.jaaLiberal.toString()}
+                        <br />
+                        <b>Jaa vastaus vasemmistolainen:</b> {typeof this.props.kysymys.jaaLeftist == 'boolean' && this.props.kysymys.jaaLeftist.toString()}
+                        <br />
+                          <b>Jaa vastaus vihreä:</b> {typeof this.props.kysymys.green == 'boolean' && this.props.kysymys.green.toString()}
+                          <br />
+                       <br/>
+                       <h3> {this.props.kysymys.tunniste}</h3>
+                        
+                        {this.props.kysymys.selitys}
+                      
+                        </div>}
                       </Item.Description>
                       <br />
                       <b>Kysymykseen linkitetty ylen vaalikoneen kysymys</b>
@@ -344,6 +438,7 @@ class Kysymys extends React.Component {
 const mapStateToProps = state => ({
   kategoriat: state.kategoriat,
   kayttaja: state.kayttaja,
+  yle: state.ylenKysymykset
 })
 
 export default connect(

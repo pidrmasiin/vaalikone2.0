@@ -40,17 +40,15 @@ class Settings extends React.Component {
     render() {
       if (this.state.renderMachine) {
         return (
-          <Machine hots={this.state.hotQuestions} selected_categories={this.state.categories}/>
+          <Machine hots={false} selected_categories={this.state.categories}/>
         )
       }
       return (
         <div>
             <h1>Asetukset</h1>
             <p>
-              Oletuksena sinulle valitaan 20 kysymystä
-              polttavien aiheiden joukosta. Halutessasi voit
-              muuttaa kysymysten määrää ja valita sinua kiinnostavat
-              kategoriat.
+              Oletuksena sinulle arvotaan 20 kysymystä. Halutessasi voit
+              valita sinua kiinnostavat kategoriat.
             </p>
             <Accordion style={{paddingTop: "1em", paddingBottom:"1em"}}>
               <Accordion.Title active={!this.state.hotQuestions} onClick={this.handleHotquestions}>
