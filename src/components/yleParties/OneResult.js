@@ -50,7 +50,7 @@ class OneResult extends React.Component {
     if (this.state.red) {
       return (
         <Table.Row >
-        <Table.Cell>Yle</Table.Cell>
+        <Table.Cell>Ylen vaalikone (2015)</Table.Cell>
         <Table.Cell>
           {this.props.kysymys.slice(4)}
         </Table.Cell>
@@ -69,7 +69,7 @@ class OneResult extends React.Component {
     } if (this.state.green) {
       return (
         <Table.Row >
-        <Table.Cell>Yle</Table.Cell>
+        <Table.Cell>Ylen vaalikone (2015)</Table.Cell>
         <Table.Cell>
           {this.props.kysymys.slice(4)}
         </Table.Cell>
@@ -88,7 +88,7 @@ class OneResult extends React.Component {
     }
     return (
       <Table.Row >
-      <Table.Cell>Yle</Table.Cell>
+      <Table.Cell>Ylen vaalikone (2015)</Table.Cell>
       <Table.Cell>
         {this.props.kysymys.slice(4)}
       </Table.Cell>

@@ -100,10 +100,14 @@ class NolansMap extends React.Component {
       selectedParties: [_.orderBy(this.props.user.puolueet, ['aanet'], ['desc'])[0].name, "Sinä"]
     })
     const questions = this.props.user.kysymykset
-    const valueQuestions = questions.filter(q => q.hasOwnProperty('jaaLiberal'))
-    const economicQuestions = questions.filter(q => q.hasOwnProperty('jaaLeftist'))
-    const greenQuestions = questions.filter(q => q.hasOwnProperty('green'))
-
+    const valueQuestions = questions.filter(q => q.hasOwnProperty('jaaLiberal') && typeof q.jaaLiberal == 'boolean')
+    const economicQuestions = questions.filter(q => q.hasOwnProperty('jaaLeftist') && typeof q.jaaLeftist == 'boolean')
+    const greenQuestions = questions.filter(q => q.hasOwnProperty('green') && typeof q.green == 'boolean')
+    this.setState({
+      economicsCount: economicQuestions.length,
+      greenCount: greenQuestions.length,
+      valuesCount: valueQuestions.length
+    })
 
     valueQuestions.forEach(q => this.setValuesToDataset(q, "values"))
     economicQuestions.forEach(q => this.setValuesToDataset(q, "economics"))
@@ -147,13 +151,13 @@ class NolansMap extends React.Component {
   setValuesToDataHelper = (party, jaa, label) => {
     var index = ""
     if (label === "values") {
-      if (jaa && party.kanta === 'jaa' || !jaa && party.kanta === 'ei') {
+      if ((jaa && party.kanta === 'jaa') || (!jaa && party.kanta === 'ei')){
         index = 3
       } else {
         index = 0
       }
     } else if (label=== "economics") {
-      if (party.kanta === 'jaa' && jaa  || !jaa && party.kanta === 'ei') {
+      if ((party.kanta === 'jaa' && jaa)  || (!jaa && party.kanta === 'ei')) {
         index = 4
       } else {
         index = 1
@@ -166,7 +170,7 @@ class NolansMap extends React.Component {
       case 2:
         if (party.kanta === 'jaa' && jaa) {
           this.setDataToPartyHelper(party, index)
-        } else if  (party.kanta == 'ei' && !jaa){
+        } else if  (party.kanta === 'ei' && !jaa){
           this.setDataToPartyHelper(party, index)
         }
       break;
@@ -214,8 +218,6 @@ class NolansMap extends React.Component {
   }
 
   render() {
-    console.log('partised', this.state.partiesData);
-    
     if (this.props.questions != this.state.questions) {
       this.setState({
         questions: this.props.questions
@@ -268,7 +270,7 @@ class NolansMap extends React.Component {
                   
                 }}
                 data = {{
-                  labels: ['Konservatiivisuus', 'Oikeistolaisuus',  'Vihreys', 'Liberaalius', 'Vasemmistolaisuus'],
+                  labels: [`Konservatiivisuus`, 'Oikeistolaisuus',  'Vihreys', 'Liberaalius', 'Vasemmistolaisuus'],
                   datasets: this.state.partiesData.filter(party => this.state.selectedParties.includes(party.label)),
                 }}
               />
@@ -284,12 +286,13 @@ class NolansMap extends React.Component {
              <br/><br/> 
              <i>Vasemmistolaisiksi</i> on luokiteltu kysymykset, jotka painottavat verotuksen
              kiristämistä ja valtionohjauksen suosimista taloudessa. <i>Oikeistolaisia</i> ovat puolestaan ne kysymykset, jotka edistävät vapaita markkinoita ja 
-             valtion talouspoliittisen kontrollin vähentämistä. 
+             valtion talouspoliittisen kontrollin vähentämistä. Näitä talouskysymyksiä on kartalla kuvattuna yhteensä {this.state.economicsCount}.
              <br/><br/> 
              <i>Liberaalius</i> tarkoittaa vapaamielisyyttä arvokysymyksissä ja <i>konservatiivisuus</i> puolestaan halukkuutta säilyttää
-             perinteisinä pidettyjä arvoja. 
+             perinteisinä pidettyjä arvoja. Arvokysymyksiä kartalla on {this.state.valuesCount}.
              <br/><br/> 
              Viidentänä ulottuvuutena on <i>vihreys</i>, joka tarkoittaa ekologisen kestävyyden painottamista poliittisessa päätöksenteossa.
+             Ympäristökysymyksiä on yhteensä {this.state.greenCount}.
              </Accordion.Content>
            </Accordion>
           </div>

@@ -8,6 +8,8 @@ import Settings from './components/Settings';
 import NolansMap from './components/nolansMap/NolansMap';
 import Questions from './components/questions/Questions';
 import EtsiVastaus from './components/yle/FindAnswer'
+import Dispersion from './components/yle/2019/OpinionChart'
+import Promises from './components/yle/partiesPromises'
 import Kategoriat from './components/kategoriat/Kategoriat';
 import Kategoria from './components/kategoriat/Kategoria';
 import Question from './components/questions/Question';
@@ -21,6 +23,7 @@ import { Button, TransitionablePortal, Segment, Icon } from 'semantic-ui-react';
 
 
 import './App.css';
+import { promises } from 'fs';
 
 class App extends React.Component {
   constructor(props) {
@@ -58,7 +61,7 @@ class App extends React.Component {
   }
 
   render() {
-    const desktop = window.innerWidth > 1000
+    const desktop = window.innerWidth > 600
     console.log('desk', this.history);
     const white = { color: '#004d99', padding: '1px'} 
     const animation = 'slide down'
@@ -70,9 +73,9 @@ class App extends React.Component {
         <Grid>
         {desktop && <Grid.Row style={{padding: "0.5em", paddingTop: "0em"}}/>}
           <Grid.Row>
-            {desktop && <Grid.Column width={3} />}
+            {desktop && <Grid.Column width={2} />}
             <Grid.Column 
-              width={desktop ? 10 : 16}
+              width={desktop ? 12 : 16}
               style={{
                 background: 'white',
                 minHeight: desktop ? '70vh' : '100vh',
@@ -87,7 +90,7 @@ class App extends React.Component {
                   style={{display: "block",
                     marginLeft: "auto",
                     marginRight: "auto",
-                    height: "6em"}}
+                    height: desktop ? "6em": "3em"}}
                 />
               </a>
                 {window.localStorage.getItem('loggedUser') &&
@@ -129,6 +132,9 @@ class App extends React.Component {
                       <NavLink style={white} activeStyle={active} to="/kategoriat">
                         <p ref="kategoriat">Kategoriat</p>
                       </NavLink>
+                      <NavLink style={white} activeStyle={active} to="/hajontakaavio">
+                        <p ref="hajontakaavio">Hajonta</p>
+                      </NavLink>
                       {window.localStorage.getItem('loggedUser') &&
                         <NavLink style={white} activeStyle={active} to="/lisaa">
                         <p ref="lisaa">Uusi kysymys</p>
@@ -145,7 +151,7 @@ class App extends React.Component {
                       }
 
                 <h1 style={{
-                  fontSize: '2.3em',
+                  fontSize: desktop ? '2.3em' : '1.7em',
                   color: 'white',
                   textAlign: 'center',
                   verticalAlign: 'bottom',
@@ -155,15 +161,17 @@ class App extends React.Component {
               </div>
               <div
                 id="routet"
-                style={{paddingTop: "5%", paddingLeft:"10%", marginRight:"10%", paddingBottom: "5%"}}
+                className="routet"
               >
                 <Route exact path="/" render={(history) => <Home history={history}/>} />
+                <Route exact path="/lupaukset" render={({ history }) => <Promises history={history} />} />
                 <Route exact path="/kategoriat" render={history => <Kategoriat history={history} />} />
                 <Route exact path="/kysymykset" render={history => <Questions history={history}/>} />
                 <Route exact path="/kone" render={history => <Settings history={history}/>} />
                 <Route exact path="/vastaukset" render={history => <EtsiVastaus history={history}/>} />
                 <Route exact path="/graaffit" render={history => <NolansMap history={history}/>} />
                 <Route exact path="/login" render={({ history }) => <Login history={history} />} />
+                <Route exact path="/hajontakaavio" render={({ history }) => <Dispersion history={history} />} />
                 {window.localStorage.getItem('loggedUser') &&
                 <div>
                   <Route path="/lisaa" render={({ history }) => <HtmlForm history={history} />} />
@@ -190,7 +198,7 @@ class App extends React.Component {
               </div>
 
             </Grid.Column>
-           {desktop && <Grid.Column width={3} />}
+           {desktop && <Grid.Column width={2} />}
           </Grid.Row>
         </Grid>
       </Router>

@@ -31,3 +31,59 @@
     background-color: #ebebeb;
 
   }
+
+.routet {
+    padding-top: 5%;
+    padding-left: 10%;
+    margin-right: 10%;
+    padding-bottom: 5%;
+}
+
+ @media screen and (max-width: 600px) {
+    
+    .html {
+        overflow-x: hidden;
+        height: 100%;
+    }
+
+    .body { 
+        position: absolute;
+        overflow-x: hidden;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: 96%;
+        background-size: cover;
+        background: #f7faff;
+    }
+
+    .routet {
+        padding-top: 5%;
+        padding-left: 10%;
+        margin-right: 10%;
+        padding-bottom: 0%;
+    }
+    
+    .button {
+        background: white;
+        padding: 0.5em;
+        padding-left: 1em;
+        padding-right: 1em;
+        border-color: #004d99;
+        color: #004d99;
+        margin-right: 1em;
+        border-width: thin;
+    }
+    
+    .button:hover {
+        background-color: #004d99;
+        color: white
+    }
+    
+    .info-link:hover { 
+        background-color: #ebebeb;
+    
+      }
+ }

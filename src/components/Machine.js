@@ -21,11 +21,13 @@ class Machine extends React.Component {
   }
 
   componentWillMount = async () => {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0;
     const questions = this.filterQuestions(this.props.kysymykset)
     const satunnainenKysymys = this.shuffle(questions)
     let kysymykset = satunnainenKysymys
     if (satunnainenKysymys.length > 9) {
-      kysymykset = satunnainenKysymys.slice(0, 19);
+      kysymykset = satunnainenKysymys.slice(0, this.props.howMany);
     }
     
     this.setState({
@@ -110,12 +112,12 @@ class Machine extends React.Component {
   } 
 
   render() {
-    
+    const buttonSize = window.innerWidth > 600 ? 'big' : 'medium'
     if (this.props.kayttaja.kysymykset.length === this.state.kysymykset.length) {
       return (
         <div>
           <h1 >Tulokset</h1>
-          Taulukosta voit katsoa kuinka hyvin antamasi vastaukset vastaavat eduskunnan todellisia äänestystuloksia.
+          Taulukosta voit katsoa kuinka hyvin antamasi vastaukset vastaavat eduskunnan todellisia äänestystuloksia. 
           Taulukon alla olevasta kuviosta näet puolueiden kannat arvokartalla.
           <AnswersTable />
           <NolansMap user={this.props.kayttaja}/>
@@ -129,31 +131,31 @@ class Machine extends React.Component {
       window.location.assign('/')
     }
     return (
-      <Grid >
+      <Grid style={{marginLeft: "0.2em" }}>
         <Grid.Row>
           <Header as="h1" >  
             <span> Äänestä!</span></Header>
         </Grid.Row>
         <Grid.Row>
-            <p style={{fontSize: "1.2em"}}> {this.props.kayttaja.kysymykset.length + 1}. {this.state.kysymys.kysymys}</p>
+            <p> {this.props.kayttaja.kysymykset.length + 1}. {this.state.kysymys.kysymys}</p>
          </Grid.Row>
 
         <Grid.Row>
-          <Button onClick={() => this.vastaus('jaa')} size="big" color='green'> 
+          <Button onClick={() => this.vastaus('jaa')} size={buttonSize} color='green'> 
             <Icon name='checkmark' />
             Jaa
           </Button>
-          <Button onClick={() => this.vastaus('eos')} size="big">
+          <Button onClick={() => this.vastaus('eos')} size={buttonSize} >
             <Icon name='question' />
             EOS
           </Button>
-          <Button onClick={() => this.vastaus('ei')} size="big" color="red">
+          <Button onClick={() => this.vastaus('ei')} size={buttonSize} color="red">
             <Icon name="close" />
             Ei
           </Button>
         </Grid.Row>
-        <Grid.Row style={{marginTop: "0.5em"}}>
-        <Card style={{width: "800px"}}>
+        <Grid.Row style={{marginTop: "0.5em", marginBottom: "0.5em"}}>
+        <Card style={{width: "100%"}}>
           <Card.Header style={{background: "#cecece", padding: "0.5em"}}><h3>Lisätietoja</h3></Card.Header>
           <Card.Content> 
            <h3>{this.state.kysymys.tunniste}</h3> 

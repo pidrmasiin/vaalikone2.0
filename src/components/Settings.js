@@ -7,13 +7,21 @@ class Settings extends React.Component {
     state = {
       renderMachine: false,
       hotQuestions: true,
-      categories: []
+      howMany: false,
+      categories: [],
+      number: 20
     }
 
 
     handleHotquestions = () => {
       this.setState({
         hotQuestions: !this.state.hotQuestions,
+      })
+    }
+
+    showHowMany = () => {
+      this.setState({
+        howMany: !this.state.howMany,
       })
     }
 
@@ -37,10 +45,16 @@ class Settings extends React.Component {
       }
     }
 
+    handleNumber = (number) => {
+      this.setState({
+        number
+      })
+    }
+
     render() {
       if (this.state.renderMachine) {
         return (
-          <Machine hots={false} selected_categories={this.state.categories}/>
+          <Machine hots={false} selected_categories={this.state.categories} howMany={this.state.number}/>
         )
       }
       return (
@@ -48,7 +62,7 @@ class Settings extends React.Component {
             <h1>Asetukset</h1>
             <p>
               Oletuksena sinulle arvotaan 20 kysymystä. Halutessasi voit
-              valita sinua kiinnostavat kategoriat.
+              valita kysymysten määrän ja  sinua kiinnostavat kategoriat.
             </p>
             <Accordion style={{paddingTop: "1em", paddingBottom:"1em"}}>
               <Accordion.Title active={!this.state.hotQuestions} onClick={this.handleHotquestions}>
@@ -67,9 +81,25 @@ class Settings extends React.Component {
                     )}
                 </div>
               </Accordion.Content>
+              <Accordion.Title active={this.state.howMany} onClick={this.showHowMany}>
+                <Icon name='dropdown' />
+                <b>Valitsen itse kysymysten määrän </b>
+              </Accordion.Title>
+              <Accordion.Content active={this.state.howMany} style={{marginLeft: "2em"}}>
+                <div>
+                  {[10, 20, 30, this.props.kysymykset.length].map(number => 
+                    <Checkbox
+                      key={number}
+                      label={{ children: number }} 
+                      style={{padding: "0.8em"}}
+                      checked={this.state.number == number}
+                      onChange={() => this.handleNumber(number)} />
+                    )}
+                </div>
+              </Accordion.Content>
             </Accordion>
           <br />
-          <button className="button" onClick={() => this.renderMachine()}>Aloita</button>
+          <button className="button" style={{marginBottom: "1em"}} onClick={() => this.renderMachine()}>Aloita</button>
       </div>
       )
     }
@@ -77,6 +107,7 @@ class Settings extends React.Component {
 
 const mapStateToProps = state => ({
   kategoriat: state.kategoriat,
+  kysymykset: state.kysymykset
 });
 
 export default connect(mapStateToProps)(Settings);

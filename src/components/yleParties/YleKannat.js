@@ -12,9 +12,12 @@ class YleKannat extends React.Component {
     red: '',
     green: '',
   }
+  
   componentWillMount = () => {
     const puolueet = this.props.ylenKysymykset.puolueet
     const puolue = parseParties(this.props.puolue)
+    console.log('puolue', this.state.puolue);
+    
     if (this.props.puolue && this.props.kysymys) {
       const kannat = puolueet[puolue].map(x => (
         {

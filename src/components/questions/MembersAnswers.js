@@ -125,6 +125,8 @@ class Members extends React.Component {
 
 
   render() {
+    const desktop = window.innerWidth > 600
+
     const { open } = this.state
     return (
           <Modal
@@ -133,13 +135,19 @@ class Members extends React.Component {
           onClose={this.close}
           size='tiny'
           trigger={
+            desktop ?
             <Button primary icon>
-              <Icon name='add' />
+               <Icon name='add' />
             </Button>
-          }
-        >
+            :
+            <Button primary size="tiny" style={{marginLeft: "0"}}>
+             Edustajien kannat
+            </Button>
+            }
+          
+          dimmer='blurring' >
           <Modal.Header>
-          <h2>{this.props.puolue}</h2>
+          <h2>{this.props.puolue}<Icon name="close" style={{right: "2%", position: 'absolute'}} onClick={() => this.setState({open: false})} /></h2> 
           </Modal.Header>
           <Modal.Content>
             <h4>{this.props.question}</h4>

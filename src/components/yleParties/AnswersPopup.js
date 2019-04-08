@@ -39,6 +39,8 @@ class AnswersPopup extends React.Component {
     const sliceIndex = (activePage-1)*10
     const open = this.state.open
 
+    const desktop = window.innerWidth > 600
+
     if (!this.props.answers) {
       return <div>Ei sopivaa kysymystä</div>
     }
@@ -50,13 +52,18 @@ class AnswersPopup extends React.Component {
         onClose={this.close}
         size='tiny'
         trigger={
+          desktop ?
           <Button primary icon>
-            <Icon name='add' />
+             <Icon name='add' />
+          </Button>
+          :
+          <Button primary size="tiny" style={{marginLeft: "0"}}>
+           Edustajien kannat
           </Button>
         }
-      >
+      > 
         <Modal.Header>
-        <h2>{this.props.puolue}</h2>
+        <h2>{this.props.puolue} <Icon style={{right: "2%", position: 'absolute'}}name="close" onClick={() => this.setState({open: false})}/></h2> 
         </Modal.Header>
         <Modal.Content>
         <h4>{this.props.question.slice(4)}</h4>
