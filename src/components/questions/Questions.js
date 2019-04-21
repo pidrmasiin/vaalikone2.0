@@ -27,17 +27,21 @@ class Questions extends React.Component {
     }
 
     render() {
+      const questions = this.props.kysymykset.filter(q => q.tunniste != 'eu2019')
+      const euroQuestions = this.props.kysymykset.filter(q => q.tunniste == 'eu2019')
+
       return (
-        <Table celled>
+        <div>
+           <Table celled>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell positive>Kysymys</Table.HeaderCell>
+              <Table.HeaderCell positive>EuroKysymys</Table.HeaderCell>
               {window.localStorage.getItem('loggedUser') &&
               <Table.HeaderCell>Poisto</Table.HeaderCell>}
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {this.props.kysymykset.map(k =>
+            {euroQuestions.map(k =>
                   (
                     <Table.Row key={k.id}>
                       <Table.Cell selectable><Link style={linkStyle} to={`/kysymykset/${k.id}`}>{k.kysymys}</Link></Table.Cell>
@@ -47,6 +51,26 @@ class Questions extends React.Component {
                     </Table.Row>))}
           </Table.Body>
         </Table>
+        <Table celled>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell positive>Kysymys</Table.HeaderCell>
+              {window.localStorage.getItem('loggedUser') &&
+              <Table.HeaderCell>Poisto</Table.HeaderCell>}
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {questions.map(k =>
+                  (
+                    <Table.Row key={k.id}>
+                      <Table.Cell selectable><Link style={linkStyle} to={`/kysymykset/${k.id}`}>{k.kysymys}</Link></Table.Cell>
+                      <Table.Cell>{window.localStorage.getItem('loggedUser') === null ?
+                null : <form onSubmit={this.remove(k)}><Button inverted color="red" type="submit">Delete</Button></form>}
+                      </Table.Cell>
+                    </Table.Row>))}
+          </Table.Body>
+        </Table>
+        </div>
       );
     }
 }

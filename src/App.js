@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import HtmlForm from './components/form/HtmlForm';
 import Home from './components/Home';
 import Settings from './components/Settings';
+import EuroSettings from './components/europa/euroSettings';
 import NolansMap from './components/nolansMap/NolansMap';
 import Questions from './components/questions/Questions';
 import EtsiVastaus from './components/yle/FindAnswer'
@@ -13,6 +14,7 @@ import Promises from './components/yle/partiesPromises'
 import Kategoriat from './components/kategoriat/Kategoriat';
 import Kategoria from './components/kategoriat/Kategoria';
 import Question from './components/questions/Question';
+import Eu2019 from './components/europa/Eu2019';
 import Login from './components/Login';
 import Notification from './components/Notification';
 import { getKysymykset } from './reducers/kysymyksetReducer';
@@ -106,7 +108,7 @@ class App extends React.Component {
                       position: 'fixed',
                       top: desktop ? '4.5%' : "0%",
                       border: "1px solid #919499",
-                      height: window.localStorage.getItem('loggedUser') ? '35em' : "24.5em",
+                      height: window.localStorage.getItem('loggedUser') ? '50em' : "24.5em",
                       width: "15em"
                       }} 
                       >
@@ -132,13 +134,18 @@ class App extends React.Component {
                       <NavLink style={white} activeStyle={active} to="/kategoriat">
                         <p ref="kategoriat">Kategoriat</p>
                       </NavLink>
-                      <NavLink style={white} activeStyle={active} to="/hajontakaavio">
-                        <p ref="hajontakaavio">Hajonta</p>
+                      <NavLink style={white} activeStyle={active} to="/eurovaalit">
+                        <p ref="euro">Eurovaalit</p>
                       </NavLink>
                       {window.localStorage.getItem('loggedUser') &&
-                        <NavLink style={white} activeStyle={active} to="/lisaa">
+                      <div>
+                          <NavLink style={white} activeStyle={active} to="/eu2019">
+                        <p ref="eu2019">Uusi euro kysymys</p>
+                      </NavLink>
+                      <NavLink style={white} activeStyle={active} to="/lisaa">
                         <p ref="lisaa">Uusi kysymys</p>
                       </NavLink>
+                      </div>
                       }
                       {window.localStorage.getItem('loggedUser') &&
                         <div style={{ padding: '1em' }}>
@@ -172,6 +179,8 @@ class App extends React.Component {
                 <Route exact path="/graaffit" render={history => <NolansMap history={history}/>} />
                 <Route exact path="/login" render={({ history }) => <Login history={history} />} />
                 <Route exact path="/hajontakaavio" render={({ history }) => <Dispersion history={history} />} />
+                <Route exact path="/eu2019" render={({ history }) => <Eu2019 history={history} />} />
+                <Route exact path="/eurovaalit" render={({ history }) => <EuroSettings history={history} />} />
                 {window.localStorage.getItem('loggedUser') &&
                 <div>
                   <Route path="/lisaa" render={({ history }) => <HtmlForm history={history} />} />

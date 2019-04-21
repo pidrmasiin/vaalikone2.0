@@ -12,12 +12,26 @@ const initialState = {
     { name: 'Sininen eduskuntaryhmä', aanet: 0, url: 'https://i.imgur.com/gbryVO0.png' },
     { name: 'Liike Nyt-eduskuntaryhmä', aanet: 0, url: 'https://liikenyt.fi/wp-content/uploads/2018/04/liike-nyt-vari-ensisijainen.jpg' },
   ],
+  euroParties: [
+    { name: 'S&D', aanet: 0, url: 'https://i.imgur.com/GSMua2B.png' },
+    { name: 'ALDE/ADLE', aanet: 0, url: 'https://i.imgur.com/qbiX1tI.png' },
+    { name: 'ECR', aanet: 0, url: 'https://i.imgur.com/4YZPeP9.jpg' },
+    { name: 'EPP', aanet: 0, url: 'https://i.imgur.com/kSDY19E.jpg' },
+    { name: 'Greens/EFA', aanet: 0, url: 'https://i.imgur.com/qOxMDMd.png' },
+    { name: 'GUE-NGL', aanet: 0, url: 'https://i.imgur.com/P0wEpt3.png' },
+  ],
   puolue: '',
 }
 
 const kayttajaReducer = (store = initialState, action) => {
-  const puolue = store.puolueet.filter(p => p.name === action.type)
-  const filtered = store.puolueet.filter(p => p.name !== action.type)
+  let puolue = store.puolueet.filter(p => p.name === action.type)
+  let filtered = store.puolueet.filter(p => p.name !== action.type)
+
+  if(action.eu){
+    puolue = store.euroParties.filter(p => p.name === action.type)
+    filtered = store.euroParties.filter(p => p.name !== action.type)
+  }
+
   if (puolue.length > 0) {
     puolue[0].aanet = puolue[0].aanet + 1
     filtered.push(puolue[0])
@@ -74,6 +88,13 @@ export const addPuolue = content => async (dispatch) => {
 
 export const addVastaus = content => async (dispatch) => {
   dispatch({
+    type: content,
+  })
+}
+
+export const addEuroVastaus = content => async (dispatch) => {
+  dispatch({
+    eu: true,
     type: content,
   })
 }

@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Grid, Header, Card, Icon} from 'semantic-ui-react';
-import { addKysymys, addVastaus } from '../reducers/kayttajaReducer';
+import { addKysymys, addVastaus, addEuroVastaus } from '../reducers/kayttajaReducer';
 import { notifyCreation } from '../reducers/notifyReducer'
 import AnswersTable from './AnswersTable';
+import EuroAnswers from './europa/euroAnswers';
 import './Machine.css';
 import NolansMap from './nolansMap/NolansMap';
 
@@ -43,10 +44,11 @@ class Machine extends React.Component {
   }
 
   filterQuestions = (questions) => {
-    let handledQuestions = questions
+    
+    let handledQuestions = questions.filter(q => q.tunniste != 'eu2019')
     const selected_categories = this.props.selected_categories
     if (this.props.hots) {
-      handledQuestions = questions.filter( question => question.hot)
+      handledQuestions =  questions.filter(q => q.tunniste == 'eu2019')
     } if (selected_categories.length > 0){
       handledQuestions = questions.filter( q => selected_categories.some(cat => q.kategoriat.map(k => k.nimi).includes(cat)))
       if (handledQuestions.length === 0) {
@@ -100,7 +102,7 @@ class Machine extends React.Component {
     const help = this.props.kayttaja.kysymykset.find(x => x.kysymys === this.state.kysymys.kysymys)
     if (!help) {
       for (let i = 0; i < jaaPuolueet.map(p => p.nimi).length; i = i + 1) {
-        this.props.addVastaus(jaaPuolueet.map(p => p.nimi)[i]);
+        this.props.hots? this.props.addEuroVastaus(jaaPuolueet.map(p => p.nimi)[i]) : this.props.addVastaus(jaaPuolueet.map(p => p.nimi)[i]);
       }
     }
     this.setState({
@@ -112,8 +114,10 @@ class Machine extends React.Component {
   } 
 
   render() {
+    console.log('juuh');
+    
     const buttonSize = window.innerWidth > 600 ? 'big' : 'medium'
-    if (this.props.kayttaja.kysymykset.length === this.state.kysymykset.length) {
+    if (this.props.kayttaja.kysymykset.length === this.state.kysymykset.length && !this.props.hots) {
       return (
         <div>
           <h1 >Tulokset</h1>
@@ -126,6 +130,9 @@ class Machine extends React.Component {
           </Button>
         </div>
       );
+    }
+    if(this.props.hots && this.props.kayttaja.kysymykset.length === this.state.kysymykset.length) {
+      return <EuroAnswers />
     }
     if (!this.state.kysymys) {
       window.location.assign('/')
@@ -190,6 +197,7 @@ export default connect(
   {
     addVastaus,
     addKysymys,
+    addEuroVastaus,
     notifyCreation,
   },
 )(Machine);
