@@ -8,7 +8,7 @@
     height: 90vh;
     background-size: cover;
     background: #f7faff;
-    font-size: 1.5em
+    font-size: 1.2em
 }
 
 .button {
@@ -42,8 +42,11 @@
  @media screen and (max-width: 600px) {
     
     .html {
-        overflow-x: hidden;
+        max-width: 90vh;
         height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+
     }
 
     .body { 
@@ -54,9 +57,10 @@
         right: 0;
         bottom: 0;
         height: 100%;
-        width: 96%;
+        max-width: 90vh;
         background-size: cover;
         background: #f7faff;
+        overflow-y: auto;
     }
 
     .routet {
@@ -64,6 +68,7 @@
         padding-left: 10%;
         margin-right: 10%;
         padding-bottom: 0%;
+        max-width: 90vh;
     }
     
     .button {

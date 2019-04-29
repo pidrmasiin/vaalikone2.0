@@ -96,9 +96,9 @@ class Machine extends React.Component {
 
   vastaus = (vastaus) => {
     let q = this.state.kysymys
-    q.user = vastaus
+    q.user = q.tunniste == 'eu2019' && vastaus === 'eos' ? 'tyhjia' : vastaus
     this.props.addKysymys(q);
-    const jaaPuolueet = this.state.kysymys.puolueet.filter(p => p.kanta === vastaus);
+    const jaaPuolueet = this.state.kysymys.puolueet.filter(p => p.kanta === q.user);
     const help = this.props.kayttaja.kysymykset.find(x => x.kysymys === this.state.kysymys.kysymys)
     if (!help) {
       for (let i = 0; i < jaaPuolueet.map(p => p.nimi).length; i = i + 1) {
@@ -114,7 +114,7 @@ class Machine extends React.Component {
   } 
 
   render() {
-    console.log('juuh');
+    console.log('juuh', this.props);
     
     const buttonSize = window.innerWidth > 600 ? 'big' : 'medium'
     if (this.props.kayttaja.kysymykset.length === this.state.kysymykset.length && !this.props.hots) {

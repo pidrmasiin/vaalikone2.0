@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash'
 import { Link } from 'react-router-dom';
 import { Button } from 'semantic-ui-react'
 import TextArea from '../form/TextArea'
@@ -33,7 +34,8 @@ class Eu2019 extends React.Component {
         opinion: null,
         members: []
       }
-    }
+    },
+    error: ''
   }
   onSubmit = async (e) => {
     e.preventDefault()
@@ -49,33 +51,45 @@ class Eu2019 extends React.Component {
       puolueet: puolueet,
       edustajat: edustajat,
       selitys: e.target.details.value,
-      tunniste: "eu2019"
+      tunniste: "eu2019",
+      url: e.target.url.value,
+      vuosi: e.target.vuosi.value
     }
-    const loggedUserJSON = window.localStorage.getItem('loggedUser')
-    console.log('logged', loggedUserJSON);
+    console.log('haloo', );
+    
+    if (toDB.puolueet.length > 7 && toDB.puolueet.length < 11 && toDB.edustajat.length > 10 && toDB.edustajat.length < 20) {
+      const loggedUserJSON = window.localStorage.getItem('loggedUser')
       
-    kysymysService.setToken(JSON.parse(loggedUserJSON).token)
-    await kysymysService.addKysymys(toDB)
-    window.location.reload()
+      kysymysService.setToken(JSON.parse(loggedUserJSON).token)
+      await kysymysService.addKysymys(toDB)
+      window.location.reload()
+    } else {
+      this.setState({
+        error: "tapahtui virhe"
+      })
+    }
+   
   }
     
    euPartiesHtml = (euHtml) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(euHtml, 'text/html');
-    console.log('doc',  doc.getElementsByTagName('TBODY')[0].rows);
+    if (!doc.getElementsByTagName('TBODY')[0]){
+      return false
+    }
     let answers = []
     const rows = doc.getElementsByTagName('TBODY')[0].rows;
-    for (let i = 1; i < rows.length; i = i + 1) {
+    for (let i = 0; i < rows.length; i = i + 1) {
       let puolue = {
-        jaa: rows[i].cells[1].innerText,
-        ei: rows[i].cells[2].innerText,
-        poissa: 0,
-        tyhjia: 0,
-        yhteensa: 0
+        jaa: Number(rows[i].cells[1].innerText),
+        ei: Number(rows[i].cells[2].innerText),
+        tyhjia: Number(rows[i].cells[3].innerText),
       }
-
-      puolue.kanta= Object.keys(puolue).reduce((a, b) => (puolue[a] > puolue[b] ? a : b));
+      
+      puolue.kanta=_.maxBy(_.keys(puolue), function (o) { return puolue[o]; });
+      puolue.yhteensa = rows[i].cells[4].innerText
       puolue.nimi = rows[i].cells[0].innerText
+      puolue.poissa = 0
       
       answers.push(puolue)
       this.setState({
@@ -88,11 +102,12 @@ class Eu2019 extends React.Component {
   finnishHtml = (euFinnishHtml) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(euFinnishHtml, 'text/html');
-    console.log('doc',  doc.getElementsByTagName('TBODY')[0].rows);
-
+    if (!doc.getElementsByTagName('TBODY')[0]) {
+      return false
+    }
     const rows = doc.getElementsByTagName('TBODY')[0].rows;
     let answers = this.state.answers
-    for (let i = 1; i < rows.length; i = i + 1) {
+    for (let i = 0; i < rows.length; i = i + 1) {
       answers.push({
         nimi: rows[i].cells[0].firstChild.title,
         puolue: rows[i].cells[1].firstChild.title,
@@ -128,15 +143,16 @@ class Eu2019 extends React.Component {
     return false
   }
   render() {
-    console.log('state', this.state);
-    
       return (
         <div>
           <form onSubmit={this.onSubmit} id="htmlform">
+            <Input placeholder="url" name="url" label="Linkki asiakirjaan"/>
+            <Input placeholder="vuosi" name="vuosi" label="vuosi"/>
             <TextArea placeholder="kysymys" name="question" label="Kysymys"/>
             <TextArea label="Tarkempi kuvaus kysymyksestä" placeholder="details" name="details" />
             <TextArea label="Suomalaiset mepit" placeholder="html-elementti" name="euFinnishHtml" />
             <TextArea label="Ryhmät" placeholder="html-elementti ryhmistä" name="euPartiesHtml" />
+            <p style={{color: 'red', fontSize: '1.5em'}}>{this.state.error}</p>
             <Button positive type="submit" className="fluid ui button">create</Button>
           </form>
         </div>

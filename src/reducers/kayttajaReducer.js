@@ -14,11 +14,13 @@ const initialState = {
   ],
   euroParties: [
     { name: 'S&D', aanet: 0, url: 'https://i.imgur.com/GSMua2B.png' },
-    { name: 'ALDE/ADLE', aanet: 0, url: 'https://i.imgur.com/qbiX1tI.png' },
+    { name: 'ALDE/ADLE', aanet: 0, url: 'https://i.imgur.com/qbiX1tI.png', url2: 'https://i.imgur.com/hrCJsLx.png' },
     { name: 'ECR', aanet: 0, url: 'https://i.imgur.com/4YZPeP9.jpg' },
-    { name: 'EPP', aanet: 0, url: 'https://i.imgur.com/kSDY19E.jpg' },
+    { name: 'EPP', aanet: 0, url: 'https://i.imgur.com/kSDY19E.jpg', url2: 'https://i.imgur.com/oVzcTTD.jpg' },
     { name: 'Greens/EFA', aanet: 0, url: 'https://i.imgur.com/qOxMDMd.png' },
     { name: 'GUE-NGL', aanet: 0, url: 'https://i.imgur.com/P0wEpt3.png' },
+    { name: 'EFDD', aanet: 0, url: 'https://upload.wikimedia.org/wikipedia/commons/7/74/EFDD_logo.jpg' },
+    { name: 'NI', aanet: 0, url: 'https://pbs.twimg.com/profile_images/1100156912656621573/o9YlcsX__400x400.png' }
   ],
   puolue: '',
 }

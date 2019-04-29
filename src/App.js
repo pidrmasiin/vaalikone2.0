@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import HtmlForm from './components/form/HtmlForm';
 import Home from './components/Home';
+import Menu from './components/Menu';
 import Settings from './components/Settings';
 import EuroSettings from './components/europa/euroSettings';
 import NolansMap from './components/nolansMap/NolansMap';
@@ -69,10 +70,10 @@ class App extends React.Component {
     const animation = 'slide down'
     const duration = 200
     const active = {fontWeight: "bold"}
-    
+    let gridClass= desktop ? 'ui grid' : ''
     return (
       <Router>
-        <Grid>
+        <div className={gridClass}>
         {desktop && <Grid.Row style={{padding: "0.5em", paddingTop: "0em"}}/>}
           <Grid.Row>
             {desktop && <Grid.Column width={2} />}
@@ -92,7 +93,8 @@ class App extends React.Component {
                   style={{display: "block",
                     marginLeft: "auto",
                     marginRight: "auto",
-                    height: desktop ? "6em": "3em"}}
+                    height: desktop ? "6em": "3em"
+                  }}
                 />
               </a>
                 {window.localStorage.getItem('loggedUser') &&
@@ -107,18 +109,9 @@ class App extends React.Component {
                       right: desktop ? '18%' : "0%",
                       position: 'fixed',
                       top: desktop ? '4.5%' : "0%",
-                      border: "1px solid #919499",
                       height: window.localStorage.getItem('loggedUser') ? '50em' : "24.5em",
-                      width: "15em"
                       }} 
                       >
-                      <img 
-                          src="https://i.imgur.com/tQ6HhoS.png" 
-                          height="50px"
-                          style={{display: "block", paddingTop: "1em",
-                            margin: "0 auto"}}
-                          
-                        />
                       <NavLink style={white} exact activeStyle={active} to="/">
                         <p>Etusivu</p>
                       </NavLink>
@@ -171,6 +164,7 @@ class App extends React.Component {
                 className="routet"
               >
                 <Route exact path="/" render={(history) => <Home history={history}/>} />
+                <Route exact path="/vaalikausi" render={(history) => <Menu history={history}/>} />
                 <Route exact path="/lupaukset" render={({ history }) => <Promises history={history} />} />
                 <Route exact path="/kategoriat" render={history => <Kategoriat history={history} />} />
                 <Route exact path="/kysymykset" render={history => <Questions history={history}/>} />
@@ -209,7 +203,7 @@ class App extends React.Component {
             </Grid.Column>
            {desktop && <Grid.Column width={2} />}
           </Grid.Row>
-        </Grid>
+         </div>
       </Router>
     );
   }
