@@ -165,7 +165,7 @@ class Machine extends React.Component {
         <Card style={{width: "100%"}}>
           <Card.Header style={{background: "#cecece", padding: "0.5em"}}><h3>Lisätietoja</h3></Card.Header>
           <Card.Content> 
-           <h3>{this.state.kysymys.tunniste}</h3> 
+           <h3>{this.state.kysymys.tunniste !== 'eu2019' && this.state.kysymys.tunniste}</h3> 
             <p>{this.state.kysymys.selitys}</p> 
            <h3>Äänestysvuosi</h3>
            {this.state.kysymys.vuosi}
@@ -175,7 +175,7 @@ class Machine extends React.Component {
           ))}
           </Card.Content>
           <Card.Content extra>
-          <a target="_blank" rel="noopener noreferrer" href={this.state.kysymys.url} style={{color:"blue"}}>Eduskunnan sivuille</a>
+          <a target="_blank" rel="noopener noreferrer" href={this.state.kysymys.url} style={{color:"blue"}}>Asiakirjat</a>
           </Card.Content>
         </Card>
        

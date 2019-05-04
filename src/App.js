@@ -63,7 +63,7 @@ class App extends React.Component {
   }
 
   render() {
-    const desktop = window.innerWidth > 600
+    const desktop = window.innerWidth > 800
     console.log('desk', this.history);
     const white = { color: '#004d99', padding: '1px'} 
     const animation = 'slide down'

@@ -63,7 +63,7 @@ class EuroAnswers extends React.Component {
   }
 
   render() {
-    const desktop = window.innerWidth > 600
+    const desktop = window.innerWidth > 800
     return(
       <div>
         <h1>Tulokset</h1>
