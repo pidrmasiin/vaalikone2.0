@@ -1,9 +1,9 @@
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import HtmlForm from './components/form/HtmlForm';
 import Home from './components/Home';
+import Info from './components/Info';
 import Menu from './components/Menu';
 import Settings from './components/Settings';
 import EuroSettings from './components/europa/euroSettings';
@@ -17,16 +17,15 @@ import Kategoria from './components/kategoriat/Kategoria';
 import Question from './components/questions/Question';
 import Eu2019 from './components/europa/Eu2019';
 import Login from './components/Login';
-import Notification from './components/Notification';
 import { getKysymykset } from './reducers/kysymyksetReducer';
 import { getKategoriat } from './reducers/kategoriatReducer';
 import { getYlenKysymykset } from './reducers/ylenKysymyksetReducer';
-import { Button, TransitionablePortal, Segment, Icon } from 'semantic-ui-react';
-
-
-
+import { Button, TransitionablePortal, Segment, Icon, Grid } from 'semantic-ui-react';
+import FinnishMembers from './components/europa/FinnishMembers';
+import EuroInfo from './components/europa/EuroInfo';
 import './App.css';
-import { promises } from 'fs';
+
+
 
 class App extends React.Component {
   constructor(props) {
@@ -86,7 +85,7 @@ class App extends React.Component {
                 boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)" 
               }}
               >
-              <div style={{ background: '#004d99', padding: '1.5em', }}>
+              <div style={{ background: '#004d99', padding: '1.5em'}}>
               <a onClick={() => window.location.href = '/'}>
                 <img 
                   src="https://i.imgur.com/tQ6HhoS.png" 
@@ -97,9 +96,9 @@ class App extends React.Component {
                   }}
                 />
               </a>
-                {window.localStorage.getItem('loggedUser') &&
+                {window.localStorage.getItem('loggedUser') ?
                 <div style={{display: "inline-block", right: "0", position: "absolute", top: "0", paddingTop: "2em", paddingRight: "2em"}}>
-                    <Icon name='bars' style={{color: "white"}} size="big" onClick={() => this.show()}/>
+                    <Icon name='bars' style={{color: "white"}} size="large" onClick={() => this.show()}/>
                     <TransitionablePortal
                       open={this.state.show} 
                       transition={{ animation, duration }}
@@ -148,7 +147,9 @@ class App extends React.Component {
                       </Segment>
                     </TransitionablePortal>
                   </div>
-                      }
+                   :
+                    <Icon onClick={() => window.location.href = '/'} name='home' style={{color: "white", display: "inline-block", right: "0", position: "absolute", top: "0", paddingRight: "0.3em", paddingTop: "0.3em"}}/>
+                  }
 
                 <h1 style={{
                   fontSize: desktop ? '2.3em' : '1.7em',
@@ -163,8 +164,11 @@ class App extends React.Component {
                 id="routet"
                 className="routet"
               >
-                <Route exact path="/" render={(history) => <Home history={history}/>} />
-                <Route exact path="/vaalikausi" render={(history) => <Menu history={history}/>} />
+                <Route exact path="/" render={(history) => <Menu history={history}/>} />
+                <Route exact path="/suomalaiset" render={(history) => <FinnishMembers history={history}/>} />
+                <Route exact path="/info" render={(history) => <Info history={history}/>} />
+                <Route exact path="/euroinfo" render={(history) => <EuroInfo history={history}/>} />
+                <Route exact path="/vaalikausi" render={(history) => <Home history={history}/>} />
                 <Route exact path="/lupaukset" render={({ history }) => <Promises history={history} />} />
                 <Route exact path="/kategoriat" render={history => <Kategoriat history={history} />} />
                 <Route exact path="/kysymykset" render={history => <Questions history={history}/>} />
