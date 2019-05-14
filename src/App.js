@@ -86,13 +86,16 @@ class App extends React.Component {
               }}
               >
               <div style={{ background: '#004d99', padding: '1.5em'}}>
+              <NavLink to='/info'>
+                <Icon name='question' style={{color: "white", display: "inline-block", left: "0", position: "absolute", top: "0", paddingLeft: "0.3em", paddingTop: "0.3em"}}/>
+              </NavLink>
               <a onClick={() => window.location.href = '/'}>
                 <img 
-                  src="https://i.imgur.com/tQ6HhoS.png" 
+                  src="https://i.imgur.com/mEEvD3i.png" 
                   style={{display: "block",
                     marginLeft: "auto",
                     marginRight: "auto",
-                    height: desktop ? "6em": "3em"
+                    height: "6em"
                   }}
                 />
               </a>
@@ -150,7 +153,7 @@ class App extends React.Component {
                    :
                     <Icon onClick={() => window.location.href = '/'} name='home' style={{color: "white", display: "inline-block", right: "0", position: "absolute", top: "0", paddingRight: "0.3em", paddingTop: "0.3em"}}/>
                   }
-
+                {desktop && 
                 <h1 style={{
                   fontSize: desktop ? '2.3em' : '1.7em',
                   color: 'white',
@@ -159,6 +162,7 @@ class App extends React.Component {
                 }}
                 >Vaalikausikone
                 </h1>
+                }
               </div>
               <div
                 id="routet"

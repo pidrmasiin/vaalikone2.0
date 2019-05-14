@@ -133,7 +133,6 @@ class FinnishMembers extends React.Component {
     
     return(
       <div>
-        Valitse kysymykset, joita haluat tarkastella.
           <Dropdown
             placeholder='Select Friend'
             fluid
@@ -142,6 +141,7 @@ class FinnishMembers extends React.Component {
             options={questions}
             onChange={(e, data) => this.handleQuestion(e, data)}
         />
+        Valitse kysymykset, joita haluat tarkastella.
           {euros.filter(q => this.state.selectedQuestion.includes(q.kysymys)).map(question => 
             <div style={{marginTop: "2em"}} key={question.kysymys}>
                 <h2>{question.kysymys}</h2>

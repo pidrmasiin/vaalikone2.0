@@ -43,12 +43,12 @@ class EuroInfo extends React.Component {
         <Link
           to="/eurovaalit"
         >
-          <button className="button" style={{display: 'inline', marginBottom: '0.5em'}}>Eurovaalikausikone</button>
+          <button className="button" style={{display: 'inline', marginBottom: '0.5em'}}>Eurovaalikausikone </button>
         </Link>
         <Link
           to="/suomalaiset"
         >
-          <button className="button" style={{display: 'inline', marginBottom: '0.5em'}}>Suomalaisten meppien vastaukset</button>
+          <button className="button" style={{display: 'inline', marginBottom: '0.5em'}}>Meppien vastaukset</button>
         </Link>
         <br />
         <br />

@@ -10,12 +10,12 @@ ReactGA.pageview(window.location.pathname + window.location.search);
 class Menu extends React.Component {
   render() {
     return(
-    <div style={{textAlign: 'center', paddingLeft: '0.8em'}}>
-     <Card.Group centered>
+    <div style={{textAlign: 'center', paddingLeft: '0.5em'}}>
+     <Card.Group centered fluid>
         <Link to="/euroinfo" style={{margin: "1em"}}>
         <Card>
-            <Image height='200em' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1280px-Flag_of_Europe.svg.png' />
             <Card.Content>
+            <Image centered height='150em' style={{margin: '1em', marginTop: '0em'}} src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1280px-Flag_of_Europe.svg.png' />
             <Card.Header>Euroopan parlamentti</Card.Header>
             <Card.Meta>
                 <span className='date'>2014-2019</span>
@@ -28,8 +28,8 @@ class Menu extends React.Component {
         </Link>
         <Link to="/vaalikausi" style={{margin:"1em"}}>
         <Card>
-            <Image height='200em' src='https://i.imgur.com/tQ6HhoS.png' />
             <Card.Content>
+            <Image centered height='150em' src='https://i.imgur.com/tQ6HhoS.png' style={{background: '#004d99', margin: '1em', marginTop: '0em', padding: '1em', paddingRight: '2em', paddingLeft: '2em'}}/>
             <Card.Header>Suomen eduskunta</Card.Header>
             <Card.Meta>
                 <span className='date'>2015-2019</span>

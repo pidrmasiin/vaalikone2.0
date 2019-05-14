@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React from 'react';
 import { connect } from 'react-redux'
 import { Table, Modal, Button, Icon } from 'semantic-ui-react'
+import FinnishMembers from './FinnishMembers';
 
 
 
@@ -70,10 +71,12 @@ class EuroAnswers extends React.Component {
         Alla näet parlamenttiryhmät ja niihin kuuluvat suomalaiset puolueet järjestettynä vastaamiesi kysymysten perusteella.
        <br />
        <br />
+       Suomalaisten edustajien kannat löytyvät taulukon alta.
+       <br />
+       <br />
         <Table textAlign='center'>
 
           <Table.Header>
-            {desktop && 
             <Table.Row>
               <Table.HeaderCell>Logo</Table.HeaderCell>
               <Table.HeaderCell>Puolue</Table.HeaderCell>
@@ -81,7 +84,6 @@ class EuroAnswers extends React.Component {
               <Table.HeaderCell>Osuvuus</Table.HeaderCell>
               <Table.HeaderCell>Kysymykset</Table.HeaderCell>
             </Table.Row>
-            }
           </Table.Header>
           <Table.Body>
             {this.state.order.map(x =>
@@ -141,11 +143,17 @@ class EuroAnswers extends React.Component {
             </Table.Body>
         </Table>
         <br />
-        Taulukossa sopivuus määrittyy parlamenttiryhmän enemmistön käyttäytymisen perusteella, sillä ryhmät äänestävät usein yhtenäisesti.
+        Tulostaulukossa sopivuus määrittyy parlamenttiryhmän enemmistön käyttäytymisen perusteella, sillä ryhmät äänestävät usein yhtenäisesti.
         Näytä vastaukset -napin alta voit tarkastella, miten ryhmän mielipide on kussakin kysymyksessä jakautunut.
         <br/>
         <br/>
-
+        Alta löydät vielä suomalaisten kannat erikseen eroteltuna.
+        <br/>
+        <br/>
+        <h2>Suomalaisten edustajien kannat</h2>
+        <FinnishMembers />
+        <br/>
+        <br/>            
     </div>
     )
   }

@@ -21,7 +21,7 @@ class Machine extends React.Component {
     };
   }
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0;
     const questions = this.filterQuestions(this.props.kysymykset)
