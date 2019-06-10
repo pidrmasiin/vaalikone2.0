@@ -5,7 +5,7 @@ class EuroSettings extends React.Component {
 
     render(){
     return (
-    <Machine hots={true} selected_categories={[]} howMany={20}/>
+    <Machine selection='eu2019' selected_categories={[]} howMany={20}/>
     )
     }
 }

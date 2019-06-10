@@ -1,0 +1,21 @@
+.ui.segment.home-info {
+    background-color:#ecf2f8;
+    font-size: 0.9em;
+    line-height: 2em;
+}
+
+.info-icon { 
+    color: #004d99;
+    float: left;
+}
+
+.info-title { 
+    float: 'right';
+}
+
+@media screen and (max-width: 600px) {
+    .ui.segment.home-info {
+        font-size: 0.7em;
+        line-height: 1.3em;
+    }
+}

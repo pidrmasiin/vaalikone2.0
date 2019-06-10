@@ -92,6 +92,7 @@ leaderSpeakman = (party) => {
 
 render() {
   const desktop = window.innerWidth > 600
+
   return (
     <div style={{ padding: '1em', paddingLeft: '0em'}} >
       
@@ -128,7 +129,7 @@ render() {
                               <Segment.Group horizontal>
                                   <Segment>
                                   <span><b>{this.leaderSpeakman(this.state.puolue) ? "Puheenjohtaja" : "Varapuheenjohtaja"} ({this.leaderName(this.state.puolue)}) lupasi ylen vaalikoneessa: </b>
-                                  {this.props.ylenKysymykset.puolueet[parseParties(this.state.puolue)].find( edustaja =>
+                                  {this.props.ylenKysymykset.puolueet[parseParties(this.state.puolue)] && this.props.ylenKysymykset.puolueet[parseParties(this.state.puolue)].find( edustaja =>
                                 edustaja.sukunimi == this.leaderName(this.state.puolue))['Vaalilupaus 1']}</span> 
                                   </Segment>
                                   <Segment clearing>

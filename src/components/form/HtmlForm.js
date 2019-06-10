@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, Dropdown, Segment, Form } from 'semantic-ui-react'
+import { Button, Checkbox, Dropdown, Segment, Form, Dimmer, Loader } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import FormInput from './FormInput'
 import TextArea from './TextArea'
@@ -14,6 +14,7 @@ class HtmlForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      yle2019: '',
       vastaus: '',
       kysymyksenAsettelu: false,
       hot: false,
@@ -22,6 +23,7 @@ class HtmlForm extends React.Component {
       green: ""
     };
   }
+
   componentWillMount = async () => {
     if (!this.props.ylenKysymykset.kysymykset) { window.location.assign('/') }
   }
@@ -127,6 +129,7 @@ class HtmlForm extends React.Component {
       vastaus: this.state.vastaus,
       kysymyksenAsettelu: this.state.kysymyksenAsettelu,
       hot: this.state.hot,
+      yle2019: this.state.yle2019
     }
     if (typeof this.state.jaaLeftist === 'boolean') {
       details.jaaLeftist = this.state.jaaLeftist
@@ -152,6 +155,10 @@ class HtmlForm extends React.Component {
   }
 
   handleChange(e, { name, value }) {
+    console.log('name ', name);
+    console.log('value', value);
+    
+    
     this.setState({ [name]: value })
   }
 
@@ -207,8 +214,28 @@ class HtmlForm extends React.Component {
   }
 
   render() {
+
+    let yle2019Questions = []
+
+    if (this.props.yle2019.headers.length > 0) {
+      
+      yle2019Questions = this.props.yle2019.headers.slice(4,62)
+      yle2019Questions = [...new Set(yle2019Questions)]; 
+      console.log('headers', yle2019Questions);
+    } else{
+      return (
+        <Dimmer active>
+          <Loader indeterminate>searching data</Loader>
+        </Dimmer>
+      )
+    }
+    
     /*eslint-disable */
-   const values = this.props.ylenKysymykset.kysymykset.map(x => x = { text: x, value: x })
+    const values = this.props.ylenKysymykset.kysymykset.map(x => x = { text: x, value: x })
+    const yleValues2019 = yle2019Questions.map(x => x = { text: x, value: x })
+    
+    console.log('state', this.state);
+    
    /* eslint-enable */
     return (
       <div className="container">
@@ -229,6 +256,7 @@ class HtmlForm extends React.Component {
             <Checkbox toggle onChange={() => this.handleHot()} />
             Keskeinen kysymys tällä hallituskaudella
             <table>
+              <tbody>
               <tr>
                 <td>
                 <Checkbox
@@ -312,6 +340,7 @@ class HtmlForm extends React.Component {
                     />
                     </td>
                 </tr>
+                </tbody>
               </table>
               
           </Segment>
@@ -328,6 +357,10 @@ class HtmlForm extends React.Component {
           <br />
           <b>Valitse osuvin kysymys ylen vaalikoneesta</b>
           <Dropdown type="text" name="vastaus" placeholder="Valitse kysymys" onChange={this.handleChange.bind(this)} fluid search selection options={values} />
+          <br />
+          <br />
+          <b>Valitse osuvin kysymys ylen vaalikoneesta vuonna 2019</b>
+          <Dropdown type="text" name="yle2019" placeholder="Valitse kysymys" onChange={this.handleChange.bind(this)} fluid search selection options={yleValues2019} />
           <Segment compact style={{ background: '#d4eff9' }}>
             <Checkbox toggle onChange={() => this.handleRistiriita()} />
             Ylen ja eduskunnan kysymyksenasettelu ristiriitainen
@@ -363,6 +396,7 @@ const mapStateToProps = state => ({
   notify: state.notify,
   kategoriat: state.kategoriat,
   ylenKysymykset: state.ylenKysymykset,
+  yle2019: state.yle2019
 })
 
 export default connect(

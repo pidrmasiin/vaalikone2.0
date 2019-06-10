@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Accordion, Icon, Checkbox } from 'semantic-ui-react'
 import Machine from './Machine'
 
-class Settings extends React.Component {
+class SipilaSettings extends React.Component {
     state = {
       renderMachine: false,
       hotQuestions: true,
@@ -54,7 +54,7 @@ class Settings extends React.Component {
     render() {
       if (this.state.renderMachine) {
         return (
-          <Machine hots={false} selected_categories={this.state.categories} howMany={this.state.number}/>
+          <Machine selection='sipila' selected_categories={this.state.categories} howMany={this.state.number}/>
         )
       }
       return (
@@ -110,4 +110,4 @@ const mapStateToProps = state => ({
   kysymykset: state.kysymykset
 });
 
-export default connect(mapStateToProps)(Settings);
+export default connect(mapStateToProps)(SipilaSettings);

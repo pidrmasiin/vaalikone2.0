@@ -9,6 +9,8 @@ import kayttajaReducer from './reducers/kayttajaReducer';
 import kategoriatReducer from './reducers/kategoriatReducer';
 import edustajaReducer from './reducers/edustajaReducer'
 import ylenKysymyksetReducer from './reducers/ylenKysymyksetReducer'
+import yle2019Reducer from './reducers/yle2019Reducer'
+
 
 const reducer = combineReducers({
   html: htmlReducer,
@@ -20,6 +22,7 @@ const reducer = combineReducers({
   kategoriat: kategoriatReducer,
   edustaja: edustajaReducer,
   ylenKysymykset: ylenKysymyksetReducer,
+  yle2019: yle2019Reducer,
 });
 
 const store = createStore(

@@ -7,7 +7,7 @@ import '../App.css'
 ReactGA.initialize('UA-137723152-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
-class Menu extends React.Component {
+class MachineMenu extends React.Component {
   render() {
     return(
     <div style={{textAlign: 'center', paddingLeft: '0.5em'}}>
@@ -48,4 +48,4 @@ class Menu extends React.Component {
   }
 }
 
-export default Menu
+export default MachineMenu

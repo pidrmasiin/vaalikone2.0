@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Grid, Header, Card, Icon} from 'semantic-ui-react';
+import { Button, Grid, Header, Card, Icon, Dimmer, Loader} from 'semantic-ui-react';
 import { addKysymys, addVastaus, addEuroVastaus } from '../reducers/kayttajaReducer';
 import { notifyCreation } from '../reducers/notifyReducer'
 import AnswersTable from './AnswersTable';
@@ -44,18 +44,36 @@ class Machine extends React.Component {
   }
 
   filterQuestions = (questions) => {
-    
-    let handledQuestions = questions.filter(q => q.tunniste != 'eu2019')
     const selected_categories = this.props.selected_categories
-    if (this.props.hots) {
-      handledQuestions =  questions.filter(q => q.tunniste == 'eu2019')
-    } if (selected_categories.length > 0){
+    let handledQuestions = this.selectedMachineQuestions(this.props.selection, questions)
+    if (selected_categories.length > 0){
       handledQuestions = questions.filter( q => selected_categories.some(cat => q.kategoriat.map(k => k.nimi).includes(cat)))
       if (handledQuestions.length === 0) {
         this.props.notifyCreation('Antamillasi ehdoilla ei löytynyt yhtään kysymystä. Kokeile valita hieman vähemmän kategorioita.', 15)
       }
     }
     return handledQuestions
+  }
+
+  selectedMachineQuestions = (selection, questions) => {
+    let handledQuestions = questions.filter(q => q.tunniste != 'eu2019')
+    if (selection == 'eu2019') {
+      handledQuestions =  questions.filter(q => q.tunniste == 'eu2019')
+    }
+    console.log('juuh');
+    
+    switch(selection) {
+      case 'eu2019':
+        return handledQuestions
+      case 'sipila':
+    console.log('juussh');
+
+        return handledQuestions.filter(x => x.createdAt == null)
+      case 'rinne':
+        return handledQuestions.filter(x => x.createdAt)
+      default:
+        return []
+    }
   }
 /*eslint-disable */
   shuffle = (array) => {
@@ -102,7 +120,7 @@ class Machine extends React.Component {
     const help = this.props.kayttaja.kysymykset.find(x => x.kysymys === this.state.kysymys.kysymys)
     if (!help) {
       for (let i = 0; i < jaaPuolueet.map(p => p.nimi).length; i = i + 1) {
-        this.props.hots? this.props.addEuroVastaus(jaaPuolueet.map(p => p.nimi)[i]) : this.props.addVastaus(jaaPuolueet.map(p => p.nimi)[i]);
+        (this.props.selection == 'eu2019') ? this.props.addEuroVastaus(jaaPuolueet.map(p => p.nimi)[i]) : this.props.addVastaus(jaaPuolueet.map(p => p.nimi)[i]);
       }
     }
     this.setState({
@@ -114,10 +132,8 @@ class Machine extends React.Component {
   } 
 
   render() {
-    console.log('juuh', this.props);
-    
     const buttonSize = window.innerWidth > 600 ? 'big' : 'medium'
-    if (this.props.kayttaja.kysymykset.length === this.state.kysymykset.length && !this.props.hots) {
+    if (this.state.kysymykset.length > 0 && this.props.kayttaja.kysymykset.length === this.state.kysymykset.length && (this.props.selection != 'eu2019')) {
       return (
         <div>
           <h1 >Tulokset</h1>
@@ -131,11 +147,15 @@ class Machine extends React.Component {
         </div>
       );
     }
-    if(this.props.hots && this.props.kayttaja.kysymykset.length === this.state.kysymykset.length) {
+    if((this.props.selection == 'eu2019') && this.props.kayttaja.kysymykset.length === this.state.kysymykset.length) {
       return <EuroAnswers />
     }
     if (!this.state.kysymys) {
-      window.location.assign('/')
+      return(
+      <Dimmer active>
+        <Loader indeterminate>Preparing Files</Loader>
+      </Dimmer>
+      )
     }
     return (
       <Grid style={{marginLeft: "0.2em" }}>
