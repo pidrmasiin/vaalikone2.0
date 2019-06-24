@@ -13,9 +13,29 @@
     float: 'right';
 }
 
+.answers-show {
+    padding-top: 1em
+}
+
+.question-text {
+    font-size: 0.9em;
+}
+
 @media screen and (max-width: 600px) {
     .ui.segment.home-info {
         font-size: 0.7em;
         line-height: 1.3em;
+    }
+
+    .answers-show {
+        padding-top: 0.3em
+    }
+
+    .answer-buttons {
+        text-align: center
+    }
+
+    .question-div {
+        font-size: 0.9em;
     }
 }

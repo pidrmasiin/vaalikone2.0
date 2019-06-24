@@ -155,10 +155,6 @@ class HtmlForm extends React.Component {
   }
 
   handleChange(e, { name, value }) {
-    console.log('name ', name);
-    console.log('value', value);
-    
-    
     this.setState({ [name]: value })
   }
 

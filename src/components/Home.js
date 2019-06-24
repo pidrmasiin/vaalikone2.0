@@ -1,5 +1,7 @@
 import React from 'react';
-import { Accordion, Icon, Label, Segment } from 'semantic-ui-react'
+import { connect } from 'react-redux';
+
+import { Dimmer, Loader } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 import ReactGA from 'react-ga';
 import InfoBar from './general/InfoBar'
@@ -16,20 +18,26 @@ class Home extends React.Component {
   }
 
   render() {
+
+    if (this.props.questions.length == 0){
+      return (
+        <Dimmer active>
+          <Loader indeterminate>searching data</Loader>
+        </Dimmer>
+      )
+    }
     return(
-    <div>
-      <InfoBar 
-        title="Vaalikausikoneen avulla voit seurata eduskunnan toimintaa"
-        text="Vaalikausikone tarjoaa selkeän ja helpon mahdollisuuden seurata
-        eduskunnan toimintaa. Palvelun avulla voit vertailla omia näkemyksiäsi
-        eduskunnan puolueiden ja edustajien käyttäytymiseen. Lisäksi voit tarkastella,
-        kuinka edustajien ja puolueen käyttäytyminen suhteutuu Ylen vuoden 2019 vaalikoneen 
-        vastauksiin."
-      />
-      <NewestQuestions />
-    </div>
+    
+      <NewestQuestions questions={this.props.questions}/>
     )
   }
 }
 
-export default Home
+const mapStateToProps = state => ({
+  questions: state.kysymykset
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(Home)
