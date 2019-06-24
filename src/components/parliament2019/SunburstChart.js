@@ -16,48 +16,34 @@ class SingleQuestionData extends React.Component {
         children: [
         {
         name: "Jaa",
-        value: (55 + 28 + 12 + 22) / 63,
-        color: "green",
+        color: "#003300",
         children: [
           {name: "SDP", color: "red", children: [
-            {name: "jaa", value: 52, color: "green"}, 
+            {name: "jaa", value: 52 * (52/55), color: "green"}, 
             {name: "Ei", value: 0, color: "red"}, 
-            {name: "EOS", value: 3, color: "grey"}
+            {name: "EOS", value: 52 * (3/55), color: "grey"}
             ]}
           , 
           {name: "KOK", color: "blue", children: [
-            {name: "jaa", value: 1, color: "green"}, 
-            {name: "Ei", value: 25, color: "red"}, 
-            {name: "EOS", value: 2, color: "grey"}
+            {name: "jaa", value: 1 * (1/28), color: "green"}, 
+            {name: "Ei", value: 1 * (25/28), color: "red"}, 
+            {name: "EOS", value: 1 * (2/28), color: "grey"}
           ]},
-          {name: "PERSUT", color: "darkblue", children: [
-            {name: "jaa", value: 0, color: "green"}, 
-            {name: "Ei", value: 12, color: "red"}, 
-            {name: "EOS", value: 0, color: "grey"}
-          ]
-        },
         {name: "vihr", color: "lightgreen", children: [
-          {name: "jaa", value: 10, color: "green"}, 
-          {name: "Ei", value: 9, color: "red"}, 
-          {name: "EOS", value: 3, color: "grey"}
+          {name: "jaa", value: 10 * (10/22), color: "green"}, 
+          {name: "Ei", value: 10 * (9/22), color: "red"}, 
+          {name: "EOS", value: 10 * (3/22), color: "grey"}
         ]
       }
       ]},
         {
           name: "Ei",
-          value: 117 / 46,
-          color: 'red',
+          color: '#660033',
           children: [
-            {name: "SDP", color: "red", children: [
-              {name: "jaa", value: 52, color: "green"}, 
-              {name: "Ei", value: 0, color: "red"}, 
-              {name: "EOS", value: 3, color: "grey"}
-              ]}
-            , 
             {name: "KOK", color: "blue", children: [
-              {name: "jaa", value: 1, color: "green"}, 
-              {name: "Ei", value: 25, color: "red"}, 
-              {name: "EOS", value: 2, color: "grey"}
+              {name: "jaa", value: 25 * (1/28), color: "green"}, 
+              {name: "Ei", value: 25 * (25/28), color: "red"}, 
+              {name: "EOS", value: 25 * (2/28), color: "grey"}
             ]},
             {name: "PERSUT", color: "darkblue", children: [
               {name: "jaa", value: 0, color: "green"}, 
@@ -66,39 +52,32 @@ class SingleQuestionData extends React.Component {
             ]
           },
           {name: "vihr", color: "lightgreen", children: [
-            {name: "jaa", value: 10, color: "green"}, 
-            {name: "Ei", value: 9, color: "red"}, 
-            {name: "EOS", value: 3, color: "grey"}
+            {name: "jaa", value: 9 * (10/22), color: "green"}, 
+            {name: "Ei", value: 9 * (9/22), color: "red"}, 
+            {name: "EOS", value: 9 * (3/22), color: "grey"}
           ]
         }
         ]}
         ,
         {
           name: "EOS",
-          value: 117 / 8,
           color: 'grey',
           children: [
             {name: "SDP", color: "red", children: [
-              {name: "jaa", value: 52, color: "green"}, 
+              {name: "jaa", value: 3 * (52/55), color: "green"}, 
               {name: "Ei", value: 0, color: "red"}, 
-              {name: "EOS", value: 3, color: "grey"}
+              {name: "EOS", value: 3 * (3/55), color: "grey"}
               ]}
             , 
             {name: "KOK", color: "blue", children: [
-              {name: "jaa", value: 1, color: "green"}, 
-              {name: "Ei", value: 25, color: "red"}, 
-              {name: "EOS", value: 2, color: "grey"}
-            ]}, 
-            {name: "PERSUT", color: "darkblue", children: [
-              {name: "jaa", value: 0, color: "green"}, 
-              {name: "Ei", value: 12, color: "red"}, 
-              {name: "EOS", value: 0, color: "grey"}
-            ]
-          },
+              {name: "jaa", value: 2 * (1/28), color: "green"}, 
+              {name: "Ei", value: 2 * (25/28), color: "red"}, 
+              {name: "EOS", value: 2 * (2/28), color: "grey"}
+            ]},
           {name: "vihr", color: "lightgreen", children: [
-            {name: "jaa", value: 10, color: "green"}, 
-            {name: "Ei", value: 9, color: "red"}, 
-            {name: "EOS", value: 3, color: "grey"}
+            {name: "jaa", value: 3 * (10/22), color: "green"}, 
+            {name: "Ei", value: 3 * (9/22), color: "red"}, 
+            {name: "EOS", value: 3 * (3/22), color: "grey"}
           ]
         }
         ]}
@@ -111,8 +90,8 @@ class SingleQuestionData extends React.Component {
       let arc = d3.arc()
       .startAngle(d => d.x0)
       .endAngle(d => d.x1)
-      .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
-      .padRadius(radius * 1.5)
+      .padAngle(d => Math.min((d.x1 - d.x0) / 1, 0.01))
+      .padRadius(radius * 9)
       .innerRadius(d => d.y0 * radius)
       .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1))
       
@@ -122,7 +101,7 @@ class SingleQuestionData extends React.Component {
     
       const svg = d3.select("svg")
           .attr("viewBox", [0, 0, width, width])
-          .style("font", "14px sans-serif");
+          .style("font", "14px sans-serif")
     
       const g = svg.append("g")
           .attr("transform", `translate(${width / 2},${width / 2})`);

@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Transition, Icon, Button, Grid } from 'semantic-ui-react'
 import InfoAccordion from './InfoAccordion'
 import InfoBar from './InfoBar'
-import '../../css/Home.css'
-import SingleQuestionData from '../parliament2019/SingleQuestionData';
+import SingleQuestionData from '../parliament2019/SingleQuestionChart';
 
 class NewestQuestions extends React.Component {
   state = {
