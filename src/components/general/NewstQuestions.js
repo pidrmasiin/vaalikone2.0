@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Transition, Icon, Button, Grid } from 'semantic-ui-react'
+import { Transition, Icon, Button, Grid, Dimmer, Loader } from 'semantic-ui-react'
 import InfoAccordion from './InfoAccordion'
 import InfoBar from './InfoBar'
-import SingleQuestionData from '../parliament2019/SingleQuestionChart';
+import SingleQuestionData from '../parliament2019/SingleQuestionData';
 
 class NewestQuestions extends React.Component {
   state = {
@@ -13,7 +13,6 @@ class NewestQuestions extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log('didmount');
     this.setQuestions(0)
   }
     
@@ -32,7 +31,6 @@ class NewestQuestions extends React.Component {
     questions = questions.sort(function(a,b){
       return new Date(b.createdAt) - new Date(a.createdAt);
     }).slice(0,3)
-
     this.setState({question: questions[questionIndex]})
   }
 
@@ -67,14 +65,9 @@ class NewestQuestions extends React.Component {
   render() {
     let desktop = window.innerWidth > 600 
     const buttonSize = desktop ? 'large' : 'tiny'
-  
-   
-    console.log('props', this.props);
-    console.log('state', this.state);
-
-    
 
     if(this.state.result) {
+
       return(
         <SingleQuestionData question={this.state.question} userOpinion={this.state.result}/>
       )
@@ -149,7 +142,10 @@ class NewestQuestions extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    notyet: state.kysymykset
+    yle2019: state.yle2019
   });
   
-export default NewestQuestions
+export default connect(
+  mapStateToProps,
+  null
+)(NewestQuestions)

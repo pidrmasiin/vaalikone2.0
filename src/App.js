@@ -69,6 +69,18 @@ class App extends React.Component {
   }
 
   render() {
+    var prevScrollpos = window.pageYOffset;
+    window.onscroll = function() {
+    var currentScrollPos = window.pageYOffset;
+      if (prevScrollpos > currentScrollPos) {
+        document.getElementById("navbar").style.top = "0";
+        document.getElementById("footer").style.bottom = "0";
+      } else {
+        document.getElementById("navbar").style.top = "-10em";
+        document.getElementById("footer").style.bottom = "-4em";
+      }
+      prevScrollpos = currentScrollPos;
+    }
     const active = {fontWeight: "bold"}
     return (
       <Router>
@@ -84,7 +96,7 @@ class App extends React.Component {
               }}
               >
               <div>
-                <div className='menu-content'>
+                <div className='menu-content' id='navbar'>
                   <a className='logo-link' onClick={() => window.location.href = '/'}>
                     <img 
                       src="https://i.imgur.com/mEEvD3i.png" 
@@ -164,7 +176,7 @@ class App extends React.Component {
                   }
                     />
                 </div>
-                  <div className='footer'>
+                  <div className='footer' id='footer'>
                     <div className='footer-left'>
                       Vaalikausikone Ry
                     </div>
@@ -188,7 +200,7 @@ const mapStateToProps = state => ({
   user: state.user,
   kysymykset: state.kysymykset,
   kategoriat: state.kategoriat,
-  ylenKysymykset: state.ylenKysymykset,
+  ylenKysymykset: state.ylenKysymykset
 });
 
 export default connect(

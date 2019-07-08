@@ -5,6 +5,7 @@
     position: sticky;
     top: 0;
     z-index: 50;
+    transition: top 0.3s;
 }
 
 .menu-links { 
@@ -36,7 +37,7 @@
     float: left;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1000px) {
     .menu-content {
         text-align: center;
     }

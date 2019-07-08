@@ -4,106 +4,24 @@ import * as d3 from "d3";
 import { Dimmer, Loader } from 'semantic-ui-react'
 import '../../css/Chart.css'
 
-class SingleQuestionData extends React.Component {
-    state = {}
+class SimpleOpinionChart extends React.Component {
   componentDidMount() {
-      console.log('propsi', this.props);
-      const data = this.props.question.puolueet.map( party => ({ 
-            State: this.parseParties(party.nimi), 
-            freq: {jaa: party.jaa, ei: party.ei, "poissa/tyhjiä": party.tyhjia + party.poissa},
-            barColor: this.getColor(party.nimi)
-            }
-          ))
-            console.log('data', data);
-            
-      
-var freqData=[
-    {State:'sdp',freq:{jaa:46, ei:13, eos:49}, barColor: 'red'},
-    {State:'kok',freq:{jaa:4, ei:53, eos:49}, barColor: 'darkblue'},
-    {State:'vihr',freq:{jaa:6, ei:13, eos:9}, barColor: 'green'}
-    ];
-    this.dashboard('#dashboard', data);
+         // example data
+      // var freqData=[
+      //     {State:'sdp',freq:{jaa:46, ei:13, eos:49}, barColor: 'red'},
+      //     {State:'kok',freq:{jaa:4, ei:53, eos:49}, barColor: 'darkblue'},
+      //     {State:'vihr',freq:{jaa:6, ei:13, eos:9}, barColor: 'green'}
+      //     ];
+    this.dashboard('#' + this.props.chartId, this.props.data);
   }
 
-  parseParties = (party) => {
-    let puolue = party
-    switch (party) {
-      case 'Keskustan eduskuntaryhmä':
-        puolue = 'kesk'
-        break
-      case 'Perussuomalaisten eduskuntaryhmä':
-        puolue = 'ps'
-        break
-      case 'Kansallisen kokoomuksen eduskuntaryhmä':
-        puolue = 'kok'
-        break
-      case 'Sosialidemokraattinen eduskuntaryhmä':
-        puolue = 'sdp'
-        break
-      case 'Vihreä eduskuntaryhmä':
-        puolue = 'vihr'
-        break
-      case 'Vasemmistoliiton eduskuntaryhmä':
-        puolue = 'vas'
-        break
-      case 'Ruotsalainen eduskuntaryhmä':
-        puolue = 'rkp'
-        break
-      case 'Kristillisdemokraattinen eduskuntaryhmä':
-        puolue = 'kd'
-        break
-      case 'Liike Nyt -eduskuntaryhmä':
-        puolue = 'nyt'
-        break
-      default:
-        break
-    }
-    return puolue
-  }
 
-  getColor = (party) => {
-    let puolue = 'grey'
-    switch (party) {
-      case 'Keskustan eduskuntaryhmä':
-        puolue = '#006600'
-        break
-      case 'Perussuomalaisten eduskuntaryhmä':
-        puolue = '#000066'
-        break
-      case 'Kansallisen kokoomuksen eduskuntaryhmä':
-        puolue = '#0099ff'
-        break
-      case 'Sosialidemokraattinen eduskuntaryhmä':
-        puolue = '#ff3300'
-        break
-      case 'Vihreä eduskuntaryhmä':
-        puolue = '#33cc33'
-        break
-      case 'Vasemmistoliiton eduskuntaryhmä':
-        puolue = '#660033'
-        break
-      case 'Ruotsalainen eduskuntaryhmä':
-        puolue = '#ffcc00'
-        break
-      case 'Kristillisdemokraattinen eduskuntaryhmä':
-        puolue = '#ffff66'
-        break
-      case 'Liike Nyt -eduskuntaryhmä':
-        puolue = '#cc0099'
-        break
-      default:
-        break
-    }
-    return puolue
-  }
-    
   dashboard(id, fData){
         var barColor = 'black';
         function segColor(c){ return {jaa:"green", ei:"red", 'poissa/tyhjiä':"grey"}[c]; }
         
         // compute total for each state.
         fData.forEach(function(d){d.total=d.freq.jaa+d.freq.ei+d.freq["poissa/tyhjiä"];});
-        console.log('fdata', fData);
         
         // function to handle histogram.
         function histoGram(fD){
@@ -116,7 +34,7 @@ var freqData=[
                 .attr("width", hGDim.w + hGDim.l + hGDim.r)
                 .attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
                 .attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");
-    
+            
             // create function for x-axis mapping.
             var x = d3.scaleBand().rangeRound([0, hGDim.w], 0.1)
                     .domain(fD.map(function(d) { return d[0]; }));
@@ -198,7 +116,7 @@ var freqData=[
             var piesvg = d3.select(id).append("svg")
                 .attr("width", pieDim.w).attr("height", pieDim.h).append("g")
                 .attr("transform", "translate("+pieDim.w/2+","+pieDim.h/2+")");
-            
+
             // create function to draw the arcs of the pie slices.
             var arc = d3.arc().outerRadius(pieDim.r - 10).innerRadius(0);
     
@@ -244,7 +162,7 @@ var freqData=[
                 
             // create table for legend.
             var legend = d3.select(id).append("table").attr('class','legend');
-            
+
             // create one row per segment.
             var tr = legend.append("tbody").selectAll("tr").data(lD).enter().append("tr");
                 
@@ -290,21 +208,14 @@ var freqData=[
         
         // calculate total frequency by state for all segment.
         var sF = fData.map(function(d){return [d.State,d.total];});
-    
+        
         var hG = histoGram(sF), // create the histogram.
             pC = pieChart(tF), // create the pie-chart.
             leg= legend(tF);  // create the legend.
     }
         
   render(){
-      console.log('uh', this.state);
-      
-    return <div>
-        <h3>{this.props.question.kysymys}</h3>
-        <p>Klikkaamalla puolueen palkkia näet jakauman sen osalta</p>
-
-        <div id='dashboard' />
-    </div>
+    return <div id={this.props.chartId} />
   }
 }
 
@@ -315,4 +226,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   null
-)(SingleQuestionData)
+)(SimpleOpinionChart)

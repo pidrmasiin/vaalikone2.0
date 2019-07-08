@@ -34,7 +34,8 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  questions: state.kysymykset
+  questions: state.kysymykset,
+  yle2019: state.yle2019
 });
 
 export default connect(

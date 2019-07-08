@@ -1,10 +1,9 @@
 import React from 'react';
 import Papa from 'papaparse'
-import csv from './2019.csv'
+// import csv from './2019.csv'
 import { connect } from 'react-redux';
 
-import { getYle2019 } from './../../../reducers/yle2019Reducer';
-import Yle2019Service from './../../../services/yle2019';
+// import { getYle2019 } from './../../../reducers/yle2019Reducer';
 import yle2019 from './../../../services/yle2019';
 
 
@@ -23,18 +22,18 @@ class  XlsxParser extends React.Component {
 }
 
   componentDidMount = async () => {
-    this.props.getYle2019()
+    // this.props.getYle2019()
     
-    await Papa.parse(csv, {
-        header: true,
-        download: true,
-        complete: this.update
-    })
+    // await Papa.parse(csv, {
+    //     header: true,
+    //     download: true,
+    //     complete: this.update
+    // })
 
   }
 
   update(results) {
-      console.log(results);
+      console.log('results', results);
       
       this.setState({
           members: results.data.slice(0, 200)
@@ -77,12 +76,12 @@ class  XlsxParser extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    yle2019: state.yle2019,
+    // yle2019: state.yle2019,
   });
   
   export default connect(
     mapStateToProps,
     {
-        getYle2019
+        // getYle2019
       }
   )(XlsxParser);
