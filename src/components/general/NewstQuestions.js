@@ -103,8 +103,9 @@ class NewestQuestions extends React.Component {
                     <span className='question-text'>
                       <InfoAccordion 
                         text={this.state.question.selitys}
+                        question={this.state.question}
                         title='Lisätietoja'
-                        iconSize='little'
+                        iconSize='small'
                         />
                     </span>
 

@@ -8,7 +8,6 @@ const initialState = {
 }
 
 const yle2019Reducer = (store = initialState, action) => {
-    console.log('data', action);
     
   if (action.type === 'YLE2019') {
     return {

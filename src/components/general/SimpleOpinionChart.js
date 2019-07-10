@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as d3 from "d3";
-import { Dimmer, Loader } from 'semantic-ui-react'
 import '../../css/Chart.css'
 
 class SimpleOpinionChart extends React.Component {
@@ -15,6 +14,10 @@ class SimpleOpinionChart extends React.Component {
     this.dashboard('#' + this.props.chartId, this.props.data);
   }
 
+  componentDidUpdate() {
+    d3.select('#' + this.props.chartId).selectAll("*").remove()
+    this.dashboard('#' + this.props.chartId, this.props.data);
+  }
 
   dashboard(id, fData){
         var barColor = 'black';
@@ -195,7 +198,7 @@ class SimpleOpinionChart extends React.Component {
             }
             
             function getLegend(d,aD){ // Utility function to compute percentage.
-                return d3.format("%")(d.freq/d3.sum(aD.map(function(v){ return v.freq; })));
+                return d3.format("0.2%")(d.freq/d3.sum(aD.map(function(v){ return v.freq; })));
             }
     
             return leg;

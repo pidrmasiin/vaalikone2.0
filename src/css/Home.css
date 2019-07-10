@@ -21,10 +21,20 @@
     font-size: 0.9em;
 }
 
+.chart-divider {
+    margin-top: 4em;
+    margin-bottom: 3em;
+}
+
 @media screen and (max-width: 600px) {
     .ui.segment.home-info {
         font-size: 0.7em;
         line-height: 1.3em;
+    }
+
+    .chart-divider {
+        margin-top: 0em;
+        margin-bottom: 0em;
     }
 
     .answers-show {

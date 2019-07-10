@@ -1,31 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dimmer, Loader, Segment } from 'semantic-ui-react'
 import SimpleOpinionChart from '../../general/SimpleOpinionChart';
 import '../../../css/Chart.css'
 
 
 class SimpleYleChart extends React.Component {
-    state = {}
-  componentDidMount() {
-        // example data
-      // var freqData=[
-      //     {State:'sdp',freq:{jaa:46, ei:13, 'poissa/tyhjiä':49}, barColor: 'red'},
-      //     {State:'kok',freq:{jaa:4, ei:53, 'poissa/tyhjiä':49}, barColor: 'darkblue'},
-      //     {State:'vihr',freq:{jaa:6, ei:13, 'poissa/tyhjiä':9}, barColor: 'green'}
-      //     ];
-  }
-
-  test = () => {
-    let keys = Object.keys(this.props.yle2019.parties)
-    let data = keys.map(party => ({State: this.parseParties(party), freq: this.opinions(party), barColor: this.getColor(party)}))
-    data = data.sort(function (a, b) {
-      const aTotal = a.freq.ei + a.freq.jaa + a.freq['poissa/tyhjiä']
-      const bTotal = b.freq.ei + b.freq.jaa + b.freq['poissa/tyhjiä']
-      return bTotal - aTotal;
-    })
-    this.setState({data})
-  }
 
   opinions = (party) => {
     party = this.props.yle2019.parties[party]
@@ -129,28 +108,19 @@ class SimpleYleChart extends React.Component {
         
   render(){
 
-    if (this.props.yle2019.members.length > 0 && !this.state.data){
-      this.test()
-      } 
+    let keys = Object.keys(this.props.yle2019.parties)
+    let data = keys.map(party => ({State: this.parseParties(party), freq: this.opinions(party), barColor: this.getColor(party)}))
+    data = data.sort(function (a, b) {
+      const aTotal = a.freq.ei + a.freq.jaa + a.freq['poissa/tyhjiä']
+      const bTotal = b.freq.ei + b.freq.jaa + b.freq['poissa/tyhjiä']
+      return bTotal - aTotal;
+    })
     
-    if (!this.state.data) {
-      return (
-        <Dimmer active>
-          <Loader indeterminate>Ladataan ylen dataa</Loader>
-        </Dimmer>
-      )
-      }
-    
-    return <div className='font-chart'>
-       <Segment color='blue'>
-          <h3>{this.props.yleQuestion}</h3>
-        </Segment>
-      Ahvenanmaan edustajaa ei ole huomioita kaaviossa. Puhemies on mukana.
-      {this.state.data && <SimpleOpinionChart data={this.state.data} 
-          chartId='singleYle2019Question'
+    return <div className='font-chart' key={data}>
+      {data && <SimpleOpinionChart data={data} 
+          chartId="simpleYleChartSVG"
           />}
-
-      
+      Ylen datan kaaviossa ei ole huomioitu Ahvenanmaan edustajaa. Puhemies sen sijaan on mukana.
     </div>
   }
 }

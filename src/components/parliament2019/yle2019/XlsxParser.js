@@ -59,11 +59,9 @@ class  XlsxParser extends React.Component {
 
  
   render() {
-    console.log('pros',this.props);
     
     if(this.state.members && this.state.questions) {
         const data = {members: this.state.members, parties: this.state.partiesData, headers: this.state.questions}
-        console.log('post', data);
         
         // yle2019.addYle(data)
 

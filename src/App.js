@@ -178,7 +178,7 @@ class App extends React.Component {
                 </div>
                   <div className='footer' id='footer'>
                     <div className='footer-left'>
-                      Vaalikausikone Ry
+                      Vaalikausikone
                     </div>
                     <div className='footer-right'>
                       Twitter Facebook

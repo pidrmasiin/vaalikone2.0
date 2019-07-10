@@ -22,6 +22,15 @@ class InfoAccordion extends React.Component {
             </span>
             </Accordion.Title>
             <Accordion.Content active={this.state.activeInfo} style={{marginLeft: "2em"}}>
+            {this.props.question &&
+            <div>
+              <b>{this.props.question.tunniste}</b>
+              <br/>
+              <a href={this.props.question.url} target="_blank">Linkki eduskunnan sivuille</a>
+              <br/>
+              <b>Selitys</b>
+            </div>
+            }
             <p>
                 {this.props.text}
             </p>

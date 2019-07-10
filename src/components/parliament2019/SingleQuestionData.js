@@ -1,23 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment } from 'semantic-ui-react'
+import { Segment, Dropdown, Dimmer, Loader, Icon } from 'semantic-ui-react'
+import '../../css/Home.css'
 
 import SimpleOpinionChart from '../general/SimpleOpinionChart';
 import InfoAccordion from '../general/InfoAccordion';
 import SimpleYleChart from './yle2019/SimpleYleChart';
 
 class SingleQuestionData extends React.Component {
-    state = {}
+    state = {
+      yle2019: this.props.question.yle2019,
+      question: this.props.question,
+      questionIndex: 0
+    }
   componentDidMount() {
-      const questionData = this.props.question.puolueet.map( party => ({ 
-            State: this.parseParties(party.nimi), 
-            freq: {jaa: party.jaa, ei: party.ei, "poissa/tyhjiä": party.tyhjia + party.poissa},
-            barColor: this.getColor(party.nimi)
-            }
-          ))
-      
-      this.setState({questionData})    
-   
+      this.setQuestionData(this.props.question)
+  }
+
+  setQuestionData = (question) => {
+    const questionData = question.puolueet.map( party => ({ 
+      State: this.parseParties(party.nimi), 
+      freq: {jaa: party.jaa, ei: party.ei, "poissa/tyhjiä": party.tyhjia + party.poissa},
+      barColor: this.getColor(party.nimi)
+      }
+    ))
+    this.setState({questionData})  
   }
 
   parseParties = (party) => {
@@ -91,25 +98,53 @@ class SingleQuestionData extends React.Component {
     }
     return puolue
   }
-        
+
+  handleChange(e, { name, value }) {
+    this.setState({ [name]: value, questionIndex: this.state.questionIndex + 1 })
+  }
+
+  handleQuestionChange(e, { name, value }) {
+    this.setState({ [name]: this.props.questions.find(q => q.id == value) })
+    this.setQuestionData(this.props.questions.find(q => q.id == value))
+  }
+
   render(){
+    const yleValues2019 = this.props.yle2019.headers.slice(4,62).map(x => x = { text: x, value: x })
+    const questions = this.props.questions.filter(q => q.createdAt != null).map(q => q = {text: q.kysymys, value: q.id})
+     
     return <div>
+        <h1>Tulokset</h1>
+        Ohessa kaavio, jonka avulla voit tarkastella eduskunnan käyttäytymistä valitsemassasi kysymyksessä.
+        Voit klikata palkkeja ja lohkoja, ja tarkastella näin yksittäisten puolueiden tai mielipiteiden jakaumia.
         <h2>Eduskunta</h2>
-        <Segment color='blue'>
-          <h3>{this.props.question.kysymys}</h3>
+          <Dropdown style={{fontWeight: 'bold', borderTop: '2px solid #004d99'}} type="text" name="question" value={this.state.question.id} onChange={this.handleQuestionChange.bind(this)} fluid search selection options={questions} />
           <span className='question-text'>
             <InfoAccordion 
-              text={this.props.question.selitys}
-              title='Lisätietoja'
-              iconSize='little'
+              text={this.state.question.selitys}
+              title='Lisätietoja kysymyksestä'
+              question={this.state.question}
+              iconSize='small'
               />
           </span>
-        </Segment>
-      Voit klikata palkkeja ja tarkastella yksittäisten puolueiden käyttäytymisen jakautumista.
       {this.state.questionData && <SimpleOpinionChart data={this.state.questionData} chartId='singleParliamentQuestion'/>}
-      {this.props.question.yle2019 && <Segment basic>
+      <hr className='chart-divider'/>
+      {this.props.yle2019.members.length > 0 ?
+      <Segment style={{fontSize: '1em'}} basic>
       <h2>Yle</h2>
-      <SimpleYleChart yleQuestion={this.props.question.yle2019}/>
+      <Dropdown style={{fontWeight: 'bold', marginBottom: '0.5em', borderTop: '2px solid #004d99'}} type="text" name="yle2019" value={this.state.yle2019} onChange={this.handleChange.bind(this)} fluid search selection options={yleValues2019} />
+      <div className="info-icon" >
+        <Icon name="info circle" size='small' />
+      </div>
+      <span style={{fontSize: '0.9em'}}>Voit verrata eduskunnan käyttäytymistä edustajien antamiin vastauksiin valitsemassasi ylen vaalikone kysymyksessä.
+      </span>
+      <br />
+      <SimpleYleChart yleQuestion={this.state.yle2019} />
+      </Segment>
+      :
+      <Segment basic style={{height: '5em'}}>
+      <Dimmer active>
+        <Loader indeterminate>Ladataan ylen dataa</Loader>
+      </Dimmer>
       </Segment>
       }
 
