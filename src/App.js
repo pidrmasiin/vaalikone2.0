@@ -181,7 +181,9 @@ class App extends React.Component {
                       Vaalikausikone
                     </div>
                     <div className='footer-right'>
-                      Twitter Facebook
+                      <a href='https://twitter.com/vaalikausikone' target='_blank'>Twitter</a>
+                      <span style={{marginLeft: '1em', marginRight: '1em'}}>|</span>
+                      <a href='https://www.facebook.com/vaalikausikone/' target='_blank'>Facebook</a>
                     </div>
                   </div>
                 </div>
