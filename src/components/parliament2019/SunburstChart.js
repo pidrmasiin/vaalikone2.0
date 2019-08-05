@@ -5,7 +5,9 @@ import { Dimmer, Loader } from 'semantic-ui-react'
 
 class SingleQuestionData extends React.Component {
   componentDidMount() {
-    this.drawChart();
+    if (this.props.data) {
+      this.drawChart(this.props.data);
+    }
   }
     
   drawChart() {
@@ -99,7 +101,7 @@ class SingleQuestionData extends React.Component {
 
       root.each(d => d.current = d);
     
-      const svg = d3.select("svg")
+      const svg = d3.select('#' + this.props.id)
           .attr("viewBox", [0, 0, width, width])
           .style("font", "14px sans-serif")
     
@@ -200,8 +202,8 @@ class SingleQuestionData extends React.Component {
   }
         
   render(){
-    return <svg 
-    style={{height: '40em'}}
+    return <svg id={this.props.id}
+    style={{height: '25em'}}
     />
   }
 }

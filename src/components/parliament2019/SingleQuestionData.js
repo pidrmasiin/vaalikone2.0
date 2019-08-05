@@ -1,17 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Dropdown, Dimmer, Loader, Icon } from 'semantic-ui-react'
+import { Segment, Dropdown, Dimmer, Loader, Icon, Button, Modal } from 'semantic-ui-react'
 import '../../css/Home.css'
+import '../../App.css'
 
 import SimpleOpinionChart from '../general/SimpleOpinionChart';
 import InfoAccordion from '../general/InfoAccordion';
 import SimpleYleChart from './yle2019/SimpleYleChart';
+import ParseFunds from './funds/parseFundFile'
 
 class SingleQuestionData extends React.Component {
     state = {
       yle2019: this.props.question.yle2019,
       question: this.props.question,
-      questionIndex: 0
+      questionIndex: 0,
+      active: false
     }
   componentDidMount() {
       this.setQuestionData(this.props.question)
@@ -108,16 +111,36 @@ class SingleQuestionData extends React.Component {
     this.setQuestionData(this.props.questions.find(q => q.id == value))
   }
 
+  parseQuestion = (q) => {
+    let slicedQ = (q.length > 50 && window.innerWidth < 700)? q.slice(0, 50) + '...' : q
+    return slicedQ
+  }
+
+  handleOpen = () => this.setState({ active: true })
+  handleClose = () => this.setState({ active: false })
+
   render(){
-    const yleValues2019 = this.props.yle2019.headers.slice(4,62).map(x => x = { text: x, value: x })
-    const questions = this.props.questions.filter(q => q.createdAt != null).map(q => q = {text: q.kysymys, value: q.id})
+    const yleValues2019 = this.props.yle2019.headers.slice(4,33).map(x => x = { text: this.parseQuestion(x), value: x })
+    const questions = this.props.questions.filter(q => q.createdAt != null).map(q => q = {text: this.parseQuestion(q.kysymys), value: q.id})
      
     return <div>
         <h1>Tulokset</h1>
         Ohessa kaavio, jonka avulla voit tarkastella eduskunnan käyttäytymistä valitsemassasi kysymyksessä.
         Voit klikata palkkeja ja lohkoja, ja tarkastella näin yksittäisten puolueiden tai mielipiteiden jakaumia.
         <h2>Eduskunta</h2>
-          <Dropdown style={{fontWeight: 'bold', borderTop: '2px solid #004d99'}} type="text" name="question" value={this.state.question.id} onChange={this.handleQuestionChange.bind(this)} fluid search selection options={questions} />
+          <Dropdown
+            scrolling
+            text={this.state.question.kysymys}
+            style={{fontWeight: 'bold', borderTop: '2px solid #004d99'}}
+            type="text"
+            name="question"
+            value={this.state.question.id}
+            onChange={this.handleQuestionChange.bind(this)}
+            fluid 
+            search 
+            selection 
+            options={questions} 
+          />
           <span className='question-text'>
             <InfoAccordion 
               text={this.state.question.selitys}
@@ -126,12 +149,30 @@ class SingleQuestionData extends React.Component {
               iconSize='small'
               />
           </span>
+          <Modal trigger={<button className='button'>Vaalirahoitus</button>}>
+            <div style={{textAlign: 'center', padding: '2em'}}>
+              <h3>Vaalirahoitus</h3>
+              <p>{this.props.question.kysymys}</p>
+              <ParseFunds question={this.props.question} />
+            </div>
+          </Modal>
       {this.state.questionData && <SimpleOpinionChart data={this.state.questionData} chartId='singleParliamentQuestion'/>}
       <hr className='chart-divider'/>
       {this.props.yle2019.members.length > 0 ?
       <Segment style={{fontSize: '1em'}} basic>
       <h2>Yle</h2>
-      <Dropdown style={{fontWeight: 'bold', marginBottom: '0.5em', borderTop: '2px solid #004d99'}} type="text" name="yle2019" value={this.state.yle2019} onChange={this.handleChange.bind(this)} fluid search selection options={yleValues2019} />
+      <Dropdown
+        scrolling
+        text={this.state.yle2019}
+        style={{fontWeight: 'bold', marginBottom: '0.5em', borderTop: '2px solid #004d99'}} 
+        type="text"
+        name="yle2019"
+        value={this.state.yle2019}
+        onChange={this.handleChange.bind(this)} 
+        fluid 
+        search 
+        selection 
+        options={yleValues2019} />
       <div className="info-icon" >
         <Icon name="info circle" size='small' />
       </div>
@@ -147,7 +188,6 @@ class SingleQuestionData extends React.Component {
       </Dimmer>
       </Segment>
       }
-
     </div>
   }
 }

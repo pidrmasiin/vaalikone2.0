@@ -29,6 +29,7 @@ import './App.css';
 import './css/BasicMenu.css';
 
 import XlsxParser from './components/parliament2019/yle2019/XlsxParser';
+import ParseFunds from './components/parliament2019/funds/parseFundFile';
 
 
 
@@ -107,12 +108,12 @@ class App extends React.Component {
                   <NavLink to='/koneet' className="menu-link">
                     Koneet
                   </NavLink>
-                  <NavLink to='/info' className="menu-link">
+                  {/* <NavLink to='/info' className="menu-link">
                     Puolueet
                   </NavLink>
                   <NavLink to='/info' className="menu-link">
                     Edustajat
-                  </NavLink>
+                  </NavLink> */}
                   <NavLink to='/info' className="menu-link">
                     Info
                   </NavLink>
@@ -137,6 +138,7 @@ class App extends React.Component {
                     id="routet"
                     className="routet"
                   >
+                    <Route exact path="/funds" render={(history) => <ParseFunds history={history}/>} />
                     <Route exact path="/" render={(history) => <Home history={history}/>} />
                     <Route exact path="/koneet" render={(history) => <MachineMenu history={history}/>} />
                     <Route exact path="/suomalaiset" render={(history) => <FinnishMembers history={history}/>} />
