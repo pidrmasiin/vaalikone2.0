@@ -1,0 +1,26 @@
+.funds-container {
+    font-size: 1.5em;
+}
+
+.funds-title {
+    font-size: 2.5em;
+    text-align: center;
+}
+
+.ui.table.funds-table {
+    width: 120%
+}
+
+@media screen and (max-width: 600px) {
+    .funds-container {
+        font-size: 1em;
+    }
+
+    .funds-title {
+        font-size: 1.2em;
+    }
+
+    .ui.table.funds {
+        width: 100%
+    }
+}

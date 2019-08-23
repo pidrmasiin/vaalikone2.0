@@ -7,7 +7,7 @@ import '../../App.css'
 import SimpleOpinionChart from '../general/SimpleOpinionChart';
 import InfoAccordion from '../general/InfoAccordion';
 import SimpleYleChart from './yle2019/SimpleYleChart';
-import ParseFunds from './funds/parseFundFile'
+import FundsModal from './funds/FundsModal';
 
 class SingleQuestionData extends React.Component {
     state = {
@@ -149,13 +149,7 @@ class SingleQuestionData extends React.Component {
               iconSize='small'
               />
           </span>
-          <Modal trigger={<button className='button'>Vaalirahoitus</button>}>
-            <div style={{textAlign: 'center', padding: '2em'}}>
-              <h3>Vaalirahoitus</h3>
-              <p>{this.props.question.kysymys}</p>
-              <ParseFunds question={this.props.question} />
-            </div>
-          </Modal>
+          <FundsModal question={this.props.question}/>
       {this.state.questionData && <SimpleOpinionChart data={this.state.questionData} chartId='singleParliamentQuestion'/>}
       <hr className='chart-divider'/>
       {this.props.yle2019.members.length > 0 ?

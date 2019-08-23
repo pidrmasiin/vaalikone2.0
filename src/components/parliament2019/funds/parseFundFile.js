@@ -2,7 +2,7 @@ import React from 'react';
 import Papa from 'papaparse'
 import csv from './rahoitus.csv'
 import { aliases } from '../../general/memberAliases'
-import BubbleChart from './BubbleChart'
+import OpinonToFunds from './OpinonToFunds'
 
 class  ParseFunds extends React.Component {
     constructor(props) {
@@ -17,14 +17,11 @@ class  ParseFunds extends React.Component {
 }
 
   componentDidMount = async () => {
-    if (this.props.question) {
-      await Papa.parse(csv, {
-        header: true,
-        download: true,
-        complete: this.update
-      })
-    }
-   
+    await Papa.parse(csv, {
+      header: true,
+      download: true,
+      complete: this.update
+    })
 }
 
 
@@ -56,11 +53,12 @@ class  ParseFunds extends React.Component {
     copy.forEach(element => {
         sum = sum + parseInt(element.sum)
     });
+    
     return { 
         alias: member,
         sum: sum,
         funds: parsedFunds,
-        party: memberFunds.length > 0 ? this.removeDots(memberFunds[0].data["'Tuen saajan puolue'"]) : 'no money',
+        party: memberFunds.length > 0 ? this.removeDots(memberFunds[0].data["'Tuen saajan puolue'"]) : 'Ei rahoitusta/ilmoitusta',
     }
   }
 
@@ -81,12 +79,9 @@ class  ParseFunds extends React.Component {
 
  
   render() {
-    console.log('state', this.state);
-
-      
     return(
    <div>
-      {this.state.funds && <BubbleChart question={this.props.question} funds={this.state.funds}/>}
+      {this.state.funds && <OpinonToFunds question={this.props.question} funds={this.state.funds}/>}
    </div>
     )
   }

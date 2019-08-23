@@ -22,14 +22,14 @@ import { getKysymykset } from './reducers/kysymyksetReducer';
 import { getYle2019 } from './reducers/yle2019Reducer';
 import { getKategoriat } from './reducers/kategoriatReducer';
 import { getYlenKysymykset } from './reducers/ylenKysymyksetReducer';
-import { Button, TransitionablePortal, Segment, Icon, Grid } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import FinnishMembers from './components/europa/FinnishMembers';
 import EuroInfo from './components/europa/EuroInfo';
 import './App.css';
 import './css/BasicMenu.css';
 
-import XlsxParser from './components/parliament2019/yle2019/XlsxParser';
 import ParseFunds from './components/parliament2019/funds/parseFundFile';
+import Parties from './components/parliament2019/parties/Parties';
 
 
 
@@ -108,10 +108,11 @@ class App extends React.Component {
                   <NavLink to='/koneet' className="menu-link">
                     Koneet
                   </NavLink>
-                  {/* <NavLink to='/info' className="menu-link">
+                  <NavLink to='/puolueet' className="menu-link">
                     Puolueet
                   </NavLink>
-                  <NavLink to='/info' className="menu-link">
+                  
+                  {/* <NavLink to='/info' className="menu-link">
                     Edustajat
                   </NavLink> */}
                   <NavLink to='/info' className="menu-link">
@@ -155,7 +156,7 @@ class App extends React.Component {
                     <Route exact path="/hajontakaavio" render={({ history }) => <Dispersion history={history} />} />
                     <Route exact path="/eu2019" render={({ history }) => <Eu2019 history={history} />} />
                     <Route exact path="/eurovaalit" render={({ history }) => <EuroSettings history={history} />} />
-                    <Route exact path="/xls" render={({ history }) => <XlsxParser history={history} />} />
+                    <Route exact path="/puolueet" render={({ history }) => <Parties history={history} />} />
                     {window.localStorage.getItem('loggedUser') &&
                     <div>
                       <Route path="/lisaa" render={({ history }) => <HtmlForm history={history} />} />
@@ -180,7 +181,7 @@ class App extends React.Component {
                 </div>
                   <div className='footer' id='footer'>
                     <div className='footer-left'>
-                      Vaalikausikone
+                      Vaalikausikone RY
                     </div>
                     <div className='footer-right'>
                       <a href='https://twitter.com/vaalikausikone' target='_blank'>Twitter</a>

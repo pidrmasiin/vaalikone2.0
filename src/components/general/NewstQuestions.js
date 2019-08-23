@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Transition, Icon, Button, Grid, Dimmer, Loader } from 'semantic-ui-react'
+import { Transition, Icon, Button, Grid } from 'semantic-ui-react'
 import InfoAccordion from './InfoAccordion'
 import InfoBar from './InfoBar'
 import SingleQuestionData from '../parliament2019/SingleQuestionData';
@@ -76,11 +76,11 @@ class NewestQuestions extends React.Component {
     return(
       <div>
         <InfoBar 
-          title="Vaalikausikoneen avulla voit seurata eduskunnan toimintaa"
+          title="Mikä ihmeen vaalikausikone?"
           text="Vaalikausikone tarjoaa selkeän ja helpon mahdollisuuden seurata
           eduskunnan toimintaa. Palvelun avulla voit vertailla omia näkemyksiäsi
           eduskunnan puolueiden ja edustajien käyttäytymiseen. Lisäksi voit tarkastella,
-          kuinka edustajien ja puolueiden käyttäytyminen suhteutuu Ylen vuoden 2019 vaalikoneen 
+          kuinka edustajien ja puolueiden käyttäytyminen suhteutuu Ylen vaalikoneen 
           vastauksiin."
         />
         <div className='answers-show'>

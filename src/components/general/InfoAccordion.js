@@ -16,7 +16,7 @@ class InfoAccordion extends React.Component {
                     <Icon name="info circle" size={this.props.iconSize} />
                 </div>
             }
-            <span className='info-title' >
+            <span className='info-title' style={this.props.endLink && {color: 'white'}} >
                 {this.props.title}
                 <Icon name='dropdown' className='info-dropdown'/>
             </span>
@@ -32,7 +32,7 @@ class InfoAccordion extends React.Component {
             </div>
             }
             <p>
-                {this.props.text}
+                {this.props.text} {this.props.endLink && <a href={this.props.endLink} target="_blank">tästä</a>}
             </p>
             </Accordion.Content>
         </Accordion>

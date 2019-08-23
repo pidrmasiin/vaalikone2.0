@@ -1,119 +1,30 @@
 import React from 'react';
 import {Bubble} from 'react-chartjs-2';
-import { Dropdown, Table } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react'
+import '../../../css/FundsModal.css'
 
-class BubbleChart extends React.Component {
-  state = {
-    activeIndex: false
-  }
-
-  componentWillMount = () => {
-    const parties = this.props.funds.map(x => x.party)
-    let uniqParties = [...new Set(parties)]
-    
-    const data = uniqParties.map(x => this.parseParty(x))
-    let jaaMoney = 0
-    data.forEach(x => jaaMoney = jaaMoney + x.jaa.sum)
-
-    let eiMoney = 0
-    data.forEach(x => eiMoney = eiMoney + x.ei.sum)
-
-    let eosMoney = 0
-    data.forEach(x => eosMoney = eosMoney + x.poissa.sum)
-    const selectedPartyData = {
-        party: 'Kaikki',
-        members: this.props.funds.length,
-        sum: eosMoney + eiMoney + jaaMoney,
-        poissa: {
-            sum: eosMoney,
-            members: this.props.funds.filter(x => x.opinion == 'Poissa' || x.opinion == 'Tyhjä')
-        },
-        ei: {
-            sum: eiMoney,
-            members: this.props.funds.filter(x => x.opinion == 'Ei')
-        },
-        jaa: {
-            sum: jaaMoney,
-            members: this.props.funds.filter(x => x.opinion == 'Jaa')
-        }
-    }
-    data.push(selectedPartyData)
-    uniqParties.push('Kaikki')
-    this.setState({data, parties: uniqParties, selectedParty: 'Kaikki', selectedPartyData})
-  }
-
-  parseParty = (party) => {
-    const partyData = this.props.funds.filter(x => x.party == party)
-    const memebersWithOpinion = partyData.map(x =>  this.setOpinion(x))
-    const jaa = memebersWithOpinion.filter(x => x.opinion == 'Jaa')
-    const ei = memebersWithOpinion.filter(x => x.opinion == 'Ei')
-    const poissa = memebersWithOpinion.filter(x => x.opinion == 'Poissa' || x.opinion == 'Tyhjä')
-
-    return {
-        party,
-        members: memebersWithOpinion.length,
-        sum: memebersWithOpinion.map(x => x.sum).reduce(function(acc, val) { return acc + val; }, 0),
-        poissa: {
-            sum: poissa.map(x => x.sum).reduce(function(acc, val) { return acc + val; }, 0),
-            members: poissa
-        },
-        ei: {
-            sum: ei.map(x => x.sum).reduce(function(acc, val) { return acc + val; }, 0),
-            members: ei
-        },
-        jaa: {
-            sum: jaa.map(x => x.sum).reduce(function(acc, val) { return acc + val; }, 0),
-            members: jaa
-        }
-    }
-  }
-
-  setOpinion = (member) => {
-    const opinon = this.props.question.edustajat.find(x => x.nimi.toLowerCase().includes(member.alias))
-    member['opinion'] = opinon.kanta
-    return member
-  }
-
-  handlePartyChange = (e, { name, value }) => {
-      this.setState({selectedPartyData: this.state.data.find(x => x.party == value), selectedParty: value})
-  }
-
+class SingleQuestionChartAndTable extends React.Component {
+   
   render() {
-    console.log('stppppp', this.props);
-    console.log('stateee', this.state);
-
-
-    const dropParties = this.state.parties.map(x => {return {value: x, text: x}})
-    const selectedPartyData = this.state.selectedPartyData
-    const selectedPartyMembers = this.props.funds.filter(x => x.party == this.state.selectedParty)
-
+    const selectedPartyData = this.props.selectedPartyData
+    const selectedPartyMembers = this.props.funds.filter(x => x.party == this.props.selectedParty)
+    
     return(
         <div>
-            <Dropdown
-                scrolling
-                text={this.state.selectedParty}
-                style={{fontWeight: 'bold', borderTop: '2px solid #004d99'}}
-                type="text"
-                name="question"
-                value={this.state.selectedParty}
-                onChange={this.handlePartyChange.bind(this)}
-                fluid 
-                search 
-                selection 
-                options={dropParties} 
-            /> 
         {window.innerWidth > 700 && 
-            <Table striped>
+            <div style={{paddingTop: '2em'}}>
+            <h2>Rahoituksen jakautuminen</h2>
+            <Table striped className='funds-table'>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>{this.state.selectedParty == 'Kaikki' ? 'Puolue' : '' }</Table.HeaderCell>
+                        <Table.HeaderCell>{this.props.selectedParty == 'Kaikki' ? 'Puolue' : '' }</Table.HeaderCell>
                         <Table.HeaderCell>Jaa</Table.HeaderCell>
                         <Table.HeaderCell>Ei</Table.HeaderCell>
                         <Table.HeaderCell>Tyhja/Poissa</Table.HeaderCell>
                         <Table.HeaderCell>Yhteensä</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
-                {this.state.selectedParty == 'Kaikki' ?  this.state.data.sort(function(a,b) {return b.sum - a.sum}).map(x => 
+                {this.props.selectedParty == 'Kaikki' ?  this.props.data.sort(function(a,b) {return b.sum - a.sum}).map(x => 
                     <Table.Body>
                         <Table.Row>
                             <Table.Cell>{x.party}</Table.Cell>
@@ -141,7 +52,7 @@ class BubbleChart extends React.Component {
                             <Table.Cell>{selectedPartyData.members}</Table.Cell>
                         </Table.Row>
                         <Table.Row>
-                            <Table.Cell><b>Rahaa keskimäärin</b></Table.Cell>
+                            <Table.Cell><b>Rahoitusta keskimäärin</b></Table.Cell>
                             <Table.Cell>{Math.round(selectedPartyData.jaa.sum/selectedPartyData.jaa.members.length)} €</Table.Cell>
                             <Table.Cell>{Math.round(selectedPartyData.ei.sum/selectedPartyData.ei.members.length)} €</Table.Cell>
                             <Table.Cell>{Math.round(selectedPartyData.poissa.sum/selectedPartyData.poissa.members.length)} €</Table.Cell>
@@ -150,10 +61,20 @@ class BubbleChart extends React.Component {
                     </Table.Body>
                 }
             </Table>
+            </div>
         }
 
         {selectedPartyData &&
-            <Bubble 
+        <div style={{marginTop: '1em'}}>
+            <div style={{paddingBottom: '1em'}}>
+                <h3>Koonti edustajien rahoituksen jakautumisesta</h3>
+                Kuvaajassa x-akselilla on rahoituksen määrä yhteensä ja y-akselilla rahoitus keskimäärin.
+                Pallon koko on suhteessa edustajien määrään.
+                <br/>
+            </div>
+            <div style={{background: 'white', color: 'black', borderRadius: '3px'}} >
+            <Bubble
+                
                 data = {{
                     datasets: [
                         {
@@ -162,7 +83,7 @@ class BubbleChart extends React.Component {
                                 { 
                                     x: selectedPartyData.sum, 
                                     y: Math.round(selectedPartyData.sum/selectedPartyData.members), 
-                                    r: selectedPartyData.members > 50 ? 5 : selectedPartyData.members
+                                    r: selectedPartyData.members > 50 ? selectedPartyData.members / 3 : selectedPartyData.members
                                 }
                             ],
                         },
@@ -172,7 +93,7 @@ class BubbleChart extends React.Component {
                                 { 
                                     x: selectedPartyData.ei.sum,
                                     y: Math.round(selectedPartyData.ei.sum/selectedPartyData.ei.members.length),
-                                    r: selectedPartyData.members > 50 ? 5 : selectedPartyData.ei.members.length
+                                    r: selectedPartyData.members > 50 ? selectedPartyData.ei.members.length / 4 : selectedPartyData.ei.members.length
                                 }
                             ],
                             backgroundColor:"red",
@@ -184,7 +105,7 @@ class BubbleChart extends React.Component {
                                 { 
                                     x: selectedPartyData.poissa.sum,
                                     y: Math.round(selectedPartyData.poissa.sum/selectedPartyData.poissa.members.length),
-                                    r: selectedPartyData.members > 50 ? 5 : selectedPartyData.poissa.members.length
+                                    r: selectedPartyData.members > 50 ? selectedPartyData.poissa.members.length / 4 : selectedPartyData.poissa.members.length
                                 }
                             ],
                             backgroundColor:"grey",
@@ -196,7 +117,7 @@ class BubbleChart extends React.Component {
                                 { 
                                     x: selectedPartyData.jaa.sum,
                                     y: Math.round(selectedPartyData.jaa.sum/selectedPartyData.jaa.members.length),
-                                    r: selectedPartyData.members > 50 ? 5 :  selectedPartyData.jaa.members.length
+                                    r: selectedPartyData.members > 50 ? selectedPartyData.jaa.members.length / 4 :  selectedPartyData.jaa.members.length
                                 }
                             ],
                             backgroundColor:"green",
@@ -205,10 +126,15 @@ class BubbleChart extends React.Component {
                     ],
                 }}
             />
+            </div>
+        </div>
         }
 
-        {this.state.selectedParty != 'Kaikki'  && window.innerWidth > 700 && 
-            <Table>
+        {this.props.selectedParty != 'Kaikki' && 
+            <div>
+                <br/>
+                <h2>Edustajien rahoituksen lähteet</h2>
+            <Table style={{width: '120%'}}> 
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Edustaja</Table.HeaderCell>
@@ -220,14 +146,14 @@ class BubbleChart extends React.Component {
                 {selectedPartyMembers.map(member=> 
                 <Table.Body>
                     <Table.Row>
-                         <Table.Cell>{member.alias}</Table.Cell>
+                         <Table.Cell>{member.alias.toUpperCase()}</Table.Cell>
                          <Table.Cell>{member.opinion}</Table.Cell>
                     </Table.Row>
                     {member.funds.map(x => 
                     <Table.Row>
                         <Table.Cell />
                         <Table.Cell />
-                        <Table.Cell>{x.funder.slice(0, 50)}</Table.Cell>
+                        <Table.Cell>{x.funder.slice(0, 40)}</Table.Cell>
                         <Table.Cell>{x.sum}</Table.Cell>
                     </Table.Row>
                     )}
@@ -237,9 +163,10 @@ class BubbleChart extends React.Component {
                         <Table.Cell><b>Yhteensä</b></Table.Cell>
                         <Table.Cell><b>{member.sum}</b></Table.Cell>
                     </Table.Row>
-                </Table.Body> 
+                </Table.Body>
                 )}
             </Table>
+            </div>
 
         }
         </div>
@@ -247,4 +174,4 @@ class BubbleChart extends React.Component {
   }
 }
 
-export default BubbleChart
+export default SingleQuestionChartAndTable
