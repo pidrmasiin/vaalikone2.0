@@ -35,6 +35,7 @@
     width: 20%; 
     padding: 2em;
     float: left;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 1000px) {

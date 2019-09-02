@@ -31,7 +31,7 @@ class SimpleOpinionChart extends React.Component {
             var hG={},    hGDim = {t: 60, r: 0, b: 30, l: 0};
             hGDim.w = 250 - hGDim.l - hGDim.r;
             hGDim.h = 300 - hGDim.t - hGDim.b;
-                
+
             //create svg for histogram.
             var hGsvg = d3.select(id).append("svg")
                 .attr("width", hGDim.w + hGDim.l + hGDim.r)
@@ -42,11 +42,16 @@ class SimpleOpinionChart extends React.Component {
             var x = d3.scaleBand().rangeRound([0, hGDim.w], 0.1)
                     .domain(fD.map(function(d) { return d[0]; }));
             x.paddingInner(0.05);
-    
+
             // Add x-axis to the histogram svg.
             hGsvg.append("g").attr("class", "x axis")
                 .attr("transform", "translate(0," + hGDim.h + ")")
                 .call(d3.axisBottom(x).tickFormat(function(d){ return d;}));
+            
+            hGsvg.append("text").text('Edustajat puolueittain')
+            .attr("x", 0)
+            .attr("y", -35)
+            .attr("fill", "grey")
     
             // Create function for y-axis map.
             var y = d3.scaleLinear().range([hGDim.h, 0])
@@ -112,13 +117,19 @@ class SimpleOpinionChart extends React.Component {
         
         // function to handle pieChart.
         function pieChart(pD){
-            var pC ={},    pieDim ={w:250, h: 250};
+            var pC ={},    pieDim ={w:250, h: 290};
             pieDim.r = Math.min(pieDim.w, pieDim.h) / 2;
                     
             // create svg for pie chart.
             var piesvg = d3.select(id).append("svg")
                 .attr("width", pieDim.w).attr("height", pieDim.h).append("g")
                 .attr("transform", "translate("+pieDim.w/2+","+pieDim.h/2+")");
+            
+            piesvg.append("text").text('Kantojen jakauma')
+                .attr("x", 0)
+                .attr("y", -130)
+                .attr('text-anchor', 'middle')
+                .attr("fill", "grey")
 
             // create function to draw the arcs of the pie slices.
             var arc = d3.arc().outerRadius(pieDim.r - 10).innerRadius(0);
@@ -164,11 +175,16 @@ class SimpleOpinionChart extends React.Component {
             var leg = {};
                 
             // create table for legend.
-            var legend = d3.select(id).append("table").attr('class','legend');
+            var legend = d3.select(id).append('div').attr('class','legend-div')
 
+            legend.append("text").text('Prosentuaaliset osuudet').style("color", "grey");
+            
+            legend.append("table").style("color", "black");
+
+            
             // create one row per segment.
-            var tr = legend.append("tbody").selectAll("tr").data(lD).enter().append("tr");
-                
+            var tr = legend.append("tbody").attr('class','legend').selectAll("tr").data(lD).enter().append("tr");
+            legend.append("tbody").selectAll("tr").data(lD).enter().append("tr")
             // create the first column for each segment.
             tr.append("td").append("svg").attr("width", '8').attr("height", '16').append("rect")
                 .attr("width", '8').attr("height", '16')
@@ -218,7 +234,7 @@ class SimpleOpinionChart extends React.Component {
     }
         
   render(){
-    return <div id={this.props.chartId} />
+    return <div className='simple-chart' id={this.props.chartId} />
   }
 }
 

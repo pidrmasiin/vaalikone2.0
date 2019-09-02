@@ -70,6 +70,9 @@ class App extends React.Component {
   }
 
   render() {
+
+    console.log('porps', this.props);
+    
     var prevScrollpos = window.pageYOffset;
     window.onscroll = function() {
     var currentScrollPos = window.pageYOffset;

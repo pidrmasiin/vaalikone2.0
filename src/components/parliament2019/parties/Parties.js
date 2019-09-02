@@ -5,81 +5,49 @@ import * as d3 from "d3";
 import { Dimmer, Loader } from 'semantic-ui-react'
 import ReactGA from 'react-ga';
 import './parliament.css'
+import partiesCount from '../../general/partiesCounts.js'
+import { tsImportEqualsDeclaration } from '@babel/types';
+
 
 ReactGA.initialize('UA-137723152-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 
-const exampleData = [
-  {
-      id: "gue-ngl",
-      "legend": "GUE-NGL",
-      "name": "European United Left–Nordic Green Left",
-      "seats": 52
-  },
-  {
-      "id": "sd",
-      "legend": "S&D",
-      "name": "Progressive Alliance of Socialists and Democrats",
-      "seats": 189
-  },
-  {
-      "id": "greens-efa",
-      "legend": "Greens-EFA",
-      "name": "The Greens–European Free Alliance",
-      "seats": 50
-  },
-  {
-      "id": "alde",
-      "legend": "ALDE",
-      "name": "Alliance of Liberals and Democrats for Europe Group",
-      "seats": 70
-  },
-  {
-      "id": "epp",
-      "legend": "EPP",
-      "name": "European People's Party Group",
-      "seats": 215
-  },
-  {
-      "id": "ecr",
-      "legend": "ECR",
-      "name": "European Conservatives and Reformists",
-      "seats": 74
-  },
-  {
-      "id": "efdd",
-      "legend": "EFDD",
-      "name": "Europe of Freedom and Direct Democracy",
-      "seats": 46
-  },
-  {
-      "id": "enf",
-      "legend": "ENF",
-      "name": "Europe of Nations and Freedom",
-      "seats": 39
-  },
-  {
-      "id": "no-party",
-      "legend": "Non-Inscrits",
-      "name": "Non-Inscrits",
-      "seats": 16
-  }
-]
+const exampleData = partiesCount.partiesCount
 class Parties extends React.Component {
   state = {
-    activeIndex: false
+    activeIndex: false,
   }
 componentDidMount = () => {
+
+const widthHeight = window.innerWidth > 600 ? 500 : 200 
   var parliament = this.parliament();
-  parliament.width(500).height(500).innerRadiusCoef(0.4);
+  parliament.width(widthHeight).height(widthHeight).innerRadiusCoef(0.65);
 parliament.enter.fromCenter(true).smallToBig(true);
 parliament.exit.toCenter(false).bigToSmall(true);
 
+var myTimeout = ''
 /* register event listeners */
-parliament.on("click", function(d) { alert("You clicked on a seat of " + d.party.name); });
-parliament.on("mouseover", function(d) { console.log("mouse on " + d.party.name); });
-parliament.on("mouseout", function(d) { console.log("mouse out of " + d.party.name); });
+parliament.on("click", function(d) { 
+    d3.select(".parliament")
+        .append('text')
+        .text(d.party.legend)
+        .attr("id", 'party-name')
+        .attr("y", -30)
+        .attr('text-anchor', 'middle')
+});
+parliament.on("mouseover", function(d) {
+    d3.select("#party-name").remove()
+    d3.select(".parliament")
+        .append('text')
+        .text(d.party.legend)
+        .attr("id", 'party-name')
+        .attr("y", -30)
+        .attr('text-anchor', 'middle')
+    });
+parliament.on("mouseout", function(d) { 
+    d3.select("#party-name").remove()
+    });
 
 // /* add the parliament to the page */
 // d3.json(exampleData, function(d) {
@@ -93,8 +61,8 @@ d3.select("svg").datum(exampleData).call(parliament);
 
 parliament = function() {
   /* params */
-  var width = 500,
-      height = 500,
+  var width = 200,
+      height = 200,
       innerRadiusCoef = 0.4;
 
   /* animations */
@@ -132,6 +100,7 @@ parliament = function() {
           /***
            * compute number of seats and rows of the parliament */
           var nSeats = 0;
+          
           d.forEach(function(p) { nSeats += (typeof p.seats === 'number') ? Math.floor(p.seats) : p.seats.length; });
 
           var nRows = 0;
@@ -214,7 +183,7 @@ parliament = function() {
           var seatX = function(d) { return d.cartesian.x; };
           var seatY = function(d) { return d.cartesian.y; };
           var seatRadius = function(d) {
-              var r = 0.4 * rowWidth;
+              var r = 0.55 * rowWidth;
               if (d.data && typeof d.data.size === 'number') {
                   r *= d.data.size;
               }
@@ -230,6 +199,7 @@ parliament = function() {
               container = svg.append("g");
               container.classed("parliament", true);
           }
+
           container.attr("transform", "translate(" + width / 2 + "," + outerParliamentRadius + ")");
 
           /* all the seats as circles */
@@ -351,12 +321,15 @@ parliament = function() {
   
 
   render() {
+    const width =  window.innerWidth > 600 ? '500px' : '200px'
+    const height =  window.innerWidth > 600 ? '300px' : '100px'
 
     return(
     
-      <div>
-        <h1>Puolueet</h1>
-        <svg id='parliament-chart' style={{width: '500px', height: '500px'}}/>
+      <div style={{textAlign: 'center'}}>
+        <h1 style={{marginBottom: '1em'}}>Puolueet</h1>
+        <svg id='parliament-chart' style={{width: width, height: height}}/>
+        <p>Tulossa pian...</p>
       </div>
     )
   }

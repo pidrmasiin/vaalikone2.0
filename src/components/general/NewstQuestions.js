@@ -4,6 +4,7 @@ import { Transition, Icon, Button, Grid } from 'semantic-ui-react'
 import InfoAccordion from './InfoAccordion'
 import InfoBar from './InfoBar'
 import SingleQuestionData from '../parliament2019/SingleQuestionData';
+import './../../css/NewestQuestions.css'
 
 class NewestQuestions extends React.Component {
   state = {
@@ -93,13 +94,13 @@ class NewestQuestions extends React.Component {
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column width={2}>
-                  <Icon name='chevron left' style={{paddingTop: '1em', paddingBottom: '4em'}} onClick={() => this.nextQuestion(true)} />
+                  <Icon className='arrow-icon' name='chevron left' onClick={() => this.nextQuestion(true)} />
                 </Grid.Column>
                 <Grid.Column width={12} style={{paddingTop: '0em', paddingRight: '0em'}}>
                   {this.state.question.kysymys &&
                   <Transition visible={this.state.visible} animation='fade' duration={300}>
                   <div className='question-div'>
-                    {this.state.question.kysymys}
+                    <a style={{cursor: 'pointer', color: '#00284d'}}onClick={() => this.answer('click')}>{this.state.question.kysymys}</a>
                     <span className='question-text'>
                       <InfoAccordion 
                         text={this.state.question.selitys}
@@ -114,10 +115,10 @@ class NewestQuestions extends React.Component {
                   }
                 </Grid.Column>
                 <Grid.Column width={2}>
-                  <Icon name='chevron right' style={{paddingTop: '1em', paddingBottom: '4em'}}  onClick={() => this.nextQuestion()} />
+                  <Icon className='arrow-icon' name='chevron right' style={{paddingTop: '1em', paddingBottom: '4em'}}  onClick={() => this.nextQuestion()} />
                 </Grid.Column>
               </Grid.Row>
-              <Grid.Row className='answer-buttons'>
+              {/* <Grid.Row className='answer-buttons'>
                {desktop && <Grid.Column width={2} />}
                 <Grid.Column width={desktop ? 14 : 16}>
                     <Button onClick={() => this.answer('jaa')} size={buttonSize} color='green'> 
@@ -133,7 +134,7 @@ class NewestQuestions extends React.Component {
                       Ei
                     </Button>
                 </Grid.Column>
-              </Grid.Row>
+              </Grid.Row> */}
             </Grid> 
         </div>
       </div>

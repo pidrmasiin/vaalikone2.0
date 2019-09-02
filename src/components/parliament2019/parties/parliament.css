@@ -1,8 +1,10 @@
 svg .seat.gue-ngl { fill: #990000 }
-            svg .seat.sd { fill: #F0001C }
-            svg .seat.greens-efa { fill: #32CD32 }
-            svg .seat.alde { fill: #FFD700 }
-            svg .seat.epp { fill: #3399FF }
-            svg .seat.ecr { fill: #0054A5 }
-            svg .seat.efdd { fill: #40E0D0 }
-            svg .seat.enf { fill: #000000 }
+            svg .seat.vas { fill: pink }
+            svg .seat.sdp { fill: #F0001C }
+            svg .seat.vihr { fill: #32CD32 }
+            svg .seat.rkp { fill: rgb(255, 218, 11) }
+            svg .seat.kok { fill: #3399FF }
+            svg .seat.ps { fill: #0054A5 }
+            svg .seat.nyt { fill: violet }
+            svg .seat.kd { fill: rgb(146, 145, 93) }
+            svg .seat.kesk { fill: green }

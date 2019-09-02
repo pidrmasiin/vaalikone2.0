@@ -120,6 +120,9 @@ class SimpleYleChart extends React.Component {
       {data && <SimpleOpinionChart data={data} 
           chartId="simpleYleChartSVG"
           />}
+        <br/>
+        <br/>
+
       Ylen datan kaaviossa ei ole huomioitu Ahvenanmaan edustajaa. Puhemies sen sijaan on mukana.
     </div>
   }

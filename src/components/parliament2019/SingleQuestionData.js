@@ -150,6 +150,7 @@ class SingleQuestionData extends React.Component {
               />
           </span>
           <FundsModal question={this.props.question}/>
+          <br />
       {this.state.questionData && <SimpleOpinionChart data={this.state.questionData} chartId='singleParliamentQuestion'/>}
       <hr className='chart-divider'/>
       {this.props.yle2019.members.length > 0 ?
@@ -172,6 +173,7 @@ class SingleQuestionData extends React.Component {
       </div>
       <span style={{fontSize: '0.9em'}}>Voit verrata eduskunnan käyttäytymistä edustajien antamiin vastauksiin valitsemassasi ylen vaalikone kysymyksessä.
       </span>
+      <br />
       <br />
       <SimpleYleChart yleQuestion={this.state.yle2019} />
       </Segment>

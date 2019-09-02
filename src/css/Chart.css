@@ -13,6 +13,19 @@ rect:hover {  fill:rgb(245, 239, 220); }
 }
 
 .x.axis path {  display: none; }
+.simple-chart {
+    display:inline-block;
+    margin-top: 1em;
+}
+
+.legend-div {
+    margin: auto;
+    position: absolute;
+    display:inline-block;
+    margin-top: 4em;
+    margin-left: 1em;
+
+}
 .legend{
     margin-bottom:76px;
     display:inline-block;
@@ -35,5 +48,14 @@ rect:hover {  fill:rgb(245, 239, 220); }
 @media screen and (max-width: 600px) {
     .chart-font {
         font-size: 1em;
+    }
+
+    .legend-div {
+        margin: auto;
+        position: relative;
+        display:inline-block;
+        margin-top: 0.5em;
+        margin-left: 1em;
+    
     }
 }
