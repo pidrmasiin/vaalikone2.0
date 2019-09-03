@@ -123,11 +123,8 @@ class SingleQuestionData extends React.Component {
     const yleValues2019 = this.props.yle2019.headers.slice(4,33).map(x => x = { text: this.parseQuestion(x), value: x })
     const questions = this.props.questions.filter(q => q.createdAt != null).map(q => q = {text: this.parseQuestion(q.kysymys), value: q.id})
      
-    return <div>
+    return <div style={{marginTop: '0.5em'}}>
         <h1>Tulokset</h1>
-        Ohessa kaavio, jonka avulla voit tarkastella eduskunnan käyttäytymistä valitsemassasi kysymyksessä.
-        Voit klikata palkkeja ja lohkoja, ja tarkastella näin yksittäisten puolueiden tai mielipiteiden jakaumia.
-        <h2>Eduskunta</h2>
           <Dropdown
             scrolling
             text={this.state.question.kysymys}
@@ -141,17 +138,24 @@ class SingleQuestionData extends React.Component {
             selection 
             options={questions} 
           />
-          <span className='question-text'>
-            <InfoAccordion 
-              text={this.state.question.selitys}
-              title='Lisätietoja kysymyksestä'
-              question={this.state.question}
-              iconSize='small'
-              />
-          </span>
-          <FundsModal question={this.props.question}/>
-          <br />
+          <div style={{marginLeft: '0.5em'}}>
+            <span className='question-text'>
+              <InfoAccordion 
+                text={this.state.question.selitys}
+                title='Lisätietoja kysymyksestä'
+                question={this.state.question}
+                iconSize='small'
+                />
+            </span>
+          </div>
+      <h3 style={{marginTop: '0.8em'}}>Tiedot</h3>
+      <p>Voit klikata palkkeja ja lohkoja tarkastellaksi puolueiden kantoja lähemmin.</p>
       {this.state.questionData && <SimpleOpinionChart data={this.state.questionData} chartId='singleParliamentQuestion'/>}
+      <br />
+      <FundsModal question={this.props.question}/>
+      <br />
+      <br />
+
       <hr className='chart-divider'/>
       {this.props.yle2019.members.length > 0 ?
       <Segment style={{fontSize: '1em'}} basic>

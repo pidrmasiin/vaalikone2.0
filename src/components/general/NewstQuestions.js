@@ -4,6 +4,8 @@ import { Transition, Icon, Button, Grid } from 'semantic-ui-react'
 import InfoAccordion from './InfoAccordion'
 import InfoBar from './InfoBar'
 import SingleQuestionData from '../parliament2019/SingleQuestionData';
+import Parties from '../parliament2019/parties/Parties'
+import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import './../../css/NewestQuestions.css'
 
 class NewestQuestions extends React.Component {
@@ -76,20 +78,18 @@ class NewestQuestions extends React.Component {
     
     return(
       <div>
-        <InfoBar 
-          title="Mikä ihmeen vaalikausikone?"
-          text="Vaalikausikone tarjoaa selkeän ja helpon mahdollisuuden seurata
-          eduskunnan toimintaa. Palvelun avulla voit vertailla omia näkemyksiäsi
-          eduskunnan puolueiden ja edustajien käyttäytymiseen. Lisäksi voit tarkastella,
-          kuinka edustajien ja puolueiden käyttäytyminen suhteutuu Ylen vaalikoneen 
-          vastauksiin."
-        />
+        
         <div className='answers-show'>
+          <div className='title-party'>
+            <h1>Eduskunta</h1>
+          </div>
+          <Parties />
+          <br />
             <Grid>
               <Grid.Row style={{paddingBottom: '0em'}}>
                 <Grid.Column width={2} />
                 <Grid.Column width={14}>
-                <h3>Uusimmat kysymykset ({this.state.questionIndex + 1 }/3)</h3>
+                <h2 className='question-title'>Uusimmat kysymykset ({this.state.questionIndex + 1 }/3)</h2>
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
@@ -100,7 +100,7 @@ class NewestQuestions extends React.Component {
                   {this.state.question.kysymys &&
                   <Transition visible={this.state.visible} animation='fade' duration={300}>
                   <div className='question-div'>
-                    <a style={{cursor: 'pointer', color: '#00284d'}}onClick={() => this.answer('click')}>{this.state.question.kysymys}</a>
+                    <a className='question-link' onClick={() => this.answer('click')}>{this.state.question.kysymys}</a>
                     <span className='question-text'>
                       <InfoAccordion 
                         text={this.state.question.selitys}
@@ -114,10 +114,11 @@ class NewestQuestions extends React.Component {
                   </Transition>
                   }
                 </Grid.Column>
-                <Grid.Column width={2}>
+                <Grid.Column width={2}  style={{textAlign: 'right'}}>
                   <Icon className='arrow-icon' name='chevron right' style={{paddingTop: '1em', paddingBottom: '4em'}}  onClick={() => this.nextQuestion()} />
                 </Grid.Column>
               </Grid.Row>
+
               {/* <Grid.Row className='answer-buttons'>
                {desktop && <Grid.Column width={2} />}
                 <Grid.Column width={desktop ? 14 : 16}>
@@ -135,7 +136,23 @@ class NewestQuestions extends React.Component {
                     </Button>
                 </Grid.Column>
               </Grid.Row> */}
-            </Grid> 
+            </Grid>
+            <div className='twitter-info'>
+              <InfoBar 
+                title="Mikä ihmeen vaalikausikone?"
+                text="Vaalikausikone tarjoaa selkeän ja helpon mahdollisuuden seurata
+                eduskunnan toimintaa. Palvelun avulla voit vertailla omia näkemyksiäsi
+                eduskunnan puolueiden ja edustajien käyttäytymiseen. Lisäksi voit tarkastella,
+                kuinka edustajien ja puolueiden käyttäytyminen suhteutuu Ylen vaalikoneen 
+                vastauksiin."
+              />
+              <br/>
+              <TwitterTimelineEmbed
+                sourceType="profile"
+                screenName="vaalikausikone"
+                options={{height: 700}}
+              />
+            </div>
         </div>
       </div>
 

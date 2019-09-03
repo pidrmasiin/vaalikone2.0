@@ -15,7 +15,6 @@ rect:hover {  fill:rgb(245, 239, 220); }
 .x.axis path {  display: none; }
 .simple-chart {
     display:inline-block;
-    margin-top: 1em;
 }
 
 .legend-div {

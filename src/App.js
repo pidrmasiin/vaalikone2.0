@@ -71,8 +71,6 @@ class App extends React.Component {
 
   render() {
 
-    console.log('porps', this.props);
-    
     var prevScrollpos = window.pageYOffset;
     window.onscroll = function() {
     var currentScrollPos = window.pageYOffset;
@@ -111,9 +109,9 @@ class App extends React.Component {
                   <NavLink to='/koneet' className="menu-link">
                     Koneet
                   </NavLink>
-                  <NavLink to='/puolueet' className="menu-link">
+                  {/* <NavLink to='/puolueet' className="menu-link">
                     Puolueet
-                  </NavLink>
+                  </NavLink> */}
                   
                   {/* <NavLink to='/info' className="menu-link">
                     Edustajat
