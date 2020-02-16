@@ -17,6 +17,12 @@ class NewestQuestions extends React.Component {
 
   componentDidMount = () => {
     this.setQuestions(0)
+    
+    if(window.innerWidth < 600) {
+      setTimeout(() => 
+      document.getElementById('twitter-widget-0').setAttribute("style", "width: 14em;"), 1500)
+    }
+    
   }
     
 
@@ -86,12 +92,18 @@ class NewestQuestions extends React.Component {
           <Parties />
           <br />
             <Grid>
+            <Grid.Column width={16} >
+              <hr />
+            </Grid.Column>
               <Grid.Row style={{paddingBottom: '0em'}}>
                 <Grid.Column width={2} />
                 <Grid.Column width={14}>
-                <h2 className='question-title'>Uusimmat kysymykset ({this.state.questionIndex + 1 }/3)</h2>
+                <h3 className='question-title'>Uusimmat kysymykset ({this.state.questionIndex + 1 }/3)</h3>
                 </Grid.Column>
               </Grid.Row>
+              <Grid.Row>
+          
+            </Grid.Row>
               <Grid.Row>
                 <Grid.Column width={2}>
                   <Icon className='arrow-icon' name='chevron left' onClick={() => this.nextQuestion(true)} />
@@ -136,23 +148,41 @@ class NewestQuestions extends React.Component {
                     </Button>
                 </Grid.Column>
               </Grid.Row> */}
+            <Grid.Row>
+            <Grid.Column width={16} >
+              <hr />
+            </Grid.Column>
+            </Grid.Row>
+
+              <Grid.Row>
+                <Grid.Column width={2} />
+                <Grid.Column width={13} >
+
+                  <InfoBar 
+                    title="Mikä ihmeen vaalikausikone?"
+                    text="Vaalikausikone tarjoaa selkeän ja helpon mahdollisuuden seurata
+                    eduskunnan toimintaa. Palvelun avulla voit vertailla omia näkemyksiäsi
+                    eduskunnan puolueiden ja edustajien käyttäytymiseen. Lisäksi voit tarkastella,
+                    kuinka edustajien ja puolueiden käyttäytyminen suhteutuu Ylen vaalikoneen 
+                    vastauksiin."
+                  />
+                  </Grid.Column>
+              </Grid.Row>
+            <Grid.Row />
+            <Grid.Row>
+              <Grid.Column width={2} />
+                <Grid.Column width={12} >
+                  <div className='twitter-widget'>
+                  <TwitterTimelineEmbed
+                    sourceType="profile"
+                    screenName="vaalikausikone"
+                  />
+                  </div>
+                </Grid.Column>
+                
+            </Grid.Row>
             </Grid>
-            <div className='twitter-info'>
-              <InfoBar 
-                title="Mikä ihmeen vaalikausikone?"
-                text="Vaalikausikone tarjoaa selkeän ja helpon mahdollisuuden seurata
-                eduskunnan toimintaa. Palvelun avulla voit vertailla omia näkemyksiäsi
-                eduskunnan puolueiden ja edustajien käyttäytymiseen. Lisäksi voit tarkastella,
-                kuinka edustajien ja puolueiden käyttäytyminen suhteutuu Ylen vaalikoneen 
-                vastauksiin."
-              />
-              <br/>
-              <TwitterTimelineEmbed
-                sourceType="profile"
-                screenName="vaalikausikone"
-                options={{height: 700}}
-              />
-            </div>
+           
         </div>
       </div>
 

@@ -134,9 +134,9 @@ class SingleQuestionData extends React.Component {
             value={this.state.question.id}
             onChange={this.handleQuestionChange.bind(this)}
             fluid 
-            search 
             selection 
-            options={questions} 
+            options={questions}
+            search={false}
           />
           <div style={{marginLeft: '0.5em'}}>
             <span className='question-text'>
@@ -161,6 +161,7 @@ class SingleQuestionData extends React.Component {
       <Segment style={{fontSize: '1em'}} basic>
       <h2>Yle</h2>
       <Dropdown
+        search={false}
         scrolling
         text={this.state.yle2019}
         style={{fontWeight: 'bold', marginBottom: '0.5em', borderTop: '2px solid #004d99'}} 
@@ -169,13 +170,14 @@ class SingleQuestionData extends React.Component {
         value={this.state.yle2019}
         onChange={this.handleChange.bind(this)} 
         fluid 
-        search 
         selection 
         options={yleValues2019} />
       <div className="info-icon" >
         <Icon name="info circle" size='small' />
       </div>
-      <span style={{fontSize: '0.9em'}}>Voit verrata eduskunnan käyttäytymistä edustajien antamiin vastauksiin valitsemassasi ylen vaalikone kysymyksessä.
+      <span style={{fontSize: '0.9em'}}>
+        Voit verrata eduskunnan käyttäytymistä edustajien antamiin vastauksiin valitsemassasi ylen vaalikonekysymyksessä.
+        Vastauksissa melko samaa mieltä on tulkittu jaaksi ja melko eri mieltä eiksi.
       </span>
       <br />
       <br />

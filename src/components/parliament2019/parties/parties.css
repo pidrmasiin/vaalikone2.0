@@ -1,0 +1,25 @@
+.info-text {
+  margin-left: 0%;
+  margin-right: 0%;
+}
+
+
+@media screen and (min-width: 1000px) {
+    .parties-pie {
+        padding: 2em;
+        padding-top: 0em;
+        width: 50%;
+        height: 50%;
+        margin: auto;
+      }
+
+
+    .info-text {
+      margin-left: 20%;
+      margin-right: 20%;
+    }
+
+   
+}
+
+    

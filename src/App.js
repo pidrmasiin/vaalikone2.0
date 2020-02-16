@@ -12,6 +12,7 @@ import NolansMap from './components/nolansMap/NolansMap';
 import Questions from './components/questions/Questions';
 import EtsiVastaus from './components/yle/FindAnswer'
 import Dispersion from './components/yle/2019/OpinionChart'
+import HeadsUpYle from './components/yle/2019/HeadsUpYle'
 import Promises from './components/yle/partiesPromises'
 import Kategoriat from './components/kategoriat/Kategoriat';
 import Kategoria from './components/kategoriat/Kategoria';
@@ -22,14 +23,14 @@ import { getKysymykset } from './reducers/kysymyksetReducer';
 import { getYle2019 } from './reducers/yle2019Reducer';
 import { getKategoriat } from './reducers/kategoriatReducer';
 import { getYlenKysymykset } from './reducers/ylenKysymyksetReducer';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Label } from 'semantic-ui-react';
 import FinnishMembers from './components/europa/FinnishMembers';
 import EuroInfo from './components/europa/EuroInfo';
 import './App.css';
 import './css/BasicMenu.css';
 
 import ParseFunds from './components/parliament2019/funds/parseFundFile';
-import Parties from './components/parliament2019/parties/Parties';
+import PartiesHome from './components/parliament2019/parties/PartiesHome';
 
 
 
@@ -74,10 +75,10 @@ class App extends React.Component {
     var prevScrollpos = window.pageYOffset;
     window.onscroll = function() {
     var currentScrollPos = window.pageYOffset;
-      if (prevScrollpos > currentScrollPos) {
+      if (prevScrollpos > currentScrollPos && document.getElementById("navbar") && document.getElementById("footer")) {
         document.getElementById("navbar").style.top = "0";
         document.getElementById("footer").style.bottom = "0";
-      } else {
+      } else if(document.getElementById("navbar") && document.getElementById("footer")) {
         document.getElementById("navbar").style.top = "-10em";
         document.getElementById("footer").style.bottom = "-4em";
       }
@@ -109,9 +110,9 @@ class App extends React.Component {
                   <NavLink to='/koneet' className="menu-link">
                     Koneet
                   </NavLink>
-                  {/* <NavLink to='/puolueet' className="menu-link">
+                  <NavLink to='/puolueet' className="menu-link">
                     Puolueet
-                  </NavLink> */}
+                  </NavLink>
                   
                   {/* <NavLink to='/info' className="menu-link">
                     Edustajat
@@ -119,6 +120,11 @@ class App extends React.Component {
                   <NavLink to='/info' className="menu-link">
                     Info
                   </NavLink>
+                  {/* <NavLink to='/kaikkonenvskulmuni' className="menu-link">
+                    <Label color='green' style={{marginBottom: '1em'}}>
+                      Keskustan kisa
+                    </Label>
+                  </NavLink> */}
                       {window.localStorage.getItem('loggedUser') &&
                       <span style={{marginTop: '1em'}}>
                             <NavLink className="menu-log" activeStyle={active} to="/kysymykset">
@@ -157,7 +163,9 @@ class App extends React.Component {
                     <Route exact path="/hajontakaavio" render={({ history }) => <Dispersion history={history} />} />
                     <Route exact path="/eu2019" render={({ history }) => <Eu2019 history={history} />} />
                     <Route exact path="/eurovaalit" render={({ history }) => <EuroSettings history={history} />} />
-                    <Route exact path="/puolueet" render={({ history }) => <Parties history={history} />} />
+                    <Route exact path="/puolueet" render={({ history }) => <PartiesHome history={history} />} />
+                    <Route exact path="/kaikkonenvskulmuni" render={({ history }) => <HeadsUpYle history={history} />} />
+
                     {window.localStorage.getItem('loggedUser') &&
                     <div>
                       <Route path="/lisaa" render={({ history }) => <HtmlForm history={history} />} />

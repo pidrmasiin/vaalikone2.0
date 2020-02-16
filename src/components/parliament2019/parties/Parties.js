@@ -20,7 +20,7 @@ class Parties extends React.Component {
   }
 componentDidMount = () => {
 
-const widthHeight = window.innerWidth > 600 ? 400 : 200 
+const widthHeight = window.innerWidth > 600 ? 300 : 200 
   var parliament = this.parliament();
   parliament.width(widthHeight).height(widthHeight).innerRadiusCoef(0.65);
 parliament.enter.fromCenter(true).smallToBig(true);
@@ -321,8 +321,8 @@ parliament = function() {
   
 
   render() {
-    const width =  window.innerWidth > 600 ? '400px' : '200px'
-    const height =  window.innerWidth > 600 ? '200px' : '100px'
+    const width =  window.innerWidth > 600 ? '300px' : '200px'
+    const height =  window.innerWidth > 600 ? '150px' : '100px'
 
     return(
     
