@@ -1,6 +1,7 @@
 import React from 'react';
 import { Accordion, Icon } from 'semantic-ui-react'
 import '../../css/Home.css'
+import { Editor, EditorState, convertFromRaw } from 'draft-js';
 
 class InfoAccordion extends React.Component {
   state = {
@@ -28,12 +29,20 @@ class InfoAccordion extends React.Component {
               <br/>
               <a href={this.props.question.url} target="_blank">Linkki eduskunnan sivuille</a>
               <br/>
-              <b>Selitys</b>
+              <br/>
             </div>
             }
-            <p>
-                {this.props.text} {this.props.endLink && <a href={this.props.endLink} target="_blank">tästä</a>}
-            </p>
+            {this.props.explain ?
+              <Editor 
+                readOnly
+                editorState={EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.explain)))}
+              /> :
+              <p>
+              <b>Selitys</b><br/>
+
+                  {this.props.text} {this.props.endLink && <a href={this.props.endLink} target="_blank">tästä</a>}
+              </p>
+            }
             </Accordion.Content>
         </Accordion>
     )

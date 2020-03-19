@@ -3,6 +3,7 @@ import { Button, Checkbox, Dropdown, Segment, Form, Dimmer, Loader } from 'seman
 import { connect } from 'react-redux'
 import FormInput from './FormInput'
 import TextArea from './TextArea'
+import TextEditor from './TextEditon'
 import { htmlEdustajat, htmlPuolueet } from '../../reducers/htmlReducer'
 import { addPuolueet, addDetails, addEdustajat, addKategoriat } from '../../reducers/kysymysReducer'
 import { notifyCreation } from '../../reducers/notifyReducer'
@@ -20,7 +21,7 @@ class HtmlForm extends React.Component {
       hot: false,
       jaaLeftist: '',
       jaaLiberal: '',
-      green: ""
+      green: "",
     };
   }
 
@@ -123,7 +124,7 @@ class HtmlForm extends React.Component {
     const details = {
       tunniste: e.target.tunniste.value,
       url: e.target.url.value,
-      selitys: e.target.selitys.value,
+      explain: e.target.explain.value,
       kysymys: e.target.kysymys.value,
       vuosi: e.target.vuosi.value,
       vastaus: this.state.vastaus,
@@ -140,9 +141,9 @@ class HtmlForm extends React.Component {
     }
     this.props.addDetails(details)
     e.target.url.value = ''
-    e.target.selitys.value = ''
     e.target.kysymys.value = ''
     e.target.vuosi.value = ''
+    e.target.explain.value = ''
   }
 
   addKatet = () => {
@@ -209,6 +210,7 @@ class HtmlForm extends React.Component {
     return false
   }
 
+
   render() {
 
     let yle2019Questions = []
@@ -247,7 +249,7 @@ class HtmlForm extends React.Component {
           <TextArea label="Kirjoita alle äänestyksen kohteen oleva kysymys" placeholder="kysymys" name="kysymys" />
           <FormInput label="Tapahtuma vuosi" placeholder="2018" name="vuosi" />
           <FormInput label="Linkki edukunnan sivuille" placeholder="url" name="url" />
-          <TextArea label="Tarkempi kuvaus kysymyksestä" placeholder="selitys" name="selitys" />
+         <TextEditor label='Tarkempi kuvaus kysymyksestä' />
           <Segment compact style={{ background: '#d4eff9' }}>
             <Checkbox toggle onChange={() => this.handleHot()} />
             Keskeinen kysymys tällä hallituskaudella

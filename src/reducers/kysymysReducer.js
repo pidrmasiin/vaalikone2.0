@@ -8,7 +8,8 @@ const initialState = {
   vuosi: '',
   vastaus: '',
   tunniste: '',
-  yle2019: ''
+  yle2019: '',
+  explain: {}
 }
 
 const kysymysReducer = (store = initialState, action) => {
@@ -28,7 +29,8 @@ const kysymysReducer = (store = initialState, action) => {
       jaaLeftist: action.details.jaaLeftist,
       jaaGreen: action.details.jaaGreen,
       tunniste: action.details.tunniste,
-      yle2019: action.details.yle2019
+      yle2019: action.details.yle2019,
+      explain: action.details.explain
     }
   } if (action.type === 'ADD_EDUSTAJAT') {
     return { ...store, edustajat: action.edustajat }

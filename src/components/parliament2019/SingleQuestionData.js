@@ -145,6 +145,7 @@ class SingleQuestionData extends React.Component {
                 title='Lisätietoja kysymyksestä'
                 question={this.state.question}
                 iconSize='small'
+                explain={this.state.question.explain}
                 />
             </span>
           </div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Item, Container, List, Button, Grid, Checkbox, TextArea, Divider, Table, Dropdown } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import kysymysService from './../../services/kysymys'
+import TextEditor from '../form/TextEditon'
 
 class Kysymys extends React.Component {
   state = {
@@ -34,12 +35,15 @@ class Kysymys extends React.Component {
   }
 
   onSubmit = async (e) => {
-    const kysymys = this.props.kysymys
+    let kysymys = this.props.kysymys
     if (this.state.muokattava === 'kysymys') {
       kysymys.kysymys = e.target.muutos.value
     } if (this.state.muokattava === 'selitys') {
       kysymys.selitys = e.target.muutos.value
-    } if (this.state.muokattava === 'tunniste') {
+    } if (this.state.muokattava === 'explain') {
+      kysymys['explain'] = e.target.muutos.value
+    } 
+    if (this.state.muokattava === 'tunniste') {
       kysymys.tunniste = e.target.muutos.value
     } if (this.state.muokattava === 'url') {
       kysymys.url = e.target.muutos.value
@@ -87,6 +91,7 @@ class Kysymys extends React.Component {
     kysymys.kategoriat = kategoriat.map(x => x.id)
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     kysymysService.setToken(JSON.parse(loggedUserJSON).token)
+
     await kysymysService.modifyKysymys(kysymys.id, kysymys)
   }
 
@@ -188,7 +193,8 @@ class Kysymys extends React.Component {
 
 
   render() {
-
+    console.log('sate', this.state);
+    
     if (this.props.kysymys) {
       const yles = this.props.yle.kysymykset.map(x => { return {text: x, value: x}})
       return (
@@ -206,6 +212,8 @@ class Kysymys extends React.Component {
                     <Button onClick={() => this.muokkaa('tunniste')}>Tunniste</Button>
                     <Button.Or />
                     <Button onClick={() => this.muokkaa('selitys')}>Selitys</Button>
+                    <Button.Or />
+                    <Button onClick={() => this.muokkaa('explain')}>Muotoiltu selitys</Button>
                     <Button.Or />
                     <Button onClick={() => this.showYle()}>Yle</Button>
                     <Button.Or />
@@ -328,7 +336,9 @@ class Kysymys extends React.Component {
               {this.state.muokkaa &&
               <form onSubmit={this.onSubmit}>
                 <Grid.Row>
-                  <TextArea name="muutos" />
+                  {this.state.muokattava == 'explain' ?
+                  <TextEditor label='Selitys' /> :
+                  <TextArea name="muutos" />}
                 </Grid.Row>
                 <Button type="submit" color="green">Muokkaa {this.state.muokattava}</Button>
               </form>}

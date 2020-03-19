@@ -119,6 +119,7 @@ class NewestQuestions extends React.Component {
                         question={this.state.question}
                         title='Lisätietoja'
                         iconSize='small'
+                        explain={this.state.question.explain}
                         />
                     </span>
 

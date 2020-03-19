@@ -31,8 +31,9 @@ import './css/BasicMenu.css';
 
 import ParseFunds from './components/parliament2019/funds/parseFundFile';
 import PartiesHome from './components/parliament2019/parties/PartiesHome';
-
-
+import AddSpeak from './components/parliament2019/speaks/AddSpeak';
+import Speaks from './components/parliament2019/speaks/Speaks';
+import Speak from './components/parliament2019/speaks/Speak';
 
 class App extends React.Component {
   constructor(props) {
@@ -136,6 +137,12 @@ class App extends React.Component {
                             <NavLink className="menu-log" activeStyle={active} to="/lisaa">
                              Uusi kysymys
                             </NavLink>
+                            <NavLink className="menu-log" activeStyle={active} to="/addSpeak">
+                             Lisää keskustelu
+                            </NavLink>
+                            <NavLink className="menu-log" activeStyle={active} to="/speaks">
+                              <span ref="kysymykset">Muokkaa keskusteluja</span>
+                            </NavLink>
                             <button style={{marginLeft: '1em', marginTop: '1em'}} onClick={() => this.logout()} size="tiny" type="submit"> Kirjaudu ulos</button>
                         </span>
                         }
@@ -165,6 +172,8 @@ class App extends React.Component {
                     <Route exact path="/eurovaalit" render={({ history }) => <EuroSettings history={history} />} />
                     <Route exact path="/puolueet" render={({ history }) => <PartiesHome history={history} />} />
                     <Route exact path="/kaikkonenvskulmuni" render={({ history }) => <HeadsUpYle history={history} />} />
+                    <Route exact path="/addSpeak" render={({ history }) => <AddSpeak history={history} />} />
+                    <Route exact path="/speaks" render={({ history }) => <Speaks history={history} />} />
 
                     {window.localStorage.getItem('loggedUser') &&
                     <div>
@@ -176,6 +185,12 @@ class App extends React.Component {
                       path="/kysymykset/:id"
                       render={({ match }) =>
                         <Question kysymys={this.kysymysById(match.params.id)} />}
+                    />
+                    <Route
+                      exact
+                      path="/speaks/:id"
+                      render={({ match }) =>
+                        <Speak speakId={match.params.id} />}
                     />
                     <Route
                       exact
