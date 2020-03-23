@@ -7,6 +7,7 @@ import SingleQuestionData from '../parliament2019/SingleQuestionData';
 import Parties from '../parliament2019/parties/Parties'
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import './../../css/NewestQuestions.css'
+import SpeakExpoler from './SpeakExploer';
 
 class NewestQuestions extends React.Component {
   state = {
@@ -131,7 +132,7 @@ class NewestQuestions extends React.Component {
                   <Icon className='arrow-icon' name='chevron right' style={{paddingTop: '1em', paddingBottom: '4em'}}  onClick={() => this.nextQuestion()} />
                 </Grid.Column>
               </Grid.Row>
-
+                
               {/* <Grid.Row className='answer-buttons'>
                {desktop && <Grid.Column width={2} />}
                 <Grid.Column width={desktop ? 14 : 16}>
@@ -150,11 +151,31 @@ class NewestQuestions extends React.Component {
                 </Grid.Column>
               </Grid.Row> */}
             <Grid.Row>
-            <Grid.Column width={16} >
-              <hr />
-            </Grid.Column>
+              <Grid.Column width={16} >
+                <hr />
+              </Grid.Column>
+            </Grid.Row>
+            
+            <Grid.Row style={{paddingBottom: '0em'}}>
+                <Grid.Column width={2} />
+                <Grid.Column width={14}>
+                <h3 className='question-title'>Uusin lähetekeskustelu</h3>
+                </Grid.Column>
+            </Grid.Row>
+          
+            <Grid.Row style={{paddingBottom: '0em'}}>
+                <Grid.Column width={2} />
+                <Grid.Column width={12}>
+                  <SpeakExpoler />
+                </Grid.Column>
             </Grid.Row>
 
+            <Grid.Row>
+              <Grid.Column width={16} >
+                <hr />
+              </Grid.Column>
+            </Grid.Row>
+          
               <Grid.Row>
                 <Grid.Column width={2} />
                 <Grid.Column width={13} >

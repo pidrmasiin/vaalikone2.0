@@ -35,10 +35,19 @@ const remove = async (id) => {
   return response.data
 }
 
+const editSpeak = async (id, newObject) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.put(`${baseUrl}/${id}`, newObject, config)
+  return response.data
+}
+
 export default {
     getAll,
     setToken,
     addSpeak,
     remove,
-    getOne
+    getOne,
+    editSpeak
   }

@@ -34,6 +34,7 @@ import PartiesHome from './components/parliament2019/parties/PartiesHome';
 import AddSpeak from './components/parliament2019/speaks/AddSpeak';
 import Speaks from './components/parliament2019/speaks/Speaks';
 import Speak from './components/parliament2019/speaks/Speak';
+import SpeakExpoler from './components/general/SpeakExploer';
 
 class App extends React.Component {
   constructor(props) {
@@ -191,6 +192,12 @@ class App extends React.Component {
                       path="/speaks/:id"
                       render={({ match }) =>
                         <Speak speakId={match.params.id} />}
+                    />
+                    <Route
+                      exact
+                      path="/keskustelu/:id"
+                      render={({ match }) =>
+                        <SpeakExpoler speakId={match.params.id} />}
                     />
                     <Route
                       exact

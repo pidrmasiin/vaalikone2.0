@@ -7,7 +7,9 @@ import speakService from '../../../services/speak'
 class AddSpeak extends React.Component {
     state = {
         explainQuestion: '',
-        speakHtml: '',
+        url: '',
+        html: '',
+        details: '',
         data: [],
         questions: [],
         question: null
@@ -16,6 +18,12 @@ class AddSpeak extends React.Component {
     componentWillMount = async () => {
         const questions = await kysymysService.getAll()
         this.setState({questions})
+    }
+
+    componentDidMount = () => {
+        if (this.props.speak) {
+            this.setState(this.props.speak)
+        }
     }
 
     handleChange = (e) => {
@@ -30,7 +38,7 @@ class AddSpeak extends React.Component {
 
     saveSpeak = async () => {
         const parser = new DOMParser();
-        const doc = parser.parseFromString(this.state.speakHtml, 'text/html');
+        const doc = parser.parseFromString(this.state.html, 'text/html');
         console.log('doc', doc);
         const questionExplain = doc.getElementById('KohtaNimeke').children[0].innerHTML
 
@@ -57,13 +65,19 @@ class AddSpeak extends React.Component {
         const speakToAdd = {
             question: this.state.question,
             explainQuestion: questionExplain,
-            details: '',
-            data: data
+            details: this.state.details,
+            data: data,
+            html: this.state.html,
+            url: this.state.url
         }
         const loggedUserJSON = window.localStorage.getItem('loggedUser')
         speakService.setToken(JSON.parse(loggedUserJSON).token)
-        await speakService.addSpeak(speakToAdd)
-
+        if (this.props.speak) {
+            await speakService.editSpeak(this.state.id, speakToAdd)
+        } else {
+            await speakService.addSpeak(speakToAdd)
+        }
+        this.setState({done: 'done'})
     }
     
     render() {
@@ -74,8 +88,19 @@ class AddSpeak extends React.Component {
         return(
             <div>
                 <h2>Lisää keskustelu</h2>
+                {this.state.done && <h2>DONE if success</h2>}
+                <Input 
+                    value={this.state.explainQuestion}
+                    placeholder='Avaa aihe' name='explainQuestion' onChange={(e) => this.handleChange(e)} />
+                <br />
+                <Input 
+                    value={this.state.details}
+                    placeholder='Tarkempi kuvaus' name='details' onChange={(e) => this.handleChange(e)} />
+                <br />
+                <Input 
+                    value={this.state.url}
+                    placeholder='Sivusto' name='url' onChange={(e) => this.handleChange(e)} />
 
-                <Input placeholder='Avaa aihe' name='explainQuestion' onChange={(e) => this.handleChange(e)} />
 
                 <Dropdown 
                     type="text" 
@@ -85,13 +110,15 @@ class AddSpeak extends React.Component {
                     fluid
                     search 
                     selection 
+                    value={this.state.question}
                     options={questions} 
                 />
-
                 <div style={{marginTop: '2em'}}>
-                    <TextArea placeholder='Html element' name='speakHtml' onChange={(e) => this.handleChange(e)} />
+                    <TextArea 
+                        value={this.state.html}
+                        placeholder='Html element' name='html' onChange={(e) => this.handleChange(e)} />
                 </div>
-                <Button onClick={() => this.saveSpeak()}>Lisää keskustelu</Button>
+                  <Button onClick={() => this.saveSpeak()}>{this.props.speak ? 'Muokkaa' : 'Lisää keskustelu'}</Button>
             </div>
         )
     }
