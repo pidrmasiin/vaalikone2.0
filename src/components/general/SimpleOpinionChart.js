@@ -21,10 +21,10 @@ class SimpleOpinionChart extends React.Component {
 
   dashboard(id, fData){
         var barColor = 'black';
-        function segColor(c){ return {jaa:"green", ei:"red", 'poissa/tyhjiä':"grey"}[c]; }
+        function segColor(c){ return {jaa:"green", ei:"red", 'tyhjiä':"grey"}[c]; }
         
         // compute total for each state.
-        fData.forEach(function(d){d.total=d.freq.jaa+d.freq.ei+d.freq["poissa/tyhjiä"];});
+        fData.forEach(function(d){d.total=d.freq.jaa+d.freq.ei+d.freq["tyhjiä"];});
         
         // function to handle histogram.
         function histoGram(fD){
@@ -221,7 +221,7 @@ class SimpleOpinionChart extends React.Component {
         }
         
         // calculate total frequency by segment for all state.
-        var tF = ['jaa','ei','poissa/tyhjiä'].map(function(d){ 
+        var tF = ['jaa','ei','tyhjiä'].map(function(d){ 
             return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))}; 
         });    
         

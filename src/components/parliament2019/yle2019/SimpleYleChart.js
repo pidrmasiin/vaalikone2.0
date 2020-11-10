@@ -10,12 +10,12 @@ class SimpleYleChart extends React.Component {
     party = this.props.yle2019.parties[party]
     let selectedMembers = party.filter( member => member['Valintatieto (0=ei valita, 1=valitaan, 2=varalla)'] == '1')
     let opinions = selectedMembers.map(member => this.opinonsHelper(member[this.props.yleQuestion]))
-    let freq = {jaa: opinions.filter(o => o == 'jaa').length, ei: opinions.filter(o => o == 'ei').length, 'poissa/tyhjiä': opinions.filter(o => o == 'poissa/tyhjiä').length}
+    let freq = {jaa: opinions.filter(o => o == 'jaa').length, ei: opinions.filter(o => o == 'ei').length, 'tyhjiä': opinions.filter(o => o == 'tyhjiä').length}
     return freq
   }
 
   opinonsHelper = (yleOpionNumber) => {
-    let opinion = 'poissa/tyhjiä'
+    let opinion = 'tyhjiä'
     switch (yleOpionNumber) {
       case '1':
         opinion = 'ei'
@@ -111,8 +111,8 @@ class SimpleYleChart extends React.Component {
     let keys = Object.keys(this.props.yle2019.parties)
     let data = keys.map(party => ({State: this.parseParties(party), freq: this.opinions(party), barColor: this.getColor(party)}))
     data = data.sort(function (a, b) {
-      const aTotal = a.freq.ei + a.freq.jaa + a.freq['poissa/tyhjiä']
-      const bTotal = b.freq.ei + b.freq.jaa + b.freq['poissa/tyhjiä']
+      const aTotal = a.freq.ei + a.freq.jaa + a.freq['tyhjiä']
+      const bTotal = b.freq.ei + b.freq.jaa + b.freq['tyhjiä']
       return bTotal - aTotal;
     })
     

@@ -122,11 +122,11 @@ class App extends React.Component {
                   <NavLink to='/info' className="menu-link">
                     Info
                   </NavLink>
-                  {/* <NavLink to='/kaikkonenvskulmuni' className="menu-link">
+                  <NavLink to='/kulmunivssaarikko' className="menu-link">
                     <Label color='green' style={{marginBottom: '1em'}}>
                       Keskustan kisa
                     </Label>
-                  </NavLink> */}
+                  </NavLink>
                       {window.localStorage.getItem('loggedUser') &&
                       <span style={{marginTop: '1em'}}>
                             <NavLink className="menu-log" activeStyle={active} to="/kysymykset">
@@ -172,7 +172,7 @@ class App extends React.Component {
                     <Route exact path="/eu2019" render={({ history }) => <Eu2019 history={history} />} />
                     <Route exact path="/eurovaalit" render={({ history }) => <EuroSettings history={history} />} />
                     <Route exact path="/puolueet" render={({ history }) => <PartiesHome history={history} />} />
-                    <Route exact path="/kaikkonenvskulmuni" render={({ history }) => <HeadsUpYle history={history} />} />
+                    <Route exact path="/kulmunivssaarikko" render={({ history }) => <HeadsUpYle history={history} />} />
                     <Route exact path="/addSpeak" render={({ history }) => <AddSpeak history={history} />} />
                     <Route exact path="/speaks" render={({ history }) => <Speaks history={history} />} />
 

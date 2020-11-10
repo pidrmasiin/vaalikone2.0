@@ -23,11 +23,25 @@ class SingleQuestionData extends React.Component {
   setQuestionData = (question) => {
     const questionData = question.puolueet.map( party => ({ 
       State: this.parseParties(party.nimi), 
-      freq: {jaa: party.jaa, ei: party.ei, "poissa/tyhjiä": party.tyhjia + party.poissa},
+      freq: {jaa: party.jaa, ei: party.ei, "tyhjiä": party.tyhjia},
       barColor: this.getColor(party.nimi)
       }
     ))
-    this.setState({questionData})  
+    const parties = [
+      "Sosialidemokraattinen eduskuntaryhmä",
+      "Perussuomalaisten eduskuntaryhmä",
+      "Kansallisen kokoomuksen eduskuntaryhmä",
+      'Vihreä eduskuntaryhmä',
+      'Keskustan eduskuntaryhmä',
+      'Vasemmistoliiton eduskuntaryhmä',
+      'Ruotsalainen eduskuntaryhmä',
+      "Kristillisdemokraattinen eduskuntaryhmä",
+      'Liike Nyt -eduskuntaryhmä'
+    ]
+    const absent = question.puolueet.filter(party => parties.includes(party.nimi)).reduce((sum, party) => sum + party.poissa, 0 )
+    console.log('q', question.puolueet);
+    
+    this.setState({questionData, absent})  
   }
 
   parseParties = (party) => {
@@ -156,7 +170,7 @@ class SingleQuestionData extends React.Component {
       <FundsModal question={this.props.question}/>
       <br />
       <br />
-
+      <b>Poissa yhteensä: {this.state.absent}</b>
       <hr className='chart-divider'/>
       {this.props.yle2019.members.length > 0 ?
       <Segment style={{fontSize: '1em'}} basic>

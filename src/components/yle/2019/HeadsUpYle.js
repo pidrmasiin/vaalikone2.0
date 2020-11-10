@@ -56,15 +56,15 @@ class HeadsUpYle extends React.Component {
   }
 
   render() {
-    if(this.props.yle.members.length > 0 && !this.state.kaikkonen) {
+    if(this.props.yle.members.length > 0 && !this.state.saarikko) {
 
-      const kaikkonen = this.props.yle.members.find(x => x.sukunimi == 'Kaikkonen')
+      const saarikko = this.props.yle.members.find(x => x.sukunimi == 'Saarikko')
       const kulmuni = this.props.yle.members.find(x => x.sukunimi == 'Kulmuni')
 
       const questions = this.props.yle.headers.slice(4,33).map(x => x = { text: x, value: x })
 
       this.setState({
-        kaikkonen,
+        saarikko,
         kulmuni,
         questions
       })
@@ -72,18 +72,18 @@ class HeadsUpYle extends React.Component {
 
     
 
-    if (this.state.kaikkonen) {
+    if (this.state.saarikko) {
       return(
         <div>
-          <h1>Kaikkonen vs. Kulmuni</h1>
+          <h1>Saarikko vs. Kulmuni</h1>
           <p>Erot Ylen vaalikonevastauksissa</p>
           <Table celled>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Kysymys</Table.HeaderCell>
-              <Table.HeaderCell style={{width: '8em'}}>Kaikkonen</Table.HeaderCell>
+              <Table.HeaderCell style={{width: '8em'}}>Saarikko</Table.HeaderCell>
               <Table.HeaderCell style={{width: '8em'}}>Kulmuni</Table.HeaderCell>
-              <Table.HeaderCell>Kaikkosen selitys</Table.HeaderCell>
+              <Table.HeaderCell>Saarikon selitys</Table.HeaderCell>
               <Table.HeaderCell>Kulmunin selitys</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -92,17 +92,17 @@ class HeadsUpYle extends React.Component {
             {this.state.questions.map( question => 
               <Table.Row key={question.text}>
                 <Table.Cell>{question.text}</Table.Cell>
-                <Table.Cell style={{background: this.backgroundColor(this.opinonsHelper(this.state.kaikkonen[question.text]))}}>
-                  {this.opinonsHelper(this.state.kaikkonen[question.text])}
+                <Table.Cell style={{background: this.backgroundColor(this.opinonsHelper(this.state.saarikko[question.text]))}}>
+                  {this.opinonsHelper(this.state.saarikko[question.text])}
                 </Table.Cell>
                 <Table.Cell style={{background: this.backgroundColor(this.opinonsHelper(this.state.kulmuni[question.text]))}}>
                   {this.opinonsHelper(this.state.kulmuni[question.text])}
                 </Table.Cell>
                 <Table.Cell>
                   <Popup 
-                    content={this.state.kaikkonen['Explain ' + question.text]} 
+                    content={this.state.saarikko['Explain ' + question.text]} 
                     trigger={<Button icon='talk' 
-                      color={this.opinonsHelper(this.state.kaikkonen[question.text]).includes('jaa') ? 'green' : 'red'}
+                      color={this.opinonsHelper(this.state.saarikko[question.text]).includes('jaa') ? 'green' : 'red'}
                     />}
                     size={window.innerWidth > 600 ? 'huge' : 'small'}
                     position={window.innerWidth > 600 ? 'left center' : 'right center'}

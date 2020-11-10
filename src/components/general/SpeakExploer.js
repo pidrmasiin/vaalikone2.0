@@ -6,7 +6,7 @@ class SpeakExplorer extends React.Component {
     state = {
     }
 
-    componentWillMount = async () => {
+    componentDidMount = async () => {
         let speak = {}
         if (this.props.speakId) {
             speak = await speakService.getOne(this.props.speakId)
@@ -20,13 +20,19 @@ class SpeakExplorer extends React.Component {
         const speakerIndex = Math.floor(Math.random() * speak.data.length)
         const speakIndex = Math.floor(Math.random() * speak.data[speakerIndex].speaks.length)
         this.setState({speak, speakerIndex, speakIndex})
-        setInterval(() => {
+        let intervalId = setInterval(() => {
             const speakerIndex = Math.floor(Math.random() * this.state.speak.data.length)
             this.setState({
               speakerIndex,
               speakIndex: Math.floor(Math.random() * this.state.speak.data[speakerIndex].speaks.length)
             });
           }, 15000);
+        
+        this.setState({ intervalId: intervalId })
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.state.intervalId)
     }
 
 
@@ -34,8 +40,6 @@ class SpeakExplorer extends React.Component {
         const personSpeak =  this.state.speak ? this.state.speak.data[this.state.speakerIndex] : {}
         const detail = personSpeak.party ? personSpeak.party : personSpeak.status
         const nameParty = this.state.speak && `${personSpeak.first} ${personSpeak.last} (${detail})`
-        console.log('satte', this.state);
-
         
       return (
         <div>
@@ -57,12 +61,9 @@ class SpeakExplorer extends React.Component {
                                 /> </span>
                         ))}
                     </h4>
-                    <ReactTextTransition
-                            text={this.state.speak.data[this.state.speakerIndex].speaks[this.state.speakIndex]}
-                            spring={{ stiffness: 50, damping: 20 }}
-                            delay={1000}
-                            direction="down"
-                        />
+                    <span>
+                        {this.state.speak.data[this.state.speakerIndex].speaks[this.state.speakIndex]}
+                    </span>
                 </section>
             </div>
         }
