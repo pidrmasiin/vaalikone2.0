@@ -11,6 +11,18 @@ const linkStyle = {
 };
 
 class Questions extends React.Component {
+    state = {
+
+    }
+
+    componentWillMount = async () => {
+       const questions = await kysymysService.getAllWithDisabled();
+       this.setState({
+         questions
+       })
+       
+    }
+
     remove =k => () => {
       const ok = window.confirm(`Poistetaanko ${k.kysymys} kysymys`);
 
@@ -27,9 +39,15 @@ class Questions extends React.Component {
     }
 
     render() {
-      const questions = this.props.kysymykset.filter(q => q.tunniste != 'eu2019')
+      let questions = this.state.questions
       const euroQuestions = this.props.kysymykset.filter(q => q.tunniste == 'eu2019')
 
+      if(!questions) {
+        return(
+          <div>ODOTA</div>
+        )
+      }
+      questions = this.state.questions.filter(q => q.tunniste != 'eu2019')
       return (
         <div>
            <Table celled>

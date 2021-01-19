@@ -19,6 +19,7 @@ import Kategoria from './components/kategoriat/Kategoria';
 import Question from './components/questions/Question';
 import Eu2019 from './components/europa/Eu2019';
 import Login from './components/Login';
+import kysymysService from './services/kysymys'
 import { getKysymykset } from './reducers/kysymyksetReducer';
 import { getYle2019 } from './reducers/yle2019Reducer';
 import { getKategoriat } from './reducers/kategoriatReducer';
@@ -50,10 +51,15 @@ class App extends React.Component {
     this.props.getKategoriat();
     this.props.getYle2019();
     this.props.getYlenKysymykset();
+    const questions = await kysymysService.getAllWithDisabled();
+    this.setState({
+      questions
+    })
+    
   }
 
   kysymysById = id => (
-    this.props.kysymykset.find(k => k.id === id)
+    this.state.questions.find(k => k.id === id)
   )
 
   kategoriaById = id => (
@@ -87,6 +93,7 @@ class App extends React.Component {
       prevScrollpos = currentScrollPos;
     }
     const active = {fontWeight: "bold"}
+    
     return (
       <Router>
         <div>
@@ -121,11 +128,6 @@ class App extends React.Component {
                   </NavLink> */}
                   <NavLink to='/info' className="menu-link">
                     Info
-                  </NavLink>
-                  <NavLink to='/kulmunivssaarikko' className="menu-link">
-                    <Label color='green' style={{marginBottom: '1em'}}>
-                      Keskustan kisa
-                    </Label>
                   </NavLink>
                       {window.localStorage.getItem('loggedUser') &&
                       <span style={{marginTop: '1em'}}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Dropdown, Dimmer, Loader, Icon, Button, Modal } from 'semantic-ui-react'
+import { Segment, Dropdown, Dimmer, Loader, Icon, Message } from 'semantic-ui-react'
 import '../../css/Home.css'
 import '../../App.css'
 
@@ -165,6 +165,12 @@ class SingleQuestionData extends React.Component {
           </div>
       <h3 style={{marginTop: '0.8em'}}>Tiedot</h3>
       <p>Voit klikata palkkeja ja lohkoja tarkastellaksi puolueiden kantoja lähemmin.</p>
+      {this.state.absent > 100 &&
+        <Message warning>
+          <h3>Poikkeusolot</h3>
+          Täysistunnoissa läsnä normaalia vähemmän edustajia. Poissa yhteensä: {this.state.absent}.
+        </Message>
+     }
       {this.state.questionData && <SimpleOpinionChart data={this.state.questionData} chartId='singleParliamentQuestion'/>}
       <br />
       <FundsModal question={this.props.question}/>

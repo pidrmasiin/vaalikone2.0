@@ -156,7 +156,7 @@ class NewestQuestions extends React.Component {
               </Grid.Column>
             </Grid.Row>
             
-            <Grid.Row style={{paddingBottom: '0em'}}>
+            {/* <Grid.Row style={{paddingBottom: '0em'}}>
                 <Grid.Column width={2} />
                 <Grid.Column width={14}>
                 <h3 className='question-title'>Uusin lähetekeskustelu</h3>
@@ -174,7 +174,7 @@ class NewestQuestions extends React.Component {
               <Grid.Column width={16} >
                 <hr />
               </Grid.Column>
-            </Grid.Row>
+            </Grid.Row> */}
           
               <Grid.Row>
                 <Grid.Column width={2} />

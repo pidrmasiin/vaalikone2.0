@@ -55,7 +55,6 @@ class Eu2019 extends React.Component {
       url: e.target.url.value,
       vuosi: e.target.vuosi.value
     }
-    console.log('haloo', );
     
     if (toDB.puolueet.length > 7 && toDB.puolueet.length < 11 && toDB.edustajat.length > 10 && toDB.edustajat.length < 20) {
       const loggedUserJSON = window.localStorage.getItem('loggedUser')

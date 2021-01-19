@@ -9,6 +9,19 @@ const getAll = async () => {
   return response.data
 }
 
+const getAllWithDisabled = async () => {
+  const response = await axios.get(`${baseUrl}/all_requlars`)
+  return response.data
+}
+
+const activate = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get(`${baseUrl}/activate/${id}`, config)
+  return response.data
+}
+
 const setToken = (newToken) => {
   token = `bearer ${newToken}`
 }
@@ -55,4 +68,6 @@ export default {
   remove,
   addKategoria,
   modifyKysymys,
+  getAllWithDisabled,
+  activate
 }

@@ -4,6 +4,7 @@ import { Item, Container, List, Button, Grid, Checkbox, TextArea, Divider, Table
 import { connect } from 'react-redux'
 import kysymysService from './../../services/kysymys'
 import TextEditor from '../form/TextEditon'
+import SingleQuestionData from '../parliament2019/SingleQuestionData';
 
 class Kysymys extends React.Component {
   state = {
@@ -22,7 +23,10 @@ class Kysymys extends React.Component {
     kysymys: this.props.kysymys
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    kysymysService.setToken(JSON.parse(loggedUserJSON).token)
+
     if (this.props.kysymys) {
       this.setState({
         hot: this.props.kysymys.hot,
@@ -36,7 +40,9 @@ class Kysymys extends React.Component {
 
   onSubmit = async (e) => {
     let kysymys = this.props.kysymys
-    if (this.state.muokattava === 'kysymys') {
+    if (this.state.muokattava === 'disabled') {
+      kysymys.disabled = false
+    } if (this.state.muokattava === 'kysymys') {
       kysymys.kysymys = e.target.muutos.value
     } if (this.state.muokattava === 'selitys') {
       kysymys.selitys = e.target.muutos.value
@@ -191,9 +197,16 @@ class Kysymys extends React.Component {
     })
   }
 
+  activate = async () => {
+    const kys = await kysymysService.activate(this.props.kysymys.id);
+    if(kys){
+      this.setState({activated: false})
+    }
+    
+  }
+
 
   render() {
-    console.log('sate', this.state);
     
     if (this.props.kysymys) {
       const yles = this.props.yle.kysymykset.map(x => { return {text: x, value: x}})
@@ -436,6 +449,9 @@ class Kysymys extends React.Component {
             </Grid.Row>
             <Grid.Row />
           </Grid>
+          <hr/>
+                      <h2>Näkymä {this.props.kysymys.disabled && this.state.actived && <Button onClick={this.activate} color="green">Aktivoi kysymys</Button>}</h2>
+          <SingleQuestionData question={this.props.kysymys} />
         </Container>
       )
     }
