@@ -36,6 +36,7 @@ import AddSpeak from './components/parliament2019/speaks/AddSpeak';
 import Speaks from './components/parliament2019/speaks/Speaks';
 import Speak from './components/parliament2019/speaks/Speak';
 import SpeakExpoler from './components/general/SpeakExploer';
+import HelsinkiForm from './components/helsinki/form/newQuestionForm';
 
 class App extends React.Component {
   constructor(props) {
@@ -140,6 +141,9 @@ class App extends React.Component {
                             <NavLink className="menu-log" activeStyle={active} to="/lisaa">
                              Uusi kysymys
                             </NavLink>
+                            <NavLink className="menu-log" activeStyle={active} to="/lisaaHelsinki">
+                             Uusi kysymys helsinkiin
+                            </NavLink>
                             <NavLink className="menu-log" activeStyle={active} to="/addSpeak">
                              Lisää keskustelu
                             </NavLink>
@@ -181,6 +185,7 @@ class App extends React.Component {
                     {window.localStorage.getItem('loggedUser') &&
                     <div>
                       <Route path="/lisaa" render={({ history }) => <HtmlForm history={history} />} />
+                      <Route path="/lisaaHelsinki" render={({ history }) => <HelsinkiForm history={history} />} />
                     </div>
                         }
                     <Route
