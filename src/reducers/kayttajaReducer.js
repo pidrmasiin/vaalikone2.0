@@ -34,6 +34,11 @@ const kayttajaReducer = (store = initialState, action) => {
     filtered = store.euroParties.filter(p => p.name !== action.type)
   }
 
+  if(action.eu){
+    puolue = store.euroParties.filter(p => p.name === action.type)
+    filtered = store.euroParties.filter(p => p.name !== action.type)
+  }
+
   if (puolue.length > 0) {
     puolue[0].aanet = puolue[0].aanet + 1
     filtered.push(puolue[0])
@@ -95,6 +100,13 @@ export const addVastaus = content => async (dispatch) => {
 }
 
 export const addEuroVastaus = content => async (dispatch) => {
+  dispatch({
+    eu: true,
+    type: content,
+  })
+}
+
+export const addKuntaVastaus = content => async (dispatch) => {
   dispatch({
     eu: true,
     type: content,

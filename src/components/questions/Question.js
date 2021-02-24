@@ -450,7 +450,7 @@ class Kysymys extends React.Component {
             <Grid.Row />
           </Grid>
           <hr/>
-                      <h2>Näkymä {this.props.kysymys.disabled && this.state.actived && <Button onClick={this.activate} color="green">Aktivoi kysymys</Button>}</h2>
+                      <h2>Näkymä {this.props.kysymys.disabled && <Button onClick={this.activate} color="green">Aktivoi kysymys</Button>}</h2>
           <SingleQuestionData question={this.props.kysymys} />
         </Container>
       )

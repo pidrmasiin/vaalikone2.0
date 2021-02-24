@@ -40,6 +40,20 @@ class MachineMenu extends React.Component {
             </Card.Content>
         </Card>
         </Link>
+        <Link to="/kuntavaalit2021" style={{margin:"1em"}}>
+        <Card>
+            <Card.Content>
+            <Image centered height='150em' src='https://i.imgur.com/tQ6HhoS.png' style={{background: '#004d99', margin: '1em', marginTop: '0em', padding: '1em', paddingRight: '2em', paddingLeft: '2em'}}/>
+            <Card.Header>Kuntavaalit 2021</Card.Header>
+            <Card.Meta>
+                <span className='date'>2017-2021</span>
+            </Card.Meta>
+            <Card.Description>
+            Kuntavaalikauden 2017-2021 kuntavaalikausikoneesta löydät Helsingin ja Tampereen kaupunginvaltuustojen päätöksiä.
+            </Card.Description>
+            </Card.Content>
+        </Card>
+        </Link>
     </Card.Group>
         <br />
         <br />

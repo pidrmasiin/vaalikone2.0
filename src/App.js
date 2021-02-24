@@ -37,6 +37,11 @@ import Speaks from './components/parliament2019/speaks/Speaks';
 import Speak from './components/parliament2019/speaks/Speak';
 import SpeakExpoler from './components/general/SpeakExploer';
 import HelsinkiForm from './components/helsinki/form/newQuestionForm';
+import RegionalQuestions from './components/helsinki/questions/questionsList';
+import RegionalQuestion from './components/helsinki/questions/regionalQuestion';
+import RegionalMachine from './components/helsinki/RegionalMachine';
+
+
 
 class App extends React.Component {
   constructor(props) {
@@ -142,7 +147,10 @@ class App extends React.Component {
                              Uusi kysymys
                             </NavLink>
                             <NavLink className="menu-log" activeStyle={active} to="/lisaaHelsinki">
-                             Uusi kysymys helsinkiin
+                             Uusi kysymys kuntakoneeseen
+                            </NavLink>
+                            <NavLink className="menu-log" activeStyle={active} to="/kuntaLista">
+                             Muokkaa kuntakysymyksiä
                             </NavLink>
                             <NavLink className="menu-log" activeStyle={active} to="/addSpeak">
                              Lisää keskustelu
@@ -181,11 +189,13 @@ class App extends React.Component {
                     <Route exact path="/kulmunivssaarikko" render={({ history }) => <HeadsUpYle history={history} />} />
                     <Route exact path="/addSpeak" render={({ history }) => <AddSpeak history={history} />} />
                     <Route exact path="/speaks" render={({ history }) => <Speaks history={history} />} />
+                    <Route exact path="/kuntavaalit2021" render={(history) => <RegionalMachine history={history}/>} />
 
                     {window.localStorage.getItem('loggedUser') &&
                     <div>
                       <Route path="/lisaa" render={({ history }) => <HtmlForm history={history} />} />
                       <Route path="/lisaaHelsinki" render={({ history }) => <HelsinkiForm history={history} />} />
+                      <Route path="/kuntaLista" render={({ history }) => <RegionalQuestions history={history} />} />
                     </div>
                         }
                     <Route
@@ -193,6 +203,12 @@ class App extends React.Component {
                       path="/kysymykset/:id"
                       render={({ match }) =>
                         <Question kysymys={this.kysymysById(match.params.id)} />}
+                    />
+                    <Route
+                      exact
+                      path="/regionalQuestions/:id"
+                      render={({ match }) =>
+                        <RegionalQuestion id = {match.params.id} />}
                     />
                     <Route
                       exact
