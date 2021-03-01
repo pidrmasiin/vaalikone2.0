@@ -11,9 +11,9 @@ const initialState = {
       { name: 'vas', votes: 0, url: 'https://i.imgur.com/P0wEpt3.png' },
       { name: 'sin', votes: 0, url: 'https://i.imgur.com/gbryVO0.png' },
       { name: 'liike', votes: 0, url: 'https://liikenyt.fi/wp-content/uploads/2018/04/liike-nyt-vari-ensisijainen.jpg' },
-      { name: 'ap', votes: 0, url: '' },
-      { name: 'th', votes: 0, url: '' },
-      { name: 'fp', votes: 0, url: '' }
+      { name: 'ap', votes: 0, url: 'https://avoinpuolue.fi/wp-content/uploads/2019/11/logo-300x205.jpg' },
+      { name: 'th', votes: 0, url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Seven_Star_Movement_logo.svg/250px-Seven_Star_Movement_logo.svg.png' },
+      { name: 'fp', votes: 0, url: 'https://upload.wikimedia.org/wikipedia/fi/thumb/0/0c/FP_logo.svg/1200px-FP_logo.svg.png' }
     ],
     party: '',
   }
@@ -58,6 +58,12 @@ const initialState = {
       case 'rkp':
         return { ...store, helsinkiParties: filtered }
       case 'kd':
+        return { ...store, helsinkiParties: filtered }
+      case 'fp':
+        return { ...store, helsinkiParties: filtered }
+      case 'th':
+        return { ...store, helsinkiParties: filtered }
+      case 'ap':
         return { ...store, helsinkiParties: filtered }
       default:
     }

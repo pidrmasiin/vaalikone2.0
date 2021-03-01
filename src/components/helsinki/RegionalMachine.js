@@ -4,7 +4,7 @@ import { Button, Grid, Header, Card, Icon, Dimmer, Loader} from 'semantic-ui-rea
 import { addQuestion, addAnswer } from '../../reducers/regionalUserReducer';
 import { notifyCreation } from '../../reducers/notifyReducer'
 import regionalQuestionService from '../../services/regionalQuestion';
-import EuroAnswers from '../europa/euroAnswers';
+import RegionalAnswers from './regionalAnswers';
 import _ from 'lodash'
 import './../Machine.css';
 
@@ -46,26 +46,6 @@ class Machine extends React.Component {
     }
   }
 
-  selectedMachineQuestions = (selection, questions) => {
-    let handledQuestions = questions.filter(q => q.tunniste != 'eu2019')
-    if (selection == 'eu2019') {
-      handledQuestions =  questions.filter(q => q.tunniste == 'eu2019')
-    }
-    console.log('juuh');
-    
-    switch(selection) {
-      case 'eu2019':
-        return handledQuestions
-      case 'sipila':
-    console.log('juussh');
-
-        return handledQuestions.filter(x => x.createdAt == null)
-      case 'rinne':
-        return handledQuestions.filter(x => x.createdAt)
-      default:
-        return []
-    }
-  }
 /*eslint-disable */
   shuffle = (array) => {
     
@@ -108,10 +88,8 @@ class Machine extends React.Component {
     q.regionalUser = vastaus === 'eos' ? 'tyhjia' : vastaus
 
     this.props.addQuestion(q);
-    console.log('q', q);
 
     const jaaPuolueet = _.values(this.state.kysymys.parties).filter(p => p.kanta === q.regionalUser);
-    console.log('jee');
 
     console.log(_.values(this.state.kysymys.parties));
 
@@ -119,7 +97,6 @@ class Machine extends React.Component {
     const help = this.props.regionalUser.questions.find(x => x.question === this.state.kysymys.question)
     
     if (!help) {
-      console.log('haloo');
       console.log(jaaPuolueet.map(p => p.name));
 
       
@@ -141,7 +118,7 @@ class Machine extends React.Component {
     
     const buttonSize = window.innerWidth > 600 ? 'big' : 'medium'
     if(this.props.regionalUser.questions.length === this.state.kysymykset.length) {
-      return <EuroAnswers />
+      return <RegionalAnswers />
     }
     if (!this.state.kysymys) {
       return(
