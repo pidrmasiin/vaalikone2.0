@@ -21,11 +21,12 @@ class Machine extends React.Component {
     };
   }
 
-  componentDidMount = async () => {
+  componentWillMount = async () => {
+    
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0;
-    const questions = await regionalQuestionService.getAll()
-    console.log(questions);
+
+    const questions = await regionalQuestionService.getAllRegion(this.props.region)
 
    
     const satunnainenKysymys = this.shuffle(questions)
@@ -91,15 +92,9 @@ class Machine extends React.Component {
 
     const jaaPuolueet = _.values(this.state.kysymys.parties).filter(p => p.kanta === q.regionalUser);
 
-    console.log(_.values(this.state.kysymys.parties));
-
-
     const help = this.props.regionalUser.questions.find(x => x.question === this.state.kysymys.question)
     
     if (!help) {
-      console.log(jaaPuolueet.map(p => p.name));
-
-      
       for (let i = 0; i < jaaPuolueet.map(p => p.name).length; i = i + 1) {
         this.props.addAnswer(jaaPuolueet.map(p => p.name)[i]);
       }
@@ -114,16 +109,14 @@ class Machine extends React.Component {
 
   render() {
 
-    console.log(this.props);
-    
     const buttonSize = window.innerWidth > 600 ? 'big' : 'medium'
-    if(this.props.regionalUser.questions.length === this.state.kysymykset.length) {
-      return <RegionalAnswers />
+    if(this.state.monesko > 0 && this.props.regionalUser.questions.length === this.state.kysymykset.length) {
+      return <RegionalAnswers region={this.props.region} />
     }
     if (!this.state.kysymys) {
       return(
       <Dimmer active>
-        <Loader indeterminate>Preparing Files</Loader>
+        <Loader indeterminate>Valmistellaan kysymyksiä</Loader>
       </Dimmer>
       )
     }

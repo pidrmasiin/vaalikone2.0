@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { Accordion, Icon, Checkbox } from 'semantic-ui-react'
 import Machine from './Machine'
+import kysymysService from '../services/kysymys';
 
 class SipilaSettings extends React.Component {
     state = {
@@ -10,6 +11,11 @@ class SipilaSettings extends React.Component {
       howMany: false,
       categories: [],
       number: 20
+    }
+
+    componentDidMount = async () => {
+      const kysymykset = await kysymysService.getActiveMarins()
+      this.setState({kysymykset})
     }
 
 
@@ -54,7 +60,7 @@ class SipilaSettings extends React.Component {
     render() {
       if (this.state.renderMachine) {
         return (
-          <Machine selection='sipila' kysymykset={this.props.kysymykset} selected_categories={this.state.categories} howMany={this.state.number}/>
+          <Machine selection='marin' kysymykset={this.state.kysymykset} selected_categories={this.state.categories} howMany={this.state.number}/>
         )
       }
       return (
@@ -65,7 +71,7 @@ class SipilaSettings extends React.Component {
               valita kysymysten määrän ja  sinua kiinnostavat kategoriat.
             </p>
             <Accordion style={{paddingTop: "1em", paddingBottom:"1em"}}>
-              <Accordion.Title active={!this.state.hotQuestions} onClick={this.handleHotquestions}>
+              {/* <Accordion.Title active={!this.state.hotQuestions} onClick={this.handleHotquestions}>
                 <Icon name='dropdown' />
                 <b>Valitsen itse kategoriat </b>
               </Accordion.Title>
@@ -80,7 +86,7 @@ class SipilaSettings extends React.Component {
                       onChange={() => this.handleCategories(kateg.nimi)} />
                     )}
                 </div>
-              </Accordion.Content>
+              </Accordion.Content> */}
               <Accordion.Title active={this.state.howMany} onClick={this.showHowMany}>
                 <Icon name='dropdown' />
                 <b>Valitsen itse kysymysten määrän </b>

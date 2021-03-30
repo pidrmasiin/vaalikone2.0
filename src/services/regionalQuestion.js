@@ -9,6 +9,11 @@ const getAll = async () => {
   return response.data
 }
 
+const getAllRegion = async (region) => {
+  const response = await axios.get(`${baseUrl}/region/${region}`)
+  return response.data
+}
+
 const getAllWithDisabled = async () => {
   const response = await axios.get(`${baseUrl}/all_requlars`)
   return response.data
@@ -65,5 +70,6 @@ export default {
   modifyRegionalQuestion,
   getAllWithDisabled,
   activate,
-  getRegionalQuestion
+  getRegionalQuestion,
+  getAllRegion
 }

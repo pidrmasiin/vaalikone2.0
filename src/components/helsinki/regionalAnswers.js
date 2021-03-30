@@ -10,13 +10,23 @@ class RegionalAnswers extends React.Component {
   state = {
     monta: this.props.regionalUser.questions.length,
     show: false,
-    order: _.orderBy(this.props.regionalUser.helsinkiParties, ['votes'], ['desc'])
+    order: []
   }
 
-  componentDidMount = () => {
-    console.log("HALOOO");
-
-    console.log(this.props);
+  componentWillMount = () => {
+    
+    let filtered = []
+    
+    if(this.props.region == 'Helsinki') {
+      filtered = this.props.regionalUser.helsinkiParties.filter(x => !['tp'].includes(x.name))
+    }else if (this.props.region == 'Tampere') {
+      filtered = this.props.regionalUser.helsinkiParties.filter(x => !['th', 'ap', 'fp', 'liike'].includes(x.name))
+    }
+    console.log(filtered);
+    
+    this.setState({
+      order: _.orderBy(filtered, ['votes'], ['desc'])
+    })
     
   }
 
@@ -73,18 +83,16 @@ class RegionalAnswers extends React.Component {
   }
 
   render() {
-    console.log('names',partiesNames);
-
-    console.log('kesk',partiesNames.partiesNames['kesk']);
+    console.log(this.props);
     
     const desktop = window.innerWidth > 800
     return(
       <div>
         <h1>Tulokset</h1>
-        Alla näet parlamenttiryhmät ja niihin kuuluvat suomalaiset puolueet järjestettynä vastaamiesi kysymysten perusteella.
+        Alla näet valuustoryhmät järjestettynä vastaamiesi kysymysten perusteella.
        <br />
        <br />
-       Suomalaisten edustajien kannat löytyvät taulukon alta.
+        Osa valtuutetuista puuttuu kysymyksistä johtuen saatavilla olevan datan epäkonsistentisuudesta.
        <br />
        <br />
         <Table textAlign='center'>
@@ -121,7 +129,8 @@ class RegionalAnswers extends React.Component {
                           </Modal.Header>
                         <Modal.Content>
                         {this.props.regionalUser.questions.map(question =>
-                          <div style={{marginBottom: '2em'}}>
+                         question.parties[x.name] &&
+                          <div style={{marginBottom: '2em'}} key={question.id}>
                             <Table celled id="table" key={question.id} >
                               <Table.Body>
                                   <Table.Row >
@@ -161,7 +170,7 @@ class RegionalAnswers extends React.Component {
                                           </List.Content>
                                         </List.Item>
                                       </List>
-                                      :  <List divided verticalAlign='middle' style={{fontWeight: 'normal'}}>
+                                      :  <List divided verticalAlign='middle' size='large' style={{fontWeight: 'normal'}}>
                                         <List.Item style={{fontWeight: 'normal'}}>
                                         <List.Content>
                                         <Icon name="circle" color={this.opinionColor(question.regionalUser)} /> Sinä äänestit {question.regionalUser}
@@ -185,40 +194,40 @@ class RegionalAnswers extends React.Component {
                                             <h4>Ryhmän jäsenten vastaukset</h4>
                                           </List.Content>
                                         </List.Item>
-                                      {question.yes.parties[x.name] && question.yes.parties[x.name].map( member => 
-                                        <List.Item>
+                                      {question.yes && question.yes.parties[x.name] && question.yes.parties[x.name].map( member => 
+                                        <List.Item key={member}>
                                           <List.Content floated='right'>
-                                            <a href={`https://www.hel.fi/${member.linkPath}`} target="_blank"><Icon name="info" /> </a>
+                                            {member.linkPath && <a href={`https://www.hel.fi/${member.linkPath}`} target="_blank"><Icon name="info" /> </a>}
                                           </List.Content>
                                           <List.Content>
                                             <Icon name="circle" color='green' /> {member.name}
                                           </List.Content>
                                         </List.Item>
                                       )}
-                                      {question.no.parties[x.name] && question.no.parties[x.name].map( member => 
-                                        <List.Item>
+                                      {question.no && question.no.parties[x.name] && question.no.parties[x.name].map( member => 
+                                        <List.Item key={member}>
                                         <List.Content floated='right'>
-                                          <a href={`https://www.hel.fi/${member.linkPath}`} target="_blank"><Icon name="info" /> </a>
+                                          {member.linkPath && <a href={`https://www.hel.fi/${member.linkPath}`} target="_blank"><Icon name="info" /> </a>}
                                         </List.Content>
                                         <List.Content>
                                           <Icon name="circle" color='red' /> {member.name}
                                         </List.Content>
                                       </List.Item>
                                       )}
-                                      {question.empty.parties[x.name] && question.empty.parties[x.name].map( member => 
-                                        <List.Item>
+                                      {question.empty && question.empty.parties[x.name] && question.empty.parties[x.name].map( member => 
+                                        <List.Item key={member}>
                                         <List.Content floated='right'>
-                                          <a href={`https://www.hel.fi/${member.linkPath}`} target="_blank"><Icon name="info" /> </a>
+                                          {member.linkPath && <a href={`https://www.hel.fi/${member.linkPath}`} target="_blank"><Icon name="info" /> </a>}
                                         </List.Content>
                                         <List.Content>
                                           <Icon name="circle" color='grey' /> {member.name}
                                         </List.Content>
                                       </List.Item>
                                       )}
-                                      {question.out.parties[x.name] && question.out.parties[x.name].map( member => 
-                                        <List.Item>
+                                      {question.out && question.out.parties[x.name] && question.out.parties[x.name].map( member => 
+                                        <List.Item key={member}>
                                         <List.Content floated='right'>
-                                          <a href={`https://www.hel.fi/${member.linkPath}`} target="_blank"><Icon name="info" /> </a>
+                                        {member.linkPath && <a href={`https://www.hel.fi/${member.linkPath}`} target="_blank"><Icon name="info" /> </a>}
                                         </List.Content>
                                         <List.Content>
                                           <Icon name="circle outline" /> {member.name}
@@ -247,7 +256,7 @@ class RegionalAnswers extends React.Component {
         Näytä vastaukset -napin alta voit tarkastella, miten ryhmän mielipide on kussakin kysymyksessä jakautunut.
         <br/>
         <br/>
-        <Button onClick={() => window.location.assign('/kuntavaalit2021')} basic fluid color="yellow" size='massive' style={{marginTop: "3em", margin: "1em"}}>
+        <Button onClick={() => window.location.assign('/kuntavaalit2021')} basic fluid color="yellow" size="huge">
             Vastaa kysymyksiin uudelleen
           </Button>           
     </div>

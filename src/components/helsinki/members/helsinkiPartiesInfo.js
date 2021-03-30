@@ -1,4 +1,4 @@
-export const partiesCount = {
+export const helsinkiPartiesCount = {
     total: 85,
     kok: 24,
     vihr: 21,

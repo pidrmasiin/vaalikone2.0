@@ -10,7 +10,7 @@ const initialState = {
     { name: 'Kristillisdemokraattinen eduskuntaryhmä', aanet: 0, url: 'https://i.imgur.com/oVzcTTD.jpg' },
     { name: 'Vasemmistoliiton eduskuntaryhmä', aanet: 0, url: 'https://i.imgur.com/P0wEpt3.png' },
     { name: 'Sininen eduskuntaryhmä', aanet: 0, url: 'https://i.imgur.com/gbryVO0.png' },
-    { name: 'Liike Nyt-eduskuntaryhmä', aanet: 0, url: 'https://liikenyt.fi/wp-content/uploads/2018/04/liike-nyt-vari-ensisijainen.jpg' },
+    { name: 'Liike Nyt -eduskuntaryhmä', aanet: 0, url: 'https://liikenyt.fi/wp-content/uploads/2018/04/liike-nyt-vari-ensisijainen.jpg' },
   ],
   euroParties: [
     { name: 'S&D', aanet: 0, url: 'https://i.imgur.com/GSMua2B.png' },

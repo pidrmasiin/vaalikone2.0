@@ -6,6 +6,7 @@ import { notifyCreation } from '../reducers/notifyReducer'
 import AnswersTable from './AnswersTable';
 import EuroAnswers from './europa/euroAnswers';
 import './Machine.css';
+import MarinAnswersTable from './MarinAnswersTable';
 import NolansMap from './nolansMap/NolansMap';
 
 class Machine extends React.Component {
@@ -60,16 +61,14 @@ class Machine extends React.Component {
     if (selection == 'eu2019') {
       handledQuestions =  questions.filter(q => q.tunniste == 'eu2019')
     }
-    console.log('juuh');
     
     switch(selection) {
       case 'eu2019':
         return handledQuestions
       case 'sipila':
-    console.log('juussh');
 
         return handledQuestions.filter(x => x.createdAt == null)
-      case 'rinne':
+      case 'marin':
         return handledQuestions.filter(x => x.createdAt)
       default:
         return []
@@ -113,6 +112,8 @@ class Machine extends React.Component {
 
 
   vastaus = (vastaus) => {
+    console.log(this.state.kysymys);
+    
     let q = this.state.kysymys
     q.user = q.tunniste == 'eu2019' && vastaus === 'eos' ? 'tyhjia' : vastaus
     this.props.addKysymys(q);
@@ -139,7 +140,11 @@ class Machine extends React.Component {
           <h1 >Tulokset</h1>
           Taulukosta voit katsoa kuinka hyvin antamasi vastaukset vastaavat eduskunnan todellisia äänestystuloksia. 
           Taulukon alla olevasta kuviosta näet puolueiden kannat arvokartalla.
-          <AnswersTable />
+          {this.props.selection == 'marin' ?
+            <MarinAnswersTable />
+            : <AnswersTable />
+          }
+          
           <NolansMap user={this.props.kayttaja}/>
           <Button onClick={() => window.location.assign('/kone')} basic fluid color="blue" size='massive' style={{marginTop: "3em", margin: "1em"}}>
             Valitse uudet kategoriat ja vastaa taas kysymyksiin
@@ -208,7 +213,6 @@ class Machine extends React.Component {
 
 
 const mapStateToProps = state => ({
-  kysymykset: state.kysymykset,
   kayttaja: state.kayttaja,
 });
 

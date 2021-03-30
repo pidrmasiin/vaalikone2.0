@@ -1,8 +1,10 @@
 import React from 'react';
 import _ from 'lodash'
-import { Input, Checkbox, Button } from 'semantic-ui-react'
-import { members } from '../members/members.js'
-import { partiesCount } from '../members/partiesInfo.js'
+import { Input, Checkbox, Button, TextArea} from 'semantic-ui-react'
+import { helsinkiMembers } from '../members/helsinkiMembers.js'
+import { tampereMembers } from '../members/tampereMembers.js'
+import { helsinkiPartiesCount } from '../members/helsinkiPartiesInfo.js'
+import { tamperePartiesCount } from '../members/tamperePartiesInfo.js'
 import regionalQuestionService from '../../../services/regionalQuestion.js';
 
 
@@ -17,14 +19,17 @@ class HelsinkiForm extends React.Component {
     handleChange = (e, opinion) => {
         const trimmed = e.target.value.split(',').map(x => x.trim().toLowerCase())
         
-        
+        let members = []
+
+        if (this.state.city == 'helsinki') {
+          members = helsinkiMembers
+        } else if(this.state.city == 'tampere') {
+          members = tampereMembers
+        }
         let selected = members.filter(memb => trimmed.includes(memb.name.trim().toLowerCase()))
 
         const trimmedMembers = members.map(x => x.name.trim().toLowerCase())
         let out = trimmed.filter(memb => !trimmedMembers.includes(memb))
-
-        console.log(selected);
-        
 
         let partiesOpinons = _.chain(selected).groupBy("party").value()
         const opinionForm = {
@@ -76,10 +81,13 @@ class HelsinkiForm extends React.Component {
 
       formatParties = () => {
         let parties = {}
-        console.log(partiesCount);
-        
-        Object.keys(partiesCount).forEach(party => {
-            console.log(party);
+        let partiesKeys = []
+        if (this.state.city == 'helsinki') {
+          partiesKeys = Object.keys(helsinkiPartiesCount)
+        } else if(this.state.city == 'tampere') {
+          partiesKeys = Object.keys(tamperePartiesCount)
+        }
+        partiesKeys.forEach(party => {
             
             if(party !== 'total') {
                 parties[party] = {
@@ -125,12 +133,26 @@ class HelsinkiForm extends React.Component {
     
 
     render() {
-        console.log(this.state);
-        
         return(
             <div>
+                 <Checkbox
+                  radio
+                  name="city"
+                  checked={this.state.city === 'helsinki'}
+                  label="Helsinki"
+                  onChange={() => this.handlecity('helsinki')}
+                  />
+                  <Checkbox
+                    radio
+                    name="city"
+                    checked={this.state.city === 'tampere'}
+                    label="Tampere"
+                    onChange={() => this.handlecity('tampere')}
+                  />
                 <h1>Lisää kysymyksiä Helsinkikoneeseen</h1>
-                <Input type="textbox" label='Kysymys' className="form-control" name="question" onChange={(e) => this.change(e)} />
+                <label><b>Kysymys</b></label>
+                <br/>
+                <TextArea type="textbox" className="form-control" name="question" onChange={(e) => this.change(e)} />
                 <br/>
                 <br/>
                 <Input type="text" label='Linkki tarkempiin tietoihin' className="form-control" name="url" onChange={(e) => this.change(e)} />
@@ -218,20 +240,7 @@ class HelsinkiForm extends React.Component {
 
                 <br/>
                   <br/>
-                  <Checkbox
-                  radio
-                  name="city"
-                  checked={this.state.city === 'helsinki'}
-                  label="Helsinki"
-                  onChange={() => this.handlecity('helsinki')}
-                  />
-                  <Checkbox
-                    radio
-                    name="city"
-                    checked={this.state.city === 'tampere'}
-                    label="Tampere"
-                    onChange={() => this.handlecity('tampere')}
-                  />
+               
                  
                 <p><Button positive className="fluid ui button" onClick={() => this.onSubmit()}>create</Button></p>
 

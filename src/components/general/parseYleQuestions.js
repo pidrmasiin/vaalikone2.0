@@ -22,7 +22,6 @@ const parseQuestion = (q) => {
 
 
 const yleQuestions2019 = (yle2019) => {
-    console.log('haloo');
     const back = yle2019.headers.slice(4,33).map(x => x = { text: parseQuestion(x), value: x })
     return back
 } 

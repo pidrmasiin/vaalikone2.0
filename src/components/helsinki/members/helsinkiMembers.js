@@ -1,4 +1,4 @@
-export const members = [
+export const helsinkiMembers = [
     {
       "name": "Ted Apter",
       "party": "kok",

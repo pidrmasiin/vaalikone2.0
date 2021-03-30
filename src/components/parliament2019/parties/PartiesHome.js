@@ -113,8 +113,6 @@ class Home extends React.Component {
     }
     
     const yleQue = yleQuestions.yleQuestions2019(this.props.yle2019);
-     console.log(this.props);
-     
     return(
     
       <div>

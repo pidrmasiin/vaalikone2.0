@@ -47,6 +47,9 @@ export const partiesNames = {
     },
     th: {
       "name": "Tähtiliike"
+    },
+    tp: {
+      "name": "Tampereen Puolesta"
     }
   }
 
