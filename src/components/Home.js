@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dimmer, Loader } from 'semantic-ui-react'
+import { Dimmer, Loader, Image, Card } from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
 import ReactGA from 'react-ga';
 import NewestQuestions from './general/NewstQuestions'
 import '../css/Home.css'
@@ -24,7 +25,7 @@ class Home extends React.Component {
       )
     }
     return(
-      <div>
+      <div> 
       <NewestQuestions questions={this.props.questions}/>
       </div>
     )

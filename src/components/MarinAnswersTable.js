@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { addPuolue } from '../reducers/kayttajaReducer'
 import OneResult from './yleParties/OneResult';
 import Members from './questions/MembersAnswers';
+import SimpleOpinionChart from './general/SimpleOpinionChart';
+import PartiesYleOpinon from './parliament2019/yle2019/PartiesYleOpinon';
 
 
 class AnswersTable extends React.Component {
@@ -117,7 +119,7 @@ render() {
                               }
                             dimmer={'default'}
                             open={this.state.show == x.name}
-                            size={'small'}
+                            size={'medium'}
                             style={{marginBottom: "5em"}}
                           >
                             <Modal.Header>
@@ -143,10 +145,10 @@ render() {
                                     ?  <Table.Header>
                                           <Table.Row>
                                             <Table.HeaderCell>Lähde</Table.HeaderCell>
-                                            <Table.HeaderCell width="10">Kysymys</Table.HeaderCell>
+                                            <Table.HeaderCell width="7">Kysymys</Table.HeaderCell>
                                             <Table.HeaderCell width="2">Puolue</Table.HeaderCell>
-                                            <Table.HeaderCell width="1">Sinä</Table.HeaderCell>
-                                            <Table.HeaderCell>Edustajien kannat</Table.HeaderCell>
+                                            <Table.HeaderCell width="2">Sinä</Table.HeaderCell>
+                                            <Table.HeaderCell width="3">Edustajien kannat</Table.HeaderCell>
                                           </Table.Row>
                                        </Table.Header>
                                     : <Table.Header>
@@ -183,7 +185,7 @@ render() {
                                         </Modal.Actions>
                                         </Table.Cell>
                                       </Table.Row>
-                                      {/* <OneResult puolue={this.state.puolue} kysymys={x.vastaus} /> */}
+                                      {x.yle2019 && <PartiesYleOpinon party={this.state.puolue} yleQuestion={x.yle2019} /> }
                                   </Table.Body>
                                 </Table>
                                   )}

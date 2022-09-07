@@ -45,28 +45,51 @@ class RegionalQuestions extends React.Component {
           <div>ODOTA</div>
         )
       }
-      questions = this.state.questions.filter(q => q.tunniste != 'eu2019')
+      let tampereQuestions = this.state.questions.filter(q => q.city == 'tampere')
+      let helsinkiQuestions = this.state.questions.filter(q => q.city == 'helsinki')
+
       return (
         <div>
-        <Table celled>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell positive>Kysymys</Table.HeaderCell>
-              {window.localStorage.getItem('loggedUser') &&
-              <Table.HeaderCell>Poisto</Table.HeaderCell>}
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {questions.map(k =>
-                  (
-                    <Table.Row key={k.id}>
-                      <Table.Cell selectable><Link style={linkStyle} to={`/regionalQuestions/${k.id}`}>{k.question}</Link></Table.Cell>
-                      <Table.Cell>{window.localStorage.getItem('loggedUser') === null ?
-                null : <form onSubmit={this.remove(k)}><Button inverted color="red" type="submit">Delete</Button></form>}
-                      </Table.Cell>
-                    </Table.Row>))}
-          </Table.Body>
-        </Table>
+          <h2>Tampere</h2>
+          <Table celled>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell positive>Kysymys</Table.HeaderCell>
+                {window.localStorage.getItem('loggedUser') &&
+                <Table.HeaderCell>Poisto</Table.HeaderCell>}
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {tampereQuestions.map(k =>
+                    (
+                      <Table.Row key={k.id}>
+                        <Table.Cell selectable><Link style={linkStyle} to={`/regionalQuestions/${k.id}`}>{k.question}</Link></Table.Cell>
+                        <Table.Cell>{window.localStorage.getItem('loggedUser') === null ?
+                  null : <form onSubmit={this.remove(k)}><Button inverted color="red" type="submit">Delete</Button></form>}
+                        </Table.Cell>
+                      </Table.Row>))}
+            </Table.Body>
+          </Table>
+          <h2>Helsinki</h2>
+          <Table celled>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell positive>Kysymys</Table.HeaderCell>
+                {window.localStorage.getItem('loggedUser') &&
+                <Table.HeaderCell>Poisto</Table.HeaderCell>}
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {helsinkiQuestions.map(k =>
+                    (
+                      <Table.Row key={k.id}>
+                        <Table.Cell selectable><Link style={linkStyle} to={`/regionalQuestions/${k.id}`}>{k.question}</Link></Table.Cell>
+                        <Table.Cell>{window.localStorage.getItem('loggedUser') === null ?
+                  null : <form onSubmit={this.remove(k)}><Button inverted color="red" type="submit">Delete</Button></form>}
+                        </Table.Cell>
+                      </Table.Row>))}
+            </Table.Body>
+          </Table>
         </div>
       );
     }

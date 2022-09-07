@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Transition, Icon, Button, Grid } from 'semantic-ui-react'
+import { Transition, Icon, Image, Grid, Card } from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
 import InfoAccordion from './InfoAccordion'
 import InfoBar from './InfoBar'
 import SingleQuestionData from '../parliament2019/SingleQuestionData';
@@ -85,10 +86,58 @@ class NewestQuestions extends React.Component {
     
     return(
       <div>
-        
         <div className='answers-show'>
+        <div style={{textAlign: 'center', marginBottom: '3em'}}>
+            <h2>Ajankohtaiset vaalikausikoneet</h2>
+            <p>
+              Vaalikausikoneilla pääset vertailemaan poliitikkojen käyttätymistä omiin näkemyksiisi.
+            </p>
+            <Card.Group centered fluid>
+            <Link to="/kuntavaalit2021" style={{margin:"1em"}}>
+            <Card>
+                <Card.Content>
+                <Image centered height='150em' 
+                    style={{marginTop: '0em', marginBottom: '1em'}}
+                    src="https://www.kuntavaalit.fi/sites/default/files/styles/medium_cropped/public/public-image-bank/Kuntavaalit-logo_valk_tunnus.png?itok=eCRxDW-d"
+                />
+                <Card.Header>Kuntavaalit 2021</Card.Header>
+                <Card.Meta>
+                    <span className="date">2017-2021</span>
+                </Card.Meta>
+                <Card.Description>
+                Kuntavaalikauden 2017-2021 kuntavaalikausikoneesta löydät Helsingin ja Tampereen kaupunginvaltuustojen päätöksiä
+                <br/>
+                <br/>
+                <Icon name="log out" size="large" color="blue" style={{marginLeft: '0.2em'}}/>
+                </Card.Description>
+                </Card.Content>
+            </Card>
+            </Link>
+            <Link to="/vaalikausi-marin" style={{margin:"1em"}}>
+                <Card>
+                    <Card.Content>
+                    <Image centered height='150em' 
+                        src='https://i.imgur.com/tQ6HhoS.png' 
+                        style={{background: '#004d99', margin: '1em', marginTop: '0em', padding: '1em', paddingRight: '2em', paddingLeft: '2em'}}
+                    />
+                    <Card.Header>Suomen eduskunta</Card.Header>
+                    <Card.Meta>
+                        <span className='date'>2019 -> </span>
+                    </Card.Meta>
+                    <Card.Description>
+                    Kauden 2019 -> vaalikausikoneesta löydät Rinteen ja Marinin hallituksen kaudella tehdyjä päätöksiä.
+                    <br />
+                    <br />
+                    <Icon name="log out" size="large" color="blue" style={{marginLeft: '0.2em'}}/>
+                    </Card.Description>
+                    </Card.Content>
+                </Card>
+            </Link>
+        </Card.Group>
+        </div>
+        <hr />
           <div className='title-party'>
-            <h1>Eduskunta</h1>
+            <h1 style={{marginTop:'2em'}}>Eduskunta</h1>
           </div>
           <Parties />
           <br />

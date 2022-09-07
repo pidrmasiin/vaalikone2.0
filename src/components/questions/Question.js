@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import kysymysService from './../../services/kysymys'
 import TextEditor from '../form/TextEditon'
 import SingleQuestionData from '../parliament2019/SingleQuestionData';
+import { getYle2019 } from '../../reducers/yle2019Reducer';
 
 class Kysymys extends React.Component {
   state = {
@@ -19,27 +20,34 @@ class Kysymys extends React.Component {
     booleans: false,
     jaaLeftist: null,
     jaaLiberal: null,
-    green: null,
-    kysymys: this.props.kysymys
+    green: null
+  }
+
+
+  componentWillMount = async () => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    kysymysService.setToken(JSON.parse(loggedUserJSON).token)
+    const q = await kysymysService.getSingle(this.props.id);
+    this.setState({kysymys: q})
   }
 
   componentDidMount = async () => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     kysymysService.setToken(JSON.parse(loggedUserJSON).token)
 
-    if (this.props.kysymys) {
+    if (this.state.kysymys) {
       this.setState({
-        hot: this.props.kysymys.hot,
-        asettelu: this.props.kysymys.kysymyksenAsettelu,
-        jaaLeftist: this.props.kysymys.jaaLeftist,
-        jaaLiberal: this.props.kysymys.jaaLiberal,
-        green: this.props.kysymys.green,
+        hot: this.state.kysymys.hot,
+        asettelu: this.state.kysymys.kysymyksenAsettelu,
+        jaaLeftist: this.state.kysymys.jaaLeftist,
+        jaaLiberal: this.state.kysymys.jaaLiberal,
+        green: this.state.kysymys.green,
       })
     }
   }
 
   onSubmit = async (e) => {
-    let kysymys = this.props.kysymys
+    let kysymys = this.state.kysymys
     if (this.state.muokattava === 'disabled') {
       kysymys.disabled = false
     } if (this.state.muokattava === 'kysymys') {
@@ -54,7 +62,12 @@ class Kysymys extends React.Component {
     } if (this.state.muokattava === 'url') {
       kysymys.url = e.target.muutos.value
     } if (this.state.muokattava === 'yle') {
-      kysymys.vastaus = this.state.yleQuestion
+      if(this.state.kysymys.createdAt){
+        kysymys.yle2019 = this.state.yleQuestion
+        kysymys.vastaus = this.state.yleQuestion
+      } else {
+        kysymys.vastaus = this.state.yleQuestion
+      }
     } 
     
     
@@ -93,7 +106,7 @@ class Kysymys extends React.Component {
     this.props.kategoriat.map(k => (document.getElementById(k.nimi).checked
       ? kategoriat.push(k) : null))
 
-    const kysymys = this.props.kysymys
+    const kysymys = this.state.kysymys
     kysymys.kategoriat = kategoriat.map(x => x.id)
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     kysymysService.setToken(JSON.parse(loggedUserJSON).token)
@@ -125,11 +138,11 @@ class Kysymys extends React.Component {
 
   showBooleans = () => {
     this.setState({
-      hot: this.props.kysymys.hot,
-      asettelu: this.props.kysymys.kysymyksenAsettelu,
-      jaaLeftist: this.props.kysymys.jaaLeftist,
-      jaaLiberal: this.props.kysymys.jaaLiberal,
-      green: this.props.kysymys.green,
+      hot: this.state.kysymys.hot,
+      asettelu: this.state.kysymys.kysymyksenAsettelu,
+      jaaLeftist: this.state.kysymys.jaaLeftist,
+      jaaLiberal: this.state.kysymys.jaaLiberal,
+      green: this.state.kysymys.green,
     })
     this.setState({
       booleans: !this.state.booleans,
@@ -198,7 +211,7 @@ class Kysymys extends React.Component {
   }
 
   activate = async () => {
-    const kys = await kysymysService.activate(this.props.kysymys.id);
+    const kys = await kysymysService.activate(this.state.kysymys.id);
     if(kys){
       this.setState({activated: false})
     }
@@ -208,8 +221,14 @@ class Kysymys extends React.Component {
 
   render() {
     
-    if (this.props.kysymys) {
-      const yles = this.props.yle.kysymykset.map(x => { return {text: x, value: x}})
+    if (this.state.kysymys) {
+      let yles = this.props.yle.kysymykset.map(x => { return {text: x, value: x}})
+      
+      if(this.state.kysymys.createdAt && this.props.yle2019.headers) {
+        let yle2019Questions = this.props.yle2019.headers.slice(4,62)
+        yle2019Questions = [...new Set(yle2019Questions)]
+        yles = yle2019Questions.map(x => { return {text: x, value: x}})
+      }
       return (
         <Container>
           <Grid>
@@ -243,7 +262,7 @@ class Kysymys extends React.Component {
               {this.state.yle &&
               <form onSubmit={this.onSubmit}>
               <Dropdown placeholder='Valitse ylen kysymys' fluid selection onChange={(e, d) => this.handleYle(e, d)} options={yles} />
-                  <Button type="submit" color="green">Muokkaa</Button>
+                  <Button type="submit" color="green">Muokkaa</Button>yle
                 </form>
             }
 
@@ -362,22 +381,22 @@ class Kysymys extends React.Component {
                   <Divider>Kysymys</Divider>
                   <Item>
                     <Item.Content>
-                      <Item.Header>{this.props.kysymys.kysymys} </Item.Header>
+                      <Item.Header>{this.state.kysymys.kysymys} </Item.Header>
                       <Item.Description>
                         <Button size="mini" basic onClick={this.show}>Lisätietoja</Button>
                         {this.state.show && 
                         <div>
                           <br/>
-                        <b>Jaa vastaus liberaali:</b> {typeof this.props.kysymys.jaaLiberal === 'boolean' && this.props.kysymys.jaaLiberal.toString()}
+                        <b>Jaa vastaus liberaali:</b> {typeof this.state.kysymys.jaaLiberal === 'boolean' && this.state.kysymys.jaaLiberal.toString()}
                         <br />
-                        <b>Jaa vastaus vasemmistolainen:</b> {typeof this.props.kysymys.jaaLeftist == 'boolean' && this.props.kysymys.jaaLeftist.toString()}
+                        <b>Jaa vastaus vasemmistolainen:</b> {typeof this.state.kysymys.jaaLeftist == 'boolean' && this.state.kysymys.jaaLeftist.toString()}
                         <br />
-                          <b>Jaa vastaus vihreä:</b> {typeof this.props.kysymys.green == 'boolean' && this.props.kysymys.green.toString()}
+                          <b>Jaa vastaus vihreä:</b> {typeof this.state.kysymys.green == 'boolean' && this.state.kysymys.green.toString()}
                           <br />
                        <br/>
-                       <h3> {this.props.kysymys.tunniste}</h3>
+                       <h3> {this.state.kysymys.tunniste}</h3>
                         
-                        {this.props.kysymys.selitys}
+                        {this.state.kysymys.selitys}
                       
                         </div>}
                       </Item.Description>
@@ -385,11 +404,11 @@ class Kysymys extends React.Component {
                       <b>Kysymykseen linkitetty ylen vaalikoneen kysymys</b>
                       <br />
                       <br />
-                      <p>{this.props.kysymys.vastaus}</p>
+                      <p>{this.state.kysymys.vastaus}</p>
                       <List>
                         <b>Kategoriat</b>
                         <List.List>
-                          {this.props.kysymys.kategoriat.map(x =>
+                          {this.state.kysymys.kategoriat.map(x =>
                             (
                               <List.Item as="li" key={x._id}><Link to={`/kategoriat/${x._id}`}>{x.nimi}</Link>
                               </List.Item>))}
@@ -402,7 +421,7 @@ class Kysymys extends React.Component {
                         {this.state.puolueet &&
                         <Table>
                           <Table.Body>
-                            {this.props.kysymys.puolueet.map(x =>
+                            {this.state.kysymys.puolueet.map(x =>
                             (
                               <Table.Row key={x.nimi}>
                                 <Table.Cell>{x.nimi}</Table.Cell>
@@ -418,7 +437,7 @@ class Kysymys extends React.Component {
                           </Table.Body>
                           {this.state.edustajat &&
                           <Table.Body>
-                            {this.props.kysymys.edustajat.map(x =>
+                            {this.state.kysymys.edustajat.map(x =>
                             (
                               <Table.Row key={x.nimi}>
                                 <Table.Cell>{x.nimi}</Table.Cell>
@@ -436,7 +455,7 @@ class Kysymys extends React.Component {
                         }
                       </List>
                       <Item.Extra>
-                        <a target="_blank" rel="noopener noreferrer" href={this.props.kysymys.url}>Linkki eduskunnan sivuille</a>
+                        <a target="_blank" rel="noopener noreferrer" href={this.state.kysymys.url}>Linkki eduskunnan sivuille</a>
                       </Item.Extra>
                     </Item.Content>
                   </Item>
@@ -450,8 +469,8 @@ class Kysymys extends React.Component {
             <Grid.Row />
           </Grid>
           <hr/>
-                      <h2>Näkymä {this.props.kysymys.disabled && <Button onClick={this.activate} color="green">Aktivoi kysymys</Button>}</h2>
-          <SingleQuestionData question={this.props.kysymys} />
+                      <h2>Näkymä {this.state.kysymys.disabled && <Button onClick={this.activate} color="green">Aktivoi kysymys</Button>}</h2>
+          <SingleQuestionData question={this.state.kysymys} />
         </Container>
       )
     }
@@ -464,11 +483,13 @@ class Kysymys extends React.Component {
 const mapStateToProps = state => ({
   kategoriat: state.kategoriat,
   kayttaja: state.kayttaja,
-  yle: state.ylenKysymykset
+  yle: state.ylenKysymykset,
+  yle2019: state.yle2019
 })
 
 export default connect(
   mapStateToProps,
   {
+    getYle2019
   },
 )(Kysymys)

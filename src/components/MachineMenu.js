@@ -12,7 +12,7 @@ class MachineMenu extends React.Component {
     return(
     <div style={{textAlign: 'center', paddingLeft: '0.5em'}}>
         <h1 style={{paddingTop: '1em'}}>Vaalikausikoneet</h1>
-        <p>Vaalikausikoneissa pääset näkemään, miten kansanedustajan, kaupunginvaltuutetut ja europarlamentaarikot ovat luottamustoimessaan todella äänestäneet. Lisäksi pääset
+        <p style={{textAlign: 'left', marginLeft: '1em'}}>Vaalikausikoneissa pääset näkemään, miten kansanedustajan, kaupunginvaltuutetut ja europarlamentaarikot ovat luottamustoimessaan todella äänestäneet. Lisäksi pääset
             vertailemaan omia näkymyksiäsi eri puolueiden näkemyksiin. Vaalikausikoneissa puoleita ja ryhmiä käsitellään aina kokonaisuutena.
             Tulosten kannalta tämä tarkoittaa sitä, että puolueen katsotaan kussakin kysymyksessä edustavan 100 prosenttisesti enemmistönsä linjaa.
         </p>

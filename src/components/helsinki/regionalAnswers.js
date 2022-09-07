@@ -20,7 +20,7 @@ class RegionalAnswers extends React.Component {
     if(this.props.region == 'Helsinki') {
       filtered = this.props.regionalUser.helsinkiParties.filter(x => !['tp'].includes(x.name))
     }else if (this.props.region == 'Tampere') {
-      filtered = this.props.regionalUser.helsinkiParties.filter(x => !['th', 'ap', 'fp', 'liike'].includes(x.name))
+      filtered = this.props.regionalUser.helsinkiParties.filter(x => !['th', 'ap', 'fp', 'liike', 'tp'].includes(x.name))
     }
     console.log(filtered);
     
@@ -83,7 +83,7 @@ class RegionalAnswers extends React.Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log(this.state);
     
     const desktop = window.innerWidth > 800
     return(
@@ -194,7 +194,7 @@ class RegionalAnswers extends React.Component {
                                             <h4>Ryhmän jäsenten vastaukset</h4>
                                           </List.Content>
                                         </List.Item>
-                                      {question.yes && question.yes.parties[x.name] && question.yes.parties[x.name].map( member => 
+                                      {question?.yes?.parties?.[x.name] && question.yes.parties[x.name].map( member => 
                                         <List.Item key={member}>
                                           <List.Content floated='right'>
                                             {member.linkPath && <a href={`https://www.hel.fi/${member.linkPath}`} target="_blank"><Icon name="info" /> </a>}
@@ -204,7 +204,7 @@ class RegionalAnswers extends React.Component {
                                           </List.Content>
                                         </List.Item>
                                       )}
-                                      {question.no && question.no.parties[x.name] && question.no.parties[x.name].map( member => 
+                                      {question?.no?.parties?.[x.name] &&  question.no.parties[x.name].map( member => 
                                         <List.Item key={member}>
                                         <List.Content floated='right'>
                                           {member.linkPath && <a href={`https://www.hel.fi/${member.linkPath}`} target="_blank"><Icon name="info" /> </a>}
@@ -214,7 +214,7 @@ class RegionalAnswers extends React.Component {
                                         </List.Content>
                                       </List.Item>
                                       )}
-                                      {question.empty && question.empty.parties[x.name] && question.empty.parties[x.name].map( member => 
+                                      {question?.empty?.parties?.[x.name] && question.empty.parties[x.name]?.map( member => 
                                         <List.Item key={member}>
                                         <List.Content floated='right'>
                                           {member.linkPath && <a href={`https://www.hel.fi/${member.linkPath}`} target="_blank"><Icon name="info" /> </a>}
@@ -224,7 +224,7 @@ class RegionalAnswers extends React.Component {
                                         </List.Content>
                                       </List.Item>
                                       )}
-                                      {question.out && question.out.parties[x.name] && question.out.parties[x.name].map( member => 
+                                      {question?.out?.parties?.[x.name] && question.out.parties[x.name].map( member => 
                                         <List.Item key={member}>
                                         <List.Content floated='right'>
                                         {member.linkPath && <a href={`https://www.hel.fi/${member.linkPath}`} target="_blank"><Icon name="info" /> </a>}

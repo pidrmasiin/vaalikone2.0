@@ -135,6 +135,8 @@ class HelsinkiForm extends React.Component {
     render() {
         return(
             <div>
+                <h1>Lisää kysymyksiä kuntavaalikoneeseen</h1>
+
                  <Checkbox
                   radio
                   name="city"
@@ -149,10 +151,15 @@ class HelsinkiForm extends React.Component {
                     label="Tampere"
                     onChange={() => this.handlecity('tampere')}
                   />
-                <h1>Lisää kysymyksiä Helsinkikoneeseen</h1>
+                  <br />
                 <label><b>Kysymys</b></label>
                 <br/>
-                <TextArea type="textbox" className="form-control" name="question" onChange={(e) => this.change(e)} />
+                <TextArea type="textbox" className="form-control" style={{ minHeight: 200, minWidth: 500 }} name="question" onChange={(e) => this.change(e)} />
+                <br/>
+                <br/>
+                <label>Selitys</label>
+                <br/>
+                <TextArea type="textbox" className="form-control" style={{ minHeight: 200, minWidth: 500 }} name="explain" onChange={(e) => this.change(e)} />
                 <br/>
                 <br/>
                 <Input type="text" label='Linkki tarkempiin tietoihin' className="form-control" name="url" onChange={(e) => this.change(e)} />

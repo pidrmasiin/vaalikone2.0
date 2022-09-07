@@ -124,7 +124,7 @@ class Machine extends React.Component {
       <Grid style={{marginLeft: "0.2em" }}>
         <Grid.Row>
           <Header as="h1" >  
-            <span> Äänestä!</span></Header>
+            <span> Äänestä!</span> {this.state.monesko + 1}/{this.state.kysymykset.length}</Header>
         </Grid.Row>
         <Grid.Row>
           <p>{this.state.kysymys.question}</p>
@@ -147,11 +147,11 @@ class Machine extends React.Component {
         <Grid.Row style={{marginTop: "0.5em", marginBottom: "0.5em"}}>
         <Card style={{width: "100%"}}>
           <Card.Header style={{background: "#cecece", padding: "0.5em"}}><h3>Lisätietoja</h3></Card.Header>
-          <Card.Content> 
-         
+          <Card.Content style={{whiteSpace: "pre-line"}}> 
+            {this.state.kysymys.explain}
           </Card.Content>
           <Card.Content extra>
-          <a target="_blank" rel="noopener noreferrer" href={this.state.kysymys.url} style={{color:"blue"}}>Asiakirjat</a>
+          <a target="_blank" rel="noopener noreferrer" href={this.state.kysymys.url} style={{color:"blue"}}>Tarkempia tietoja</a>
           </Card.Content>
         </Card>
        

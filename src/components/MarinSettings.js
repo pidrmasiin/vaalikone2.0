@@ -70,6 +70,10 @@ class SipilaSettings extends React.Component {
               Oletuksena sinulle arvotaan 20 kysymystä. Halutessasi voit
               valita kysymysten määrän ja  sinua kiinnostavat kategoriat.
             </p>
+            <p>
+            Vaalikausikoneissa puoleita ja ryhmiä käsitellään aina kokonaisuutena.
+            Tulosten kannalta tämä tarkoittaa sitä, että puolueen katsotaan kussakin kysymyksessä edustavan 100 prosenttisesti enemmistönsä linjaa.
+            </p>
             <Accordion style={{paddingTop: "1em", paddingBottom:"1em"}}>
               {/* <Accordion.Title active={!this.state.hotQuestions} onClick={this.handleHotquestions}>
                 <Icon name='dropdown' />

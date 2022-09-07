@@ -46,6 +46,15 @@ const addKysymys = async (newObject) => {
   return response.data
 }
 
+const getSingle = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get(`${baseUrl}/${id}`, config)
+  return response.data
+}
+
+
 const remove = async (id) => {
   const config = {
     headers: { Authorization: token },
@@ -92,5 +101,6 @@ export default {
   activate,
   addSingleVaski,
   getAllMarins,
-  getActiveMarins
+  getActiveMarins,
+  getSingle
 }

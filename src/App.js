@@ -67,10 +67,6 @@ class App extends React.Component {
     
   }
 
-  kysymysById = id => (
-    this.state.questions.find(k => k.id === id)
-  )
-
   kategoriaById = id => (
     this.props.kategoriat.find(k => k.id === id)
   )
@@ -125,8 +121,9 @@ class App extends React.Component {
                       />
                     </a>
                   <div className="menu-links">
+               
                   <a style={{cursor: "pointer"}} onClick={() => window.location.href = '/koneet'} className="menu-link">
-                    Koneet
+                      Koneet
                   </a>
                   <NavLink to='/puolueet' className="menu-link">
                     Puolueet
@@ -204,6 +201,7 @@ class App extends React.Component {
                         </span>
                         }
                     </div>
+             
                 </div>
                 <div>
                   <div
@@ -246,7 +244,7 @@ class App extends React.Component {
                       exact
                       path="/kysymykset/:id"
                       render={({ match }) =>
-                        <Question kysymys={this.kysymysById(match.params.id)} />}
+                        <Question id={match.params.id} />}
                     />
                     <Route
                       exact
