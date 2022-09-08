@@ -39,7 +39,6 @@ class SingleQuestionData extends React.Component {
       'Liike Nyt -eduskuntaryhmä'
     ]
     const absent = question.puolueet.filter(party => parties.includes(party.nimi)).reduce((sum, party) => sum + party.poissa, 0 )
-    console.log('q', question.puolueet);
     
     this.setState({questionData, absent})  
   }

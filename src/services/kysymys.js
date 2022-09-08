@@ -14,6 +14,17 @@ const getAllWithDisabled = async () => {
   return response.data
 }
 
+const getAllMarins= async () => {
+  const response = await axios.get(`${baseUrl}/all_marins`)
+  return response.data
+}
+
+const getActiveMarins= async () => {
+  const response = await axios.get(`${baseUrl}/marins`)
+  return response.data
+}
+
+
 const activate = async (id) => {
   const config = {
     headers: { Authorization: token },
@@ -34,6 +45,15 @@ const addKysymys = async (newObject) => {
   const response = await axios.post(baseUrl, newObject, config)
   return response.data
 }
+
+const getSingle = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get(`${baseUrl}/${id}`, config)
+  return response.data
+}
+
 
 const remove = async (id) => {
   const config = {
@@ -60,6 +80,15 @@ const modifyKysymys = async (id, newObject) => {
   return response.data
 }
 
+const addSingleVaski = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get(`${baseUrl}/newByVaski/${id}`, config)
+  return response.data
+}
+
+
 
 export default {
   getAll,
@@ -69,5 +98,9 @@ export default {
   addKategoria,
   modifyKysymys,
   getAllWithDisabled,
-  activate
+  activate,
+  addSingleVaski,
+  getAllMarins,
+  getActiveMarins,
+  getSingle
 }

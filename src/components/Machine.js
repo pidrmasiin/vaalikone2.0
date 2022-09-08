@@ -6,6 +6,7 @@ import { notifyCreation } from '../reducers/notifyReducer'
 import AnswersTable from './AnswersTable';
 import EuroAnswers from './europa/euroAnswers';
 import './Machine.css';
+import MarinAnswersTable from './MarinAnswersTable';
 import NolansMap from './nolansMap/NolansMap';
 
 class Machine extends React.Component {
@@ -24,22 +25,25 @@ class Machine extends React.Component {
   componentDidMount = async () => {
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0;
-    const questions = this.filterQuestions(this.props.kysymykset)
-    const satunnainenKysymys = this.shuffle(questions)
-    let kysymykset = satunnainenKysymys
-    if (satunnainenKysymys.length > 9) {
-      kysymykset = satunnainenKysymys.slice(0, this.props.howMany);
-    }
-    
-    this.setState({
-      kysymykset
-    });
-    if (!this.state.kysymys) {
+
+    if(this.props.kysymykset) {
+      const questions = this.filterQuestions(this.props.kysymykset)
+      const satunnainenKysymys = this.shuffle(questions)
+      let kysymykset = satunnainenKysymys
+      if (satunnainenKysymys.length > 9) {
+        kysymykset = satunnainenKysymys.slice(0, this.props.howMany);
+      }
+      
       this.setState({
-        kysymys: kysymykset[this.state.monesko],
-      })
-    } else {
-      window.location.assign('/')
+        kysymykset
+      });
+      if (!this.state.kysymys) {
+        this.setState({
+          kysymys: kysymykset[this.state.monesko],
+        })
+      } else {
+        window.location.assign('/')
+      }
     }
   }
 
@@ -60,16 +64,14 @@ class Machine extends React.Component {
     if (selection == 'eu2019') {
       handledQuestions =  questions.filter(q => q.tunniste == 'eu2019')
     }
-    console.log('juuh');
     
     switch(selection) {
       case 'eu2019':
         return handledQuestions
       case 'sipila':
-    console.log('juussh');
 
         return handledQuestions.filter(x => x.createdAt == null)
-      case 'rinne':
+      case 'marin':
         return handledQuestions.filter(x => x.createdAt)
       default:
         return []
@@ -113,6 +115,8 @@ class Machine extends React.Component {
 
 
   vastaus = (vastaus) => {
+    console.log(this.state.kysymys);
+    
     let q = this.state.kysymys
     q.user = q.tunniste == 'eu2019' && vastaus === 'eos' ? 'tyhjia' : vastaus
     this.props.addKysymys(q);
@@ -139,7 +143,11 @@ class Machine extends React.Component {
           <h1 >Tulokset</h1>
           Taulukosta voit katsoa kuinka hyvin antamasi vastaukset vastaavat eduskunnan todellisia äänestystuloksia. 
           Taulukon alla olevasta kuviosta näet puolueiden kannat arvokartalla.
-          <AnswersTable />
+          {this.props.selection == 'marin' ?
+            <MarinAnswersTable />
+            : <AnswersTable />
+          }
+          
           <NolansMap user={this.props.kayttaja}/>
           <Button onClick={() => window.location.assign('/kone')} basic fluid color="blue" size='massive' style={{marginTop: "3em", margin: "1em"}}>
             Valitse uudet kategoriat ja vastaa taas kysymyksiin
@@ -186,7 +194,7 @@ class Machine extends React.Component {
           <Card.Header style={{background: "#cecece", padding: "0.5em"}}><h3>Lisätietoja</h3></Card.Header>
           <Card.Content> 
            <h3>{this.state.kysymys.tunniste !== 'eu2019' && this.state.kysymys.tunniste}</h3> 
-            <p>{this.state.kysymys.selitys}</p> 
+            <p style={{whiteSpace: "pre-line"}}>{this.state.kysymys.selitys}</p> 
            <h3>Äänestysvuosi</h3>
            {this.state.kysymys.vuosi}
            <h3>Kategoriat</h3>
@@ -208,7 +216,6 @@ class Machine extends React.Component {
 
 
 const mapStateToProps = state => ({
-  kysymykset: state.kysymykset,
   kayttaja: state.kayttaja,
 });
 

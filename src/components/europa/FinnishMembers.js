@@ -134,7 +134,7 @@ class FinnishMembers extends React.Component {
     return(
       <div>
           <Dropdown
-            placeholder='Select Friend'
+            placeholder='Valitse edustaja'
             fluid
             selection
             multiple 

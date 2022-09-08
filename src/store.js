@@ -5,6 +5,7 @@ import kysymysReducer from './reducers/kysymysReducer';
 import kysymyksetReducer from './reducers/kysymyksetReducer';
 import notifyReducer from './reducers/notifyReducer';
 import userReducer from './reducers/userReducer';
+import regionalUserReducer from './reducers/regionalUserReducer';
 import kayttajaReducer from './reducers/kayttajaReducer';
 import kategoriatReducer from './reducers/kategoriatReducer';
 import edustajaReducer from './reducers/edustajaReducer'
@@ -18,6 +19,7 @@ const reducer = combineReducers({
   notify: notifyReducer,
   kysymykset: kysymyksetReducer,
   user: userReducer,
+  regionalUser: regionalUserReducer,
   kayttaja: kayttajaReducer,
   kategoriat: kategoriatReducer,
   edustaja: edustajaReducer,

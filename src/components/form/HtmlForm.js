@@ -219,7 +219,6 @@ class HtmlForm extends React.Component {
       
       yle2019Questions = this.props.yle2019.headers.slice(4,62)
       yle2019Questions = [...new Set(yle2019Questions)]; 
-      console.log('headers', yle2019Questions);
     } else{
       return (
         <Dimmer active>
@@ -231,8 +230,6 @@ class HtmlForm extends React.Component {
     /*eslint-disable */
     const values = this.props.ylenKysymykset.kysymykset.map(x => x = { text: x, value: x })
     const yleValues2019 = yle2019Questions.map(x => x = { text: x, value: x })
-    
-    console.log('state', this.state);
     
    /* eslint-enable */
     return (

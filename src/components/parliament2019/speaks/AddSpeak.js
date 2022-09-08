@@ -27,8 +27,6 @@ class AddSpeak extends React.Component {
     }
 
     handleChange = (e) => {
-        console.log('e', e);
-        
         this.setState({[e.target.name]: e.target.value })
     }
 
@@ -81,7 +79,6 @@ class AddSpeak extends React.Component {
     }
     
     render() {
-        console.log('e', this.state);
         let questions = this.state.questions.map(x => x = { value: x.id, text: x.kysymys})
         questions.push({text: 'Ei sovi', value: null})
         
