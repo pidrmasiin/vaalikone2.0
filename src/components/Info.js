@@ -14,7 +14,7 @@ class Info extends React.Component {
             <br />
             <br />
             Jos sinulla on kehitysideoita tai haluat kysyä vaalikausikoneesta jotakin,
-            voit lähettää sähköpostia osoitteeseen: <i>info@vaalikausikone.fi</i>
+            voit lähettää sähköpostia osoitteeseen: <i>vaalikausikone@gmail.com</i>
             <br />
             <br />
             <b>Tekijät</b>

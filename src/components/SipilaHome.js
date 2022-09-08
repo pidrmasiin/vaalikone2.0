@@ -86,7 +86,7 @@ class SipilaHome extends React.Component {
             <p>
             Vaalikausikonetta on työstetty kolmen yhteiskuntatieteilijän voimin.
             Jos sinulla on kehitysideoita tai haluat kysyä vaalikausikoneesta jotakin,
-            voit lähettää sähköpostia osoitteeseen: <i>info@vaalikausikone.fi</i>
+            voit lähettää sähköpostia osoitteeseen: <i>vaalikausikone@gmail.com</i>
             <br/><br/>
         
             <b>Tekijät</b>
