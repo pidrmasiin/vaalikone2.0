@@ -16,7 +16,7 @@ class AddSpeak extends React.Component {
     }
 
     componentWillMount = async () => {
-        const questions = await kysymysService.getAll()
+        const questions = await kysymysService.getActiveMarins()
         this.setState({questions})
     }
 
@@ -79,7 +79,7 @@ class AddSpeak extends React.Component {
     }
     
     render() {
-        let questions = this.state.questions.map(x => x = { value: x.id, text: x.kysymys})
+        let questions = this.state.questions.map(x => x = { value: x.id, text: `${x.kysymys}(${x.tunniste})`})
         questions.push({text: 'Ei sovi', value: null})
         
         return(
