@@ -18,23 +18,6 @@ class MachineMenu extends React.Component {
         </p>
         <h2>Ajankohtaiset koneet</h2>
      <Card.Group centered fluid>
-        <Link to="/kuntavaalit2021" style={{margin:"1em"}}>
-        <Card>
-            <Card.Content>
-            <Image centered height='150em' 
-                 style={{marginTop: '0em', marginBottom: '1em'}}
-                src="https://www.kuntavaalit.fi/sites/default/files/styles/medium_cropped/public/public-image-bank/Kuntavaalit-logo_valk_tunnus.png?itok=eCRxDW-d"
-            />
-            <Card.Header>Kuntavaalit 2021</Card.Header>
-            <Card.Meta>
-                <span className="date">2017-2021</span>
-            </Card.Meta>
-            <Card.Description>
-            Kuntavaalikauden 2017-2021 kuntavaalikausikoneesta löydät Helsingin ja Tampereen kaupunginvaltuustojen päätöksiä.
-            </Card.Description>
-            </Card.Content>
-        </Card>
-        </Link>
         <Link to="/vaalikausi-marin" style={{margin:"1em"}}>
             <Card>
                 <Card.Content>
@@ -44,10 +27,10 @@ class MachineMenu extends React.Component {
                 />
                 <Card.Header>Suomen eduskunta</Card.Header>
                 <Card.Meta>
-                    <span className='date'>2019 -> </span>
+                    <span className='date'>2019 -{'>'} </span>
                 </Card.Meta>
                 <Card.Description>
-                Kauden 2019 -> vaalikausikoneesta löydät Rinteen ja Marinin hallituksen kaudella tehdyjä päätöksiä.
+                Kauden 2019 -{'>'} vaalikausikoneesta löydät Rinteen ja Marinin hallituksen kaudella tehdyjä päätöksiä.
                 </Card.Description>
                 </Card.Content>
             </Card>
@@ -59,6 +42,23 @@ class MachineMenu extends React.Component {
     <br/>
     <h2>Vanhemmat koneet</h2>
     <Card.Group centered fluid>
+        <Link to="/kuntavaalit2021" style={{margin:"1em"}}>
+            <Card>
+                <Card.Content>
+                <Image centered height='150em' 
+                    style={{marginTop: '0em', marginBottom: '1em'}}
+                    src="https://www.kuntavaalit.fi/sites/default/files/styles/medium_cropped/public/public-image-bank/Kuntavaalit-logo_valk_tunnus.png?itok=eCRxDW-d"
+                />
+                <Card.Header>Kuntavaalit 2021</Card.Header>
+                <Card.Meta>
+                    <span className="date">2017-2021</span>
+                </Card.Meta>
+                <Card.Description>
+                Kuntavaalikauden 2017-2021 kuntavaalikausikoneesta löydät Helsingin ja Tampereen kaupunginvaltuustojen päätöksiä.
+                </Card.Description>
+                </Card.Content>
+            </Card>
+        </Link>
         <Link to="/euroinfo" style={{margin: "1em"}}>
         <Card>
             <Card.Content>

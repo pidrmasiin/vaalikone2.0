@@ -76,15 +76,15 @@ class SimpleYleOpinon extends React.Component {
     return puolue
   }
 
-  color = () => {
+  color = (partyOpinon) => {
     let yes = this.opinions(this.props.party).jaa
     let no = this.opinions(this.props.party).ei
     let emptys = this.opinions(this.props.party).tyhjiä
 
     if (yes > no && yes > emptys) {
-      return '#e6ffe6'
+      return partyOpinon == 'yes' ? '#e6ffe6' : 'white'
     } if (no > yes && no > emptys) {
-      return '#ffcccc'
+      return partyOpinon == 'no' ? '#ffcccc' : 'white'
     } 
     return null
   }
@@ -139,7 +139,7 @@ class SimpleYleOpinon extends React.Component {
             <Table.Cell>
                 {this.props.yleQuestion}
             </Table.Cell>
-            <Table.Cell style={{background: this.color()}}>
+            <Table.Cell style={{background: this.color('yes')}}>
               <Accordion>
                 <Accordion.Title
                   active={this.state.yes}
@@ -156,7 +156,7 @@ class SimpleYleOpinon extends React.Component {
                   </Accordion.Content>
               </Accordion>
             </Table.Cell>
-            <Table.Cell>
+            <Table.Cell style={{background: this.color('no')}}>
               <Accordion>
                 <Accordion.Title
                   active={this.state.no}
